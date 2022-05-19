@@ -15,7 +15,7 @@ class PagesController < ApplicationController
              end
 
   end
-  def  page
+  def page
     @users = if current_user.company
                User.where(company: current_user.company).offset(params.fetch(:page,
                                                                              0).to_i * 5).limit(5)
