@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   devise_for :users
 
   scope '/users' do
-    get '', to: 'pages#users_index', as: 'users'
+    get '',to: 'pages#users_index', as: 'users'
+    get '/:page', to: 'pages#page'
     post '/create', to: 'pages#create_user'
     get '/:id', to: 'pages#user_data'
     patch '/:id/edit', to: 'pages#update_user'

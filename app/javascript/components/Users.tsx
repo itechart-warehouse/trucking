@@ -10,8 +10,10 @@ import Search from './Search';
 import { User, UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
-  const { rolesJSON, companiesJSON, usersJSON } = props;
-
+  const {
+    rolesJSON, companiesJSON, usersJSON, user_count,
+  } = props;
+  const [userCount, setUserCount] = React.useState<number>(user_count);
   const [createModal, setCreateModalActive] = React.useState<boolean>(false);
   const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
   const [editUserModal, setEditUserModal] = React.useState<number>(null);
@@ -74,6 +76,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           </Grid>
           <Grid item xs={12}>
             <UsersTable
+              userCount={userCount}
               users={users}
               setUser={setUser}
               setEditUserModal={setEditUserModal}
