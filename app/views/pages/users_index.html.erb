@@ -1,9 +1,8 @@
 <center>
   <div class="wrapper">
     <%=react_component('Users',{
-        companiesJSON: @companies.to_json(),
-        rolesJSON: @roles.to_json(),
-        user_count: @user_count,
+        companiesJSON: @companies.to_json(), 
+        rolesJSON: @roles.to_json(), 
         usersJSON: @users.to_json(include: { role: { only: [:role_name] },
                                             company: { only: [:name] },
                                             address: { only: %i[town street building apartment] }})

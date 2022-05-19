@@ -7,7 +7,6 @@ import {
 function httpClient() {
   return {
     users: {
-      getAll: (page) => axios.get(`${UsersUrl}/${page}.json`),
       get: (id) => axios.get(`${UsersUrl}/${id}`),
       create: (user) => axios.post(`${UsersUrl}/create`, user),
       update: (id, data) => axios.patch(`${UsersUrl}/${id}/edit`, data),
