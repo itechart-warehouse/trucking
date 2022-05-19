@@ -3,6 +3,7 @@ import { AlertColor } from '@mui/material';
 import { Order, UserData } from '../mixins/initialValues/userList';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import { userFormValues } from '../initialValues/userInitialValues';
+import user from '../mixins/validation_schema/user';
 
 /* eslint-disable no-unused-vars */
 
@@ -191,9 +192,10 @@ export interface CreateWarehouseFormProps {
 }
 
 export interface EnhancedTableProps {
+    userCount:number
     users: User[];
     searchData: string[];
-    setUser: (user: (prev) => User[]) => void;
+    setUser: (user: User[]) => void;
     setEditUserModal: (id: number) => void;
     setUpdateModalActive: (updateModalActive: boolean) => void;
 }
@@ -355,6 +357,7 @@ export interface CompanyProps {
 }
 
 export interface UsersProps {
+    user_count: number;
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;

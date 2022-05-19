@@ -11,10 +11,11 @@ import { Order } from '../../../mixins/initialValues/userList';
 import { getComparator, stableSort } from '../../../utils/stableSort';
 import { EnhancedTableProps, User } from '../../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../../utils/style';
+import httpClient from '../../../api/httpClient';
 
 const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) => {
   const {
-    users, setUser, setEditUserModal, setUpdateModalActive, searchData,
+    users, setUser, setEditUserModal, setUpdateModalActive, searchData, userCount,
   } = props;
 
   const [order, setOrder] = React.useState<Order>('asc');
@@ -24,7 +25,9 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   const [dense, setDense] = React.useState<boolean>(false);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
-  const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    httpClient.users.getAll(newPage).then((response) => setUser(response.data)).then(() => setPage(newPage));
+  };
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDense(event.target.checked);
@@ -75,7 +78,6 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   else usersData = users;
 
   // const UsersData = searchData || users;
-
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -108,7 +110,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                   </TableRow>
                 )
                 : stableSort(usersData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+
                   .map((user, index) => {
                     const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -146,22 +148,13 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                       </TableRow>
                     );
                   })}
-              {emptyRows > 0 && (
-                <StyledTableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <StyledTableCell colSpan={6} />
-                </StyledTableRow>
-              )}
+
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={users.length}
+          count={userCount}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
