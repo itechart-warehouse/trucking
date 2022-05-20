@@ -3,7 +3,9 @@
 class WaybillsController < ApplicationController
   before_action :company_waybills, only: :index
 
-  def index; end
+  def index
+    @serialized_waybills = ActiveModelSerializers::SerializableResource.new(@waybills).to_json
+  end
 
   def create
     points = points_params
@@ -19,17 +21,16 @@ class WaybillsController < ApplicationController
       end
     end
 
-    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck
-                                                                       manager waybill goods] }])
+    render json: @waybill
   end
 
   def update
     authorize! :update, Waybill
 
-    @waybill = Waybill.find(params.permit(:id)[:id])
-    @waybill.update!(status: 'delivered to the recipient')
+    waybill = Waybill.find(params.permit(:id)[:id])
+    waybill.update!(status: 'delivered to the recipient')
 
-    render json: @waybill
+    render json: waybill
   end
 
   private

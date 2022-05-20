@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Address < ApplicationRecord
+  audited
+
   has_many :users, dependent: :nullify
   has_many :destinations, dependent: :nullify
   has_many :goods_owners, dependent: :nullify

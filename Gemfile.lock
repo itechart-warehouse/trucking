@@ -46,6 +46,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
     ast (2.4.2)
+    audited (4.10.0)
+      activerecord (>= 4.2, < 6.2)
     autoprefixer-rails (10.4.2.0)
       execjs (~> 2)
     babel-source (5.8.35)
@@ -89,6 +91,9 @@ GEM
     docile (1.4.0)
     duktape (2.6.0.0)
     erubi (1.10.0)
+    exception_notification (4.5.0)
+      actionmailer (>= 5.2, < 8)
+      activesupport (>= 5.2, < 8)
     execjs (2.8.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -105,6 +110,10 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -282,6 +291,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  audited (~> 4.9)
   autoprefixer-rails
   bootsnap (>= 1.10.1)
   bundler
@@ -291,9 +301,11 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise (~> 4.8, >= 4.8.1)
   duktape
+  exception_notification
   factory_bot_rails (~> 6.2)
   hirb
   jbuilder (~> 2.7)
+  letter_opener
   msgpack (= 1.4.3)
   pg (~> 1.2, >= 1.2.3)
   puma (~> 3.11)

@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 class WarehousesController < ApplicationController
-  before_action :set_warehouse, only: %i[trust_warehouse destroy]
+  before_action :set_warehouse, only: %i[update destroy]
 
   def index
-    @warehouses = Warehouse.all
-    @warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
+    warehouses = Warehouse.all
+    warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
+    @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(warehouses).to_json
+    @serialized_warehousemans = ActiveModelSerializers::SerializableResource.new(warehousemans).to_json
   end
 
   def create
-    @warehouse = Warehouse.new(warehouse_params)
-    if @warehouse.save
-      render json: @warehouse.to_json
+    warehouse = Warehouse.new(create_warehouse_params)
+    if warehouse.save
+      render json: warehouse
     else
-      render json: @warehouse.errors.full_messages, status: :unprocessable_entity
+      render json: warehouse.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -21,9 +23,12 @@ class WarehousesController < ApplicationController
     @warehouse.destroy
   end
 
-  def trust_warehouse
-    @warehouse.toggle_trusted
-    render json: @warehouse.to_json
+  def update
+    if @warehouse.update(permit_warehouse_params)
+      render json: @warehouse
+    else
+      render json: @warehouse.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   private
@@ -33,24 +38,24 @@ class WarehousesController < ApplicationController
   end
 
   def permit_warehouse_params
-    params.permit(%i[warehouse_name apartment building street town warehouseman])
+    params.permit(%i[warehouse_name apartment building street town warehouseman trusted])
   end
 
-  def warehouse_params
-    warehouse_params = permit_warehouse_params
-    warehouse_params[:address] = Address.new(town: permit_warehouse_params[:town],
-                                             street: permit_warehouse_params[:street],
-                                             building: permit_warehouse_params[:building],
-                                             apartment: permit_warehouse_params[:apartment])
-    find_warehouseman(warehouse_params)
-    warehouse_params.except(:town, :street, :building, :apartment)
+  def create_warehouse_params
+    create_warehouse_params = permit_warehouse_params
+    create_warehouse_params[:address] = Address.new(town: permit_warehouse_params[:town],
+                                                    street: permit_warehouse_params[:street],
+                                                    building: permit_warehouse_params[:building],
+                                                    apartment: permit_warehouse_params[:apartment])
+    find_warehouseman(create_warehouse_params)
+    create_warehouse_params.except(:town, :street, :building, :apartment)
   end
 
-  def find_warehouseman(warehouse_params)
-    warehouseman_fio = warehouse_params[:warehouseman].split
-    warehouse_params[:warehouseman] = User.find_by(second_name: warehouseman_fio[0],
-                                                   first_name: warehouseman_fio[1],
-                                                   middle_name: warehouseman_fio[2])
-    warehouse_params
+  def find_warehouseman(create_warehouse_params)
+    warehouseman_fio = create_warehouse_params[:warehouseman].split
+    create_warehouse_params[:warehouseman] = User.find_by(second_name: warehouseman_fio[0],
+                                                          first_name: warehouseman_fio[1],
+                                                          middle_name: warehouseman_fio[2])
+    create_warehouse_params
   end
 end

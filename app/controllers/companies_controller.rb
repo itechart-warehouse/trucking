@@ -4,17 +4,15 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    @companies = if current_user.company
-                   Company.accessible_by(current_ability)
-                 else
-                   Company.all
-                 end
+    companies = current_user.company ? Company.accessible_by(current_ability) : Company.all
+
+    @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
   end
 
   def update
     @company = Company.find(params.require(:id))
     @company.change_status
-    render json: @company.to_json
+    render json: @company
     # company_users = User.where(company: company)
     # TODO: ideally we need to log out all company logged in users
     # but devise doesnt provide such feature
@@ -26,7 +24,7 @@ class CompaniesController < ApplicationController
   def create
     authorize! :create, Company
     @company = Company.create!(company_params)
-    render json: @company.to_json
+    render json: @company
   end
 
   def destroy

@@ -14,7 +14,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
     isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
   } = props;
 
-  const companyInitialValues: Company = { id: Math.random(), name: '' };
+  const companyInitialValues: Company = { id: undefined, name: '', is_suspended: false };
 
   const handleSubmit = async (company: Company) => {
     await httpClient.companies.create(company)

@@ -18,7 +18,8 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   } = props;
 
   const setWarehouseTrusted = (warehouse: Warehouse) => {
-    httpClient.warehouses.trust(warehouse.id).then((response) => {
+    warehouse.trusted = !warehouse.trusted;
+    httpClient.warehouses.update(warehouse.id, warehouse).then((response) => {
       const objIndex = warehouses.findIndex((element) => element.id === warehouse.id);
       warehouses[objIndex] = response.data;
       setWarehouses(warehouses);

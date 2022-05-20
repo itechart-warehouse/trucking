@@ -5,6 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.8'
 
+gem 'active_model_serializers', '~> 0.10.0'
+gem 'audited', '~> 4.9'
 gem 'autoprefixer-rails'
 gem 'bootsnap', '>= 1.10.1'
 gem 'cancancan', '~> 3.3'
@@ -32,6 +34,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'letter_opener'
   gem 'web-console', '>= 3.3.0'
 end
 
@@ -41,6 +44,10 @@ group :test do
   gem 'rubocop-rails', require: false
   gem 'selenium-webdriver'
   gem 'webdrivers', '~> 5.0', require: false
+end
+
+group :production do
+  gem 'exception_notification'
 end
 
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]

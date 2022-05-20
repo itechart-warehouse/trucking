@@ -3,25 +3,19 @@
 class WriteOffActsController < ApplicationController
   def index
     authorize! :read, WriteOffAct
-    @consignments = Consignment.all
-    @write_off_acts = WriteOffAct.all
-    respond_to do |format|
-      format.html
-      format.json do
-        render json: @write_off_acts.to_json(include: { consignment: { only: %i[bundle_seria
-                                                                                bundle_number] } })
-      end
-    end
+    company_consignments
+    @write_off_acts = WriteOffAct.where(consignment: @consignments)
+    @serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(@write_off_acts).to_json
+    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
   end
 
   def create
     authorize! :create, WriteOffAct
-    @write_off_act = WriteOffAct.new(create_write_off_act_params)
-    if @write_off_act.save
-      render json: @write_off_act.to_json(include: { consignment: { only: %i[bundle_seria
-                                                                             bundle_number] } })
+    write_off_act = WriteOffAct.new(create_write_off_act_params)
+    if write_off_act.save
+      render json: write_off_act
     else
-      render json: @write_off_act.errors.full_messages, status: :unprocessable_entity
+      render json: write_off_act.errors.full_messages, status: :unprocessable_entity
     end
   end
 
@@ -44,5 +38,13 @@ class WriteOffActsController < ApplicationController
     Consignment.find_by(
       consignment_seria: consignment_seria, consignment_number: consignment_number
     )
+  end
+
+  def company_consignments
+    return @consignments = Consignment.all if current_user.role.role_name == 'system administrator'
+
+    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
+                                     company: current_user.company)
+    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
   end
 end

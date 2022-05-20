@@ -42,6 +42,7 @@ export type Item = {
 export type Company = {
     id: number;
     name: string;
+    is_suspended: boolean;
 }
 
 export type Role = {
@@ -56,7 +57,7 @@ export type Alert = {
 }
 
 export type NewGoods = {
-    id:string;
+    id: string;
     good_name: string;
     quantity: number;
     unit_of_measurement: string;
@@ -83,8 +84,8 @@ export type Waybill = {
     status: string;
     waybill_seria: string;
     waybill_number: number;
-    startpoint: {town: string, street: string, building: string};
-    endpoint: {town: string, street: string, building: string};
+    startpoint: { town: string, street: string, building: string };
+    endpoint: { town: string, street: string, building: string };
 }
 
 export type Consignment = {
@@ -94,11 +95,11 @@ export type Consignment = {
     bundle_number: number;
     consignment_seria: string;
     consignment_number: string;
-    dispatcher: { first_name: string, second_name: string, middle_name: string };
-    manager: { first_name: string, second_name: string, middle_name: string };
-    driver: { first_name: string, second_name: string, middle_name: string };
-    truck: { truck_number: string };
-    waybill: Waybill;
+    dispatcher: string;
+    manager: string;
+    driver: string;
+    truck: string;
+    waybill: string;
     goods: Item[];
 }
 
@@ -138,7 +139,7 @@ export interface CreateConsignmentFormProps {
     handleSubmit: (consignment: consignmentFormValues) => void;
     handleFieldAdd: () => void;
     handleFieldChange: (e: NewGoods, index: number) => void;
-    handelDeleteGoods:(id:string)=>void;
+    handelDeleteGoods: (id: string) => void;
 }
 
 export interface WriteOffActTableProps {
@@ -252,14 +253,14 @@ export interface CheckpointsFormProps {
 export interface CreateCheckpointsFormProps {
     isActiveModal: boolean;
     checkpointsHandleClose: () => void;
-    handleSubmitCheckpoints:(values:Checkpoint) => void;
-    editCheckpoint:Checkpoint
+    handleSubmitCheckpoints: (values: Checkpoint) => void;
+    editCheckpoint: Checkpoint
 }
-export interface checkpointsTableFormProps{
+export interface checkpointsTableFormProps {
     checkpoints: Checkpoint[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
-    setEditCheckpoint:(checkpoints: Checkpoint) => void;
-    setCreateCheckpoints:(setCreateCheckpoints:boolean)=>void
+    setEditCheckpoint: (checkpoints: Checkpoint) => void;
+    setCreateCheckpoints: (setCreateCheckpoints: boolean) => void
 }
 export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
@@ -271,7 +272,7 @@ export interface ConsignmentGoodsProps {
     setTitleStatus: (titleStatus: string) => void;
     setSelectedGoods: (selectedGoods: Item[]) => void;
     handleGoodsSubmit: () => void;
-    waybillStatus:string
+    waybillStatus: string
 }
 
 export interface ConsignmentTableProps {
@@ -284,7 +285,7 @@ export interface ConsignmentTableProps {
     setGoods: (goods: Item[]) => void;
     setConsID: (consID: number) => void;
     setCreateWaybillData: (createWaybillData: CreateWaybillData) => void;
-    setWaybillStatus:(status:string) => void
+    setWaybillStatus: (status: string) => void
 }
 
 export interface CreateCompanyFormProps {

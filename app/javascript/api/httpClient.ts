@@ -37,7 +37,7 @@ function httpClient() {
     warehouses: {
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
-      trust: (id) => axios.patch(`${WarehouseUrl}/trust/${id}`),
+      update: (id, warehouse) => axios.patch(`${WarehouseUrl}/${id}`, warehouse),
     },
   };
 }

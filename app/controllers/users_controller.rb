@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-class PagesController < ApplicationController
-  before_action :set_user, only: %i[user_data update_user]
-  def home; end
+class UsersController < ApplicationController
+  before_action :set_user, only: %i[show update]
 
-  def users_index
+  def index
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
     users = current_user.company ? User.where(company: current_user.company) : User.all
@@ -13,11 +12,11 @@ class PagesController < ApplicationController
     @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
   end
 
-  def user_data
+  def show
     render json: @user
   end
 
-  def update_user
+  def update
     if @user.update(user_params)
       render json: @user.to_json(include: %i[role address])
     else
@@ -25,7 +24,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def create_user
+  def create
     authorize! :create, User
     @user = User.new(user_params)
     if @user.save
@@ -35,7 +34,7 @@ class PagesController < ApplicationController
     end
   end
 
-  def destroy_user
+  def destroy
     User.find(params.require(:id)).destroy
   end
 

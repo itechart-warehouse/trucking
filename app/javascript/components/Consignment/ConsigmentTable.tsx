@@ -31,16 +31,14 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setConsID(consignment.id);
     setGoods(consignment.goods);
     if (consignment.waybill) {
-      setWaybillStatus(consignment.waybill.status);
+      setWaybillStatus(consignment.waybill);
     }
   };
 
   const openWaybillCreateModal = (consID: number) => {
     const consignment = consignments.find((cons) => cons.id === consID);
-    const truckNumber = consignment.truck.truck_number;
-    const driverFio = `${consignment.driver.first_name} ${consignment.driver.second_name} ${consignment.driver.middle_name}`;
     setConsID(consID);
-    setCreateWaybillData({ truckNumber, driverFio });
+    setCreateWaybillData({ truckNumber: consignment.truck, driverFio: consignment.driver });
     setWayBillActive(true);
   };
 
@@ -120,11 +118,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                 )
                 : stableSort(consignmentsData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((consignment) => {
-                    const dispatcherFIO = `${consignment.dispatcher?.second_name} ${consignment.dispatcher?.first_name} ${consignment.dispatcher?.middle_name}`;
-                    const managerFIO = `${consignment.manager?.second_name} ${consignment.manager?.first_name} ${consignment.manager?.middle_name}`;
-                    let waybillStatus = null;
-                    if (consignment.hasOwnProperty('waybill')) waybillStatus = consignment.waybill.status;
+                  .map((consignment: Consignment) => {
                     return (
                       <StyledTableRow key={consignment.id} tabIndex={-1}>
                         <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
@@ -132,8 +126,8 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                         <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
                         <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
                         <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
-                        <StyledTableCell align="center">{dispatcherFIO}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.manager ? managerFIO : "Isn't checked"}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.dispatcher}</StyledTableCell>
+                        <StyledTableCell align="center">{consignment.manager ? consignment.manager : "Isn't checked"}</StyledTableCell>
                         <StyledTableCell align="center">
                           <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
                             Goods
@@ -144,7 +138,7 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                             <StyledTableCell align="center">
                               <Button
                                 variant="outlined"
-                                disabled={!(consignment.status === 'checked' && !waybillStatus)}
+                                disabled={!(consignment.status === 'checked' && !consignment.waybill)}
                                 onClick={() => openWaybillCreateModal(+consignment.id)}
                               >
                                 Create Waybill

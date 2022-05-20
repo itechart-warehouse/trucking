@@ -62,7 +62,9 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     list[index][name] = value;
     setNewGood(list);
   };
-  const handelDeleteGoods = (id:string) => setNewGood(newGoods.filter((good) => good.id !== id));
+
+  const handelDeleteGoods = (id: string) => setNewGood(newGoods.filter((good) => good.id !== id));
+
   const handleClose = () => {
     setModalActive(false);
     setModalGoodsActive(false);

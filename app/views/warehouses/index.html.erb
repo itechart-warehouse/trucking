@@ -2,8 +2,8 @@
   <div class="client_content">
     <%=react_component('Warehouse',{
       currentUserRole: current_user.role.role_name,
-      warehousesJSON: @warehouses.to_json,
-      warehousemansJSON: @warehousemans.to_json
+      warehousesJSON: @serialized_warehouses,
+      warehousemansJSON: @serialized_warehousemans
     }) %>
   </div>
 </center>

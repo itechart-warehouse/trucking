@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
 class ConsignmentsController < ApplicationController
-  before_action :company_consignments, only: :index
 
   def index
     authorize! :read, Consignment
-    @warehouses = Warehouse.all
-    @trucks = Truck.where(company: current_user.company)
-    @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
-    @goods_owners = GoodsOwner.all
+
+    consignments_resources
+    company_consignments
+
+    @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
+    @serialized_trucks = ActiveModelSerializers::SerializableResource.new(@trucks).to_json
+    @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
+    @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
+    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
   end
 
   def create
@@ -20,10 +24,17 @@ class ConsignmentsController < ApplicationController
       @goods = Good.create!(create_goods_params(@consignment))
     end
 
-    render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
+    render json: @consignment
   end
 
   private
+
+  def consignments_resources
+    @warehouses = Warehouse.all
+    @trucks = Truck.where(company: current_user.company)
+    @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
+    @goods_owners = GoodsOwner.all
+  end
 
   def company_consignments
     return @consignments = Consignment.all if current_user.role.role_name == 'system administrator'
