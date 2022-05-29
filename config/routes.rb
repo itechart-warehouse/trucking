@@ -5,11 +5,11 @@ Rails.application.routes.draw do
   # User
   devise_for :users
   scope '/users' do
-    get '', to: 'users#index', as: 'users'
-    post '/create', to: 'users#create'
-    get '/:id', to: 'users#show'
-    patch '/:id/edit', to: 'users#update'
-    delete '/:id', to: 'users#destroy'
+    get '', to: 'members#index', as: 'users'
+    post '/create', to: 'members#create'
+    get '/:id', to: 'members#show'
+    patch '/:id/edit', to: 'members#update'
+    delete '/:id', to: 'members#destroy'
   end
   # Companies
   resources :companies, except: :show

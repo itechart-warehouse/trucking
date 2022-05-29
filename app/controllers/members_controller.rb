@@ -1,6 +1,4 @@
-# frozen_string_literal: true
-
-class UsersController < ApplicationController
+class MembersController < ApplicationController
   before_action :set_user, only: %i[show update]
 
   def index
@@ -35,7 +33,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params.require(:id)).destroy
+    User.find(params[:id]).destroy
   end
 
   private
@@ -60,4 +58,5 @@ class UsersController < ApplicationController
     user_params[:company] = Company.find_by(name: permit_user_params[:company])
     user_params.except(:town, :street, :building, :apartment)
   end
+
 end
