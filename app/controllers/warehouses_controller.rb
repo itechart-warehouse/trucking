@@ -10,6 +10,7 @@ class WarehousesController < ApplicationController
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(warehouses).to_json
     @serialized_warehousemans = ActiveModelSerializers::SerializableResource.new(warehousemans).to_json
     render json: warehouses if params[:page]
+    render json: Warehouse.where(warehouse_name: params[:search_data]) if params[:search_data]
   end
 
   def create

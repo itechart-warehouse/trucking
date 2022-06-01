@@ -13,6 +13,11 @@ class ConsignmentsController < ApplicationController
     @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(consignments).to_json
     render json: consignments if params[:page]
+    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
+    if params[:search_data]
+      render json: Consignment.where(['consignment_seria = ? and consignment_number = ?',
+                                      params[:search_data].split[0], params[:search_data].split[1]])
+    end
   end
 
   def create
