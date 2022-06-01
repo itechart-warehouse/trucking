@@ -37,18 +37,12 @@ RSpec.describe 'Companies', type: :request do
     it 'valid status action' do
       patch "/companies/suspend/#{company.id}"
       expect(Company.find(company.id).is_suspended).to eq(true)
-    end
-    it 'invalid status request' do
-      expect do
-        patch "/companies/suspend/#{company.id + 1}"
-      end.to raise_error(ActiveRecord::RecordNotFound)
-    end
-  end
-  describe 'CREATE /companies' do
-    it 'creates company' do
-      companyName = 'Gonna give you up'
-      post '/companies/create', params: { name: companyName }
-      expect(Company.find_by(name: companyName).name).to eq(companyName)
+  describe 'get' do
+    it 'search' do
+      get "/companies?search_data=#{company.name}"
+      print(user.role.role_name)
+      expect(JSON.parse(response.body)).to eq(company)
     end
   end
+
 end

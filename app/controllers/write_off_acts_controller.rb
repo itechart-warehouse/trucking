@@ -9,6 +9,10 @@ class WriteOffActsController < ApplicationController
     @serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(write_off_acts).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
     render json: write_off_acts if params[:page]
+    if params[:search_data]
+      render json: Consignment.where(['bundle_seria = ? and bundle_number = ?',
+                                      params[:search_data].split[0], params[:search_data].split[1]])
+    end
   end
 
   def create
