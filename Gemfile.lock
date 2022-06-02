@@ -1,6 +1,6 @@
 GIT
-  remote: https://github.com/rails/actiontext.git
-  revision: cfe4674d3637c746cdb3c2b5131e2de498775529
+  remote: https://github.com/kobaltz/actiontext.git
+  revision: ef59c4ba99d1b7614dd47f5a294eef553224db88
   branch: archive
   specs:
     actiontext (0.1.0)
