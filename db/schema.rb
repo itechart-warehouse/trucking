@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_26_105416) do
+ActiveRecord::Schema.define(version: 2022_06_02_130335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,13 @@ ActiveRecord::Schema.define(version: 2022_05_26_105416) do
     t.string "goods_owner_name", null: false
     t.bigint "address_id"
     t.index ["goods_owner_name"], name: "index_goods_owners_on_goods_owner_name", unique: true
+  end
+
+  create_table "mail_templates", force: :cascade do |t|
+    t.string "name"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "roles", force: :cascade do |t|
