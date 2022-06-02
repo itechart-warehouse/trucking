@@ -10,6 +10,12 @@ class WriteOffAct < ApplicationRecord
   validate :good_name_and_quantity
   before_create :update_lost_goods_status
 
+  scope :search,->(search_data){ where(["Consignment.bundle_number LIKE ? and consignments.bundle_seria  LIKE ?",
+                                        "%#{search_data.split[0]}%", "%#{search_data.split[1]}%"])}
+
+
+
+  sql = "SELECT 'write_off_acts'.* FROM 'write_off_acts' WHERE 'consignments'.'bundle_seria' = #{search_data.split[0]} AND 'consignments'.'bundle_number' = #{search_data.split[1]}"
   private
 
   def update_lost_goods_status

@@ -11,6 +11,7 @@ class CompaniesController < ApplicationController
                      end
     @companies_count = meta[:total_count]
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
+    render json: Company.search(params[:search_data]) if params[:search_data]
     render json: Company.where(name: params[:search_data]) if params[:search_data]
     render json: companies if params[:page]
   end

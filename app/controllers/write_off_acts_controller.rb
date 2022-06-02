@@ -13,6 +13,7 @@ class WriteOffActsController < ApplicationController
       render json: Consignment.where(['bundle_seria = ? and bundle_number = ?',
                                       params[:search_data].split[0], params[:search_data].split[1]])
     end
+    render json: WriteOffAct.joins(" INNER JOIN consignments ON consignments.id = write_off_acts.consignment_id").search(params[:search_data])if params[:search_data]
   end
 
   def create

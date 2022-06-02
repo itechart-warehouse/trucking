@@ -22,6 +22,7 @@ class PagesController < ApplicationController
       render json: User.where(['second_name = ? and first_name = ? and middle_name = ?',
                                params[:search_data].split[0], params[:search_data].split[1], params[:search_data].split[2]])
     end
+    render json: User.search(params[:search_data])  if params[:search_data]
   end
 
   def user_data
