@@ -12,7 +12,7 @@ module Api
         if params[:search]
           render json: Consignment.search(params[:search])
         else
-          render json: Consignment.select(consignment_api_columns), include: included_params
+          render json: Consignment.select(consignment_api_columns).to_json(include: included_params)
         end
         consignment_api_columns = Consignment.attribute_names - excluded_columns
         consignments, meta = paginate_collection(Consignment.select(consignment_api_columns))
