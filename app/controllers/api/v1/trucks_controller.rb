@@ -12,6 +12,17 @@ module Api
                                                         company: { only: :name },
                                                         truck_type: { only: :truck_type_name }
                                                       ]), trucks_count: meta[:total_count] }
+        trucks_api_columns = Truck.attribute_names.reject do |column|
+          excluded_columns.include? column
+        end
+        if params[:search]
+          render json: Truck.search(params[:search])
+        else
+          render json: Truck.select(trucks_api_columns), include: [
+            company: { only: :name },
+            truck_type: { only: :truck_type_name }
+          ]
+        end
       end
     end
   end
