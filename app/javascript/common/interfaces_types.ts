@@ -379,8 +379,10 @@ export type MailTemplate = {
 
 export interface MailTemplateTableProps {
   templates: MailTemplate[];
+  searchData: string[];
+  setTemplate: (template: MailTemplate[]) => void;
+  setAlertData: (alert: Alert) => void;
 }
-
 export interface MailTemplateProps {
-  templatesJON: string;
+  templatesJSON: string;
 }

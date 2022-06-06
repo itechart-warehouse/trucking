@@ -1,7 +1,8 @@
 class MailTemplatesController < ApplicationController
 
     def index
-        @templates = MailTemplate.all
+        templates = MailTemplate.all
+        @serialized_templates = ActiveModelSerializers::SerializableResource.new(templates).to_json
     end
 
     def show

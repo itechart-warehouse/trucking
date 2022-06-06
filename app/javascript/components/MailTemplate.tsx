@@ -3,15 +3,14 @@ import { useState } from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 
-import MailTemplateTable from './MailTemplate/MailTemplateLTable';
+import MailTemplateTable from './MailTemplate/MailTemplateTable';
 import SiteAlerts from './Alert';
 import { Alert, MailTemplate, MailTemplateProps } from '../common/interfaces_types';
 import Search from './Search';
-import httpClient from '../api/httpClient';
 
-const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplate) => {
+const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) => {
   const { templatesJSON } = props;
-  const [templates, setTemplates] = React.useState<MailTemplate[]>(JSON.parse(templatesJSON));
+  const [templates, setTemplates] = React.useState<MailTemplate[]>(JSON.parse(templatesJSON) || []);
   const [searchData, setSearchData] = React.useState<string[]>();
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
 
@@ -28,7 +27,7 @@ const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplate) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={templates} keyField="" />
+            <Search setData={setSearchData} Data={"templates"} keyField="" />
           </Grid>
           <Grid item xs={1.75} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => console.log("Created")}>
@@ -38,8 +37,8 @@ const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplate) => {
 
           <Grid item xs={12}>
             <MailTemplateTable
-              companies={templates}
-              setCompany={setTemplates}
+              templates={templates}
+              setTemplate={setTemplates}
               setAlertData={setAlertData}
               searchData={searchData}
             />
