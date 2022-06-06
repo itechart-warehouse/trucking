@@ -14,6 +14,7 @@ class CompaniesController < ApplicationController
     render json: Company.search(params[:search_data]) if params[:search_data]
     render json: Company.where(name: params[:search_data]) if params[:search_data]
     render json: companies if params[:page]
+    render json: companies.search(params[:search_data]) if params[:search_data]
   end
 
   def update

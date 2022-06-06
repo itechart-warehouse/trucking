@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'Companies', type: :request do
   let(:company) { create(:company) }
-  let(:user) { create(:user,role_id: 6) }
+  let(:user) { create(:user_sysAdmin) }
 
   before do
     sign_in user
@@ -40,8 +40,7 @@ RSpec.describe 'Companies', type: :request do
   describe 'get' do
     it 'search' do
       get "/companies?search_data=#{company.name}"
-      print(user.role.role_name)
-      expect(JSON.parse(response.body)).to eq(company)
+      expect(JSON.parse(response.body)[0]['id']).to eq(company.id)
     end
   end
 

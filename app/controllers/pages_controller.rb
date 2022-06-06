@@ -17,6 +17,7 @@ class PagesController < ApplicationController
     @serialized_roles = ActiveModelSerializers::SerializableResource.new(roles).to_json
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
     @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
+    render json: User.search(params[:search_data]) if params[:search_data]
     render json: users if params[:page]
     if params[:search_data]
       render json: User.where(['second_name = ? and first_name = ? and middle_name = ?',

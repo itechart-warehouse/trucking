@@ -13,6 +13,10 @@ RSpec.describe 'Users', type: :request do
       get '/users?page=0&per_page=5'
       expect(JSON.parse(response.body).count).to eq(5)
     end
+    it 'search' do
+      get "/users?search_data=#{user.second_name} #{user.first_name} #{user.middle_name}"
+      expect(JSON.parse(response.body)[0]['id']).to eq(user.id)
+    end
   end
 
   describe 'positive POST/PUT/DELETE methods' do

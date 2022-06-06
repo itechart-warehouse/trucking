@@ -16,6 +16,13 @@ RSpec.describe 'Waybills', type: :request do
       get '/waybills?page=0&per_page=5'
       expect(JSON.parse(response.body).count).to eq(5)
     end
+  describe 'get' do
+    it 'search' do
+      get "/waybills?search_data=#{waybill.waybill_seria} #{waybill.waybill_number}"
+      expect(JSON.parse(response.body)[0]['id']).to eq(waybill.id)
+    end
+  end
+  describe 'positive POST/PUT/DELETE methods' do
     it 'POST waybill/create' do
       waybills_count=Waybill.count
       post '/waybills',

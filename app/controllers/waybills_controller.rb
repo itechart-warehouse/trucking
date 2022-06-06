@@ -7,7 +7,7 @@ class WaybillsController < ApplicationController
     @serialized_waybills = ActiveModelSerializers::SerializableResource.new(waybills).to_json
     render json: waybills if params[:page]
     @serialized_waybills = ActiveModelSerializers::SerializableResource.new(@waybills).to_json
-    render json: Waybill.search(params[:search_data])
+    render json: @waybills.search(params[:search_data])  if params[:search_data]
   end
 
   def create
