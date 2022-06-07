@@ -30,8 +30,7 @@ class User < ApplicationRecord
          :validatable, :confirmable, :lockable
 
   scope :search, lambda { |search_data|
-                   where(['second_name LIKE ? and first_name LIKE ? and middle_name = ?',
-                          search_data.split[0], search_data.split[1], search_data.split[2]])
+                   where("second_name ILIKE '#{search_data.split[0]}%' and first_name ILIKE '#{search_data.split[1]}' and middle_name ILIKE '#{search_data.split[2]}%'")
                  }
 
   def active_for_authentication?

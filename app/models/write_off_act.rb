@@ -11,7 +11,7 @@ class WriteOffAct < ApplicationRecord
   before_create :update_lost_goods_status
 
   scope :search, lambda { |search_data|
-                   where('consignments.bundle_seria LIKE ? and consignments.bundle_number like ?', "#{search_data.split[0]}%", "#{search_data.split[1]}%")
+                   where("consignments.bundle_seria ILIKE '#{search_data.split[0]}%' and consignments.bundle_number ILIKE '#{search_data.split[1]}%'")
                  }
 
   private

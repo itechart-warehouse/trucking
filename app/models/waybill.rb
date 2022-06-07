@@ -14,7 +14,6 @@ class Waybill < ApplicationRecord
                             uniqueness: { scope: :waybill_number }
 
   scope :search, lambda { |search_data|
-                   where(['waybill_seria LIKE ? and waybill_number::text  LIKE ?',
-                          "%#{search_data.split[0]}%", "%#{search_data.split[1]}%"])
+                   where("waybill_seria ILIKE '#{search_data.split[0]}%' and waybill_number::text  ILIKE '#{search_data.split[1]}%'")
                  }
 end

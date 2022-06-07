@@ -21,8 +21,7 @@ class Consignment < ApplicationRecord
   before_save :upcase_bundle_consignment_seria
 
   scope :search, lambda { |search_data|
-                   where(['consignment_seria LIKE ? and consignment_number::text  LIKE ?',
-                          "%#{search_data.split[0]}%", "%#{search_data.split[1]}%"])
+                   where("consignment_seria ILIKE '#{search_data.split[0]}%' and consignment_number::text  ILIKE '#{search_data.split[1]}%'")
                  }
 
   private
