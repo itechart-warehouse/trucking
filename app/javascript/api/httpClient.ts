@@ -1,8 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
 import {
-  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl,
-} from './clientAPI';
+  ConsignmentUrl,
+  UsersUrl,
+  WarehouseUrl,
+  writeOffActUrl,
+  CompaniesUrl,
+  WaybillUrl,
+  MailTemplatesUrl,
+} from "./clientAPI";
 
 function httpClient() {
   return {
@@ -18,11 +24,12 @@ function httpClient() {
       updateStatus: (id) => axios.patch(`${CompaniesUrl}/${id}`),
     },
     waybill: {
-      create: (waybill, checkpoints, consignment_id) => axios.post(`${WaybillUrl}`, { waybill, checkpoints, consignment_id }),
+      create: (waybill, checkpoints, consignment_id) =>
+        axios.post(`${WaybillUrl}`, { waybill, checkpoints, consignment_id }),
       finish: (id) => axios.patch(`${WaybillUrl}/${id}`, id),
     },
     checkpoints: {
-      update: (data) => axios.patch('/checkpoints', data),
+      update: (data) => axios.patch("/checkpoints", data),
     },
     consignments: {
       create: (consignment) => axios.post(`${ConsignmentUrl}`, consignment),
@@ -37,7 +44,11 @@ function httpClient() {
     warehouses: {
       create: (warehouse) => axios.post(`${WarehouseUrl}`, warehouse),
       delete: (id) => axios.delete(`${WarehouseUrl}/${id}`),
-      update: (id, warehouse) => axios.patch(`${WarehouseUrl}/${id}`, warehouse),
+      update: (id, warehouse) =>
+        axios.patch(`${WarehouseUrl}/${id}`, warehouse),
+    },
+    mailTemplates: {
+      delete: (id) => axios.delete(`${MailTemplatesUrl}/${id}`),
     },
   };
 }
