@@ -29,8 +29,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :timeoutable,
          :validatable, :confirmable, :lockable
 
-  scope :search, lambda { |search_data|
-                   where("second_name ILIKE '#{search_data.split[0]}%' and first_name ILIKE '#{search_data.split[1]}' and middle_name ILIKE '#{search_data.split[2]}%'")
+  scope :search, lambda { |search|
+                   where("second_name ILIKE '#{search.split[0]}%' and first_name ILIKE '#{search.split[1]}' and middle_name ILIKE '#{search.split[2]}%'")
                  }
 
   def active_for_authentication?

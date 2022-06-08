@@ -8,5 +8,5 @@ class Warehouse < ApplicationRecord
   has_many :waybills, dependent: :restrict_with_exception
   validates :warehouse_name, presence: true, uniqueness: true, length: { in: 3..30 }
 
-  scope :search, ->(searh_data) { where("warehouse_name Ilike '#{searh_data}%'") }
+  scope :search, ->(search) { where("warehouse_name Ilike '#{search}%'") }
 end

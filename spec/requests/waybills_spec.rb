@@ -10,15 +10,15 @@ RSpec.describe 'Waybills', type: :request do
     sign_in user
   end
 
-  describe 'positive GET/POST/PUT/DELETE methods' do
+  describe 'get' do
     it 'get users' do
       FactoryBot.create_list(:waybill, 5 )
       get '/waybills?page=0&per_page=5'
       expect(JSON.parse(response.body).count).to eq(5)
     end
-  describe 'get' do
     it 'search' do
-      get "/waybills?search_data=#{waybill.waybill_seria} #{waybill.waybill_number}"
+      waybill = create(:waybill)
+      get "/waybills?search=#{waybill.waybill_seria} #{waybill.waybill_number}"
       expect(JSON.parse(response.body)[0]['id']).to eq(waybill.id)
     end
   end
@@ -49,6 +49,6 @@ RSpec.describe 'Waybills', type: :request do
                                 waybill_seria: 'sda',
                                 warehouse: warehouse.warehouse_name }, consignment_id: consignment.id }
       expect(Waybill.count).to eq(waybills_count)
-    end
   end
-end
+  end
+  end

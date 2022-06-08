@@ -10,8 +10,8 @@ class WriteOffAct < ApplicationRecord
   validate :good_name_and_quantity
   before_create :update_lost_goods_status
 
-  scope :search, lambda { |search_data|
-                   where("consignments.bundle_seria ILIKE '#{search_data.split[0]}%' and consignments.bundle_number ILIKE '#{search_data.split[1]}%'")
+  scope :search, lambda { |search|
+                   where("consignments.bundle_seria ILIKE '#{search.split[0]}%' and consignments.bundle_number ILIKE '#{search.split[1]}%'")
                  }
 
   private

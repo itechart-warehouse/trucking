@@ -5,16 +5,19 @@ class ConsignmentsController < ApplicationController
     authorize! :read, Consignment
 
     consignments_resources
-    consignments,meta = paginate_collection(company_consignments)
+    query = company_consignments
+    consignments, meta = paginate_collection(query)
     @consignment_count = meta[:total_count]
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
     @serialized_trucks = ActiveModelSerializers::SerializableResource.new(@trucks).to_json
     @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
     @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(consignments).to_json
-    render json: consignments if params[:page]
-    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
-    render json: @consignments.search(params[:search_data])  if params[:search_data]
+    if params[:search]
+      render json: query.search(params[:search])
+    elsif params[:page]
+      render json: consignments
+    end
   end
 
   def create
@@ -41,8 +44,8 @@ class ConsignmentsController < ApplicationController
     return Consignment.all if current_user.role.role_name == 'system administrator'
 
     company_dispatchers = User.joins(:role)
-                                     .where(roles: { role_name: 'dispatcher' },
-                                                  company_id: current_user.company_id)
+                              .where(roles: { role_name: 'dispatcher' },
+                                     company_id: current_user.company_id)
     Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
   end
 

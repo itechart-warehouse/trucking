@@ -4,20 +4,15 @@ class WriteOffActsController < ApplicationController
   def index
     authorize! :read, WriteOffAct
     company_consignments
-    write_off_acts,meta = paginate_collection(WriteOffAct.where(consignment: @consignments))
+    query = WriteOffAct.where(consignment: @consignments)
+    write_off_acts, meta = paginate_collection(query)
     @write_off_acts_count = meta[:total_count]
     @serialized_write_off_acts = ActiveModelSerializers::SerializableResource.new(write_off_acts).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(@consignments).to_json
-    render json: write_off_acts if params[:page]
-    if params[:search_data]
-      render json: Consignment.where(['bundle_seria = ? and bundle_number = ?',
-                                      params[:search_data].split[0], params[:search_data].split[1]])
-    end
-    render json: WriteOffAct.joins(" INNER JOIN consignments ON consignments.id = write_off_acts.consignment_id").search(params[:search_data])if params[:search_data]
-    render json: WriteOffAct.joins(:consignment).search(params[:search_data])if params[:search_data]
-    render json: WriteOffAct.joins(:consignment).search(params[:search_data])  if params[:search_data]
-    if params[:search_data]
-      render json: @write_off_acts.joins(:consignment).search(params[:search_data])
+    if params[:search]
+      render json: query.joins(:consignment).search(params[:search])
+    elsif params[:page]
+      render json: write_off_acts
     end
   end
 

@@ -6,8 +6,8 @@ FactoryBot.define do
     association(:truck)
     status { 'registered' }
     consignment_seria { 'CS' }
-    sequence(:consignment_number) { |i| i.to_i }
+    sequence(:consignment_number) { |i| i.to_i + 1000}
     bundle_seria { 'BS' }
-    sequence(:bundle_number) { |i| i.to_i }
+    sequence(:bundle_number) { |i| i.to_i + 1000 }
   end
 end

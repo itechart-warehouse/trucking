@@ -9,5 +9,11 @@ RSpec.describe 'warehouse trucks', type: :request do
       trucks=JSON.parse(response.body)
       expect(JSON.parse(trucks["trucks"]).count).to eq(5)
     end
+    it 'search' do
+      truck = create(:truck)
+      headers= { 'authorization'=> 'Basic c2hvcHBpbmdjZW50ZXJvd25lckBleGFtcGxlLmNvbTpzaG9wcGluZ2NlbnRlcm93bmVyMTIz' }
+      get "/api/v1/trucks?search=#{truck.truck_number}", :headers => headers
+      expect(JSON.parse(response.body)[0]['id']).to eq(truck.id)
+    end
   end
 end

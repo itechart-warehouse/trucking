@@ -6,8 +6,5 @@ class Truck < ApplicationRecord
   validates :fuel_consumption, presence: true, numericality: { greater_than: 0 }
   validates :truck_number, presence: true, length: { in: 3..30 }, uniqueness: true
 
-  scope :search, lambda { |search_data|
-                   where(['waybill_seria LIKE ? and waybill_number::text  LIKE ?',
-                          "%#{search_data.split[0]}%", "%#{search_data.split[1]}%"])
-                 }
+  scope :search, lambda { |search_data| where("truck_number iLIKE '#{search_data}%'") }
 end

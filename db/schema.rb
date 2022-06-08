@@ -167,11 +167,11 @@ ActiveRecord::Schema.define(version: 2022_05_26_160917) do
     t.bigint "company_id"
     t.bigint "address_id"
     t.text "passport"
+    t.integer "failed_attempts", default: 0, null: false
+    t.datetime "locked_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
-    t.integer "failed_attempts", default: 0, null: false
-    t.datetime "locked_at"
     t.index ["address_id"], name: "index_users_on_address_id"
     t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true

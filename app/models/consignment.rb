@@ -20,8 +20,8 @@ class Consignment < ApplicationRecord
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
 
-  scope :search, lambda { |search_data|
-                   where("consignment_seria ILIKE '#{search_data.split[0]}%' and consignment_number::text  ILIKE '#{search_data.split[1]}%'")
+  scope :search, lambda { |search|
+                   where("consignment_seria ILIKE '#{search.split[0]}%' and consignment_number::text  ILIKE '#{search.split[1]}%'")
                  }
 
   private

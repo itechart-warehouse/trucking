@@ -8,22 +8,17 @@ class PagesController < ApplicationController
   def users_index
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
-    users, meta = if current_user.company
-                    paginate_collection(User.where(company: current_user.company))
-                  else
-                    paginate_collection(User.all)
-                  end
+    query = users_query
+    users, meta = paginate_collection(query)
     @user_count = meta[:total_count]
     @serialized_roles = ActiveModelSerializers::SerializableResource.new(roles).to_json
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
     @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
-    render json: User.search(params[:search_data]) if params[:search_data]
-    render json: users if params[:page]
-    if params[:search_data]
-      render json: User.where(['second_name = ? and first_name = ? and middle_name = ?',
-                               params[:search_data].split[0], params[:search_data].split[1], params[:search_data].split[2]])
+    if params[:search]
+      render json: query.search(params[:search])
+    elsif params[:page]
+      render json: users
     end
-    render json: User.search(params[:search_data])  if params[:search_data]
   end
 
   def user_data
@@ -53,6 +48,14 @@ class PagesController < ApplicationController
   end
 
   private
+
+  def users_query
+    if current_user.company
+      User.where(company: current_user.company)
+    else
+      User.all
+    end
+  end
 
   def set_user
     @user = User.find(params[:id])
