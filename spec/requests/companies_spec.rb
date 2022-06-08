@@ -18,4 +18,40 @@ RSpec.describe 'Companies', type: :request do
         expect(JSON.parse(response.body)[0]['id']).to eq(company.id)
       end
   end
+  describe 'delete methods' do
+    it 'valid delete request' do
+      delete "/companies/#{company.id}"
+      expect(response).to have_http_status(204)
+    end
+    it 'valid delete action' do
+      company_count = Company.all.count
+      delete "/companies/#{company.id}"
+      expect(Company.all.count).to eq(company_count)
+      it 'invalid delete request' do
+        expect { delete "/companies/#{company.id + 1}" }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+    end
+    describe 'status /companies' do
+      it 'valid status request' do
+        patch "/companies/suspend/#{company.id}"
+        expect(response).to have_http_status(204)
+      end
+      it 'valid status action' do
+        patch "/companies/suspend/#{company.id}"
+        expect(Company.find(company.id).is_suspended).to eq(true)
+      end
+      it 'invalid status request' do
+        expect do
+          patch "/companies/suspend/#{company.id + 1}"
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+    describe 'CREATE /companies' do
+      it 'creates company' do
+        companyName = 'Gonna give you up'
+        post '/companies/create', params: { name: companyName }
+        expect(Company.find_by(name: companyName).name).to eq(companyName)
+      end
+      end
 end
