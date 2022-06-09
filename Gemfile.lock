@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/rails/actiontext.git
+  revision: cfe4674d3637c746cdb3c2b5131e2de498775529
+  branch: archive
+  specs:
+    actiontext (0.1.0)
+      nokogiri
+      rails (>= 5.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -24,6 +33,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.13)
+      actionpack (>= 4.1, < 7.1)
+      activemodel (>= 4.1, < 7.1)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activejob (5.2.6)
       activesupport (= 5.2.6)
       globalid (>= 0.3.6)
@@ -46,6 +60,8 @@ GEM
       public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
     ast (2.4.2)
+    audited (4.10.0)
+      activerecord (>= 4.2, < 6.2)
     autoprefixer-rails (10.4.2.0)
       execjs (~> 2)
     babel-source (5.8.35)
@@ -68,6 +84,8 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    case_transform (0.2)
+      activesupport
     childprocess (4.1.0)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
@@ -89,6 +107,9 @@ GEM
     docile (1.4.0)
     duktape (2.6.0.0)
     erubi (1.10.0)
+    exception_notification (4.5.0)
+      actionmailer (>= 5.2, < 8)
+      activesupport (>= 5.2, < 8)
     execjs (2.8.1)
     factory_bot (6.2.0)
       activesupport (>= 5.0.0)
@@ -105,6 +126,11 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jsonapi-renderer (0.2.2)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.8.1)
+      launchy (>= 2.2, < 3)
     loofah (2.13.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -282,6 +308,9 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  actiontext!
+  active_model_serializers (~> 0.10.0)
+  audited (~> 4.9)
   autoprefixer-rails
   bootsnap (>= 1.10.1)
   bundler
@@ -291,9 +320,11 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise (~> 4.8, >= 4.8.1)
   duktape
+  exception_notification
   factory_bot_rails (~> 6.2)
   hirb
   jbuilder (~> 2.7)
+  letter_opener
   msgpack (= 1.4.3)
   pg (~> 1.2, >= 1.2.3)
   puma (~> 3.11)

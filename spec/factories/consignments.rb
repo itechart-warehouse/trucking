@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :consignment do
-    driver { create(:user_driver) }
-    dispatcher { create(:user_dispatcher) }
-    manager { create(:user_manager) }
+    driver { create(:user,role_id:3) }
+    dispatcher { create(:user,role_id:1) }
+    manager { create(:user,role_id:4) }
     association(:truck)
     status { 'registered' }
     consignment_seria { 'CS' }

@@ -11,18 +11,22 @@ import httpClient from '../../api/httpClient';
 
 const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompanyFormProps) => {
   const {
-    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData,
+    isActiveModal, handleClose, setCompany, setFormErrors, formErrors, setAlertData, companyCount, setCompanyCount,
+    companies, rowsPerPage,
   } = props;
 
-  const companyInitialValues: Company = { id: Math.random(), name: '' };
+  const companyInitialValues: Company = { id: undefined, name: '', is_suspended: false };
 
   const handleSubmit = async (company: Company) => {
     await httpClient.companies.create(company)
       .then((response) => {
         handleClose();
         // TODO: cast type
-        setCompany((prevCompany) => [...prevCompany, response.data]);
+        if (companies.length < rowsPerPage) {
+          setCompany((prevCompany) => [...prevCompany, response.data]);
+        }
         setAlertData({ alertType: 'success', alertText: 'Successfully created a company!', open: true });
+        setCompanyCount(companyCount + 1);
       })
       .catch((error) => {
         setFormErrors(error.response.data);
@@ -44,7 +48,11 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
             <Grid item xs={8}>
               <Formik
                 initialValues={companyInitialValues}
-                onSubmit={handleSubmit}
+                onSubmit={(values, {resetForm}) => {
+                  handleSubmit(values);
+                  resetForm({});
+                  window.scrollTo(0, 0);
+                }}
               >
                 <Form>
                   <Container maxWidth="sm">

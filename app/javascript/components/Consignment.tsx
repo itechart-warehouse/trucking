@@ -18,9 +18,10 @@ import Search from './Search';
 const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const {
     currentUserRole, consignmentsJSON, trucksJSON, driversJSON, warehousesJSON,
-    goodsOwnersJSON,
+    goodsOwnersJSON, consignmentsCount,
   } = props;
 
+  const [consignmentCount, setConsignmentCount] = React.useState<number>(consignmentsCount);
   // MODAL states
   const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [isActiveGoodsModal, setModalGoodsActive] = React.useState<boolean>(false);
@@ -38,6 +39,7 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
       .sort((a, b) => consignmentsOrder.indexOf(a.status) - consignmentsOrder.indexOf(b.status)),
   );
 
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [trucks, setTrucks] = React.useState(JSON.parse(trucksJSON));
   const [drivers, setDrivers] = React.useState(JSON.parse(driversJSON));
   const [goodsOwners, setGoodsOwners] = React.useState(JSON.parse(goodsOwnersJSON));
@@ -62,7 +64,9 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
     list[index][name] = value;
     setNewGood(list);
   };
-  const handelDeleteGoods = (id:string) => setNewGood(newGoods.filter((good) => good.id !== id));
+
+  const handelDeleteGoods = (id: string) => setNewGood(newGoods.filter((good) => good.id !== id));
+
   const handleClose = () => {
     setModalActive(false);
     setModalGoodsActive(false);
@@ -78,12 +82,13 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
   const handleSubmit = (consignment: consignmentFormValues) => {
     httpClient.consignments.create({ consignment, newGoods })
       .then((response) => {
-        setConsignment((prevConsignment) => [response.data, ...prevConsignment]);
+        if (consignmentCount < rowsPerPage) setConsignment((prevConsignment) => [response.data, ...prevConsignment]);
         setAlertData({
           alertType: 'success',
           alertText: 'Successfully created consignment with goods!',
           open: true,
         });
+        setConsignmentCount(consignmentCount + 1);
         handleClose();
       })
       .catch((errors) => {
@@ -155,6 +160,11 @@ const Consignments: React.FC<ConsignmentProps> = (props: ConsignmentProps) => {
 
           <Grid item xs={12}>
             <ConsignmentTable
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
+              setConsignment={setConsignment}
+              consignmentCount={consignmentCount}
+              setConsignmentCount={setConsignmentCount}
               consignments={consignments}
               setModalGoodsActive={setModalGoodsActive}
               setConsID={setConsID}

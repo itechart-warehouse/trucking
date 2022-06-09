@@ -34,7 +34,11 @@ const CreateConsignmentForm:
               <Grid item xs={12}>
                 <Formik
                   initialValues={consignmentInitialValues}
-                  onSubmit={handleSubmit}
+                  onSubmit={(values, {resetForm}) => {
+                      handleSubmit(values);
+                      resetForm({});
+                      window.scrollTo(0, 0);
+                  }}
                 >
                   {({
                     dirty, isValid, handleChange, values,

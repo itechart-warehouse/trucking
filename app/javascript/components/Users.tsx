@@ -10,14 +10,17 @@ import Search from './Search';
 import { User, UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
-  const { rolesJSON, companiesJSON, usersJSON } = props;
-
+  const {
+    rolesJSON, companiesJSON, usersJSON, user_count,
+  } = props;
+  const [userCount, setUserCount] = React.useState<number>(user_count);
   const [createModal, setCreateModalActive] = React.useState<boolean>(false);
   const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
   const [editUserModal, setEditUserModal] = React.useState<number>(null);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [users, setUser] = React.useState<User[]>(JSON.parse(usersJSON));
   const [searchData, setSearchData] = React.useState<string[]>();
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
   const handleClose = () => {
     setCreateModalActive(false);
@@ -29,7 +32,10 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const handleSubmit = (user: userFormValues) => {
     httpClient.users.create(user)
       .then((response) => {
-        setUser((prevUsers) => [...prevUsers, response.data]);
+        if (users.length < rowsPerPage) {
+          setUser((prevUsers) => [...prevUsers, response.data]);
+        }
+        setUserCount(userCount + 1);
         handleClose();
       })
       .catch((error) => setFormErrors(error.response.data));
@@ -74,6 +80,10 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           </Grid>
           <Grid item xs={12}>
             <UsersTable
+              setRowsPerPage={setRowsPerPage}
+              rowsPerPage={rowsPerPage}
+              setUserCount={setUserCount}
+              userCount={userCount}
               users={users}
               setUser={setUser}
               setEditUserModal={setEditUserModal}

@@ -10,7 +10,12 @@ import { Alert, WriteOffActsProps, WriteOffAct } from '../common/interfaces_type
 import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
-  const { currentUserRole, writeOffActsJSON, consignmentsJSON } = props;
+  const {
+    currentUserRole, writeOffActsJSON, consignmentsJSON, writeOffActCount,
+  } = props;
+
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [writeOffActsCount, setWriteOffActsCount] = React.useState<number>(writeOffActCount);
   const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [writeOffActs, setWriteOffActs] = React.useState<WriteOffAct[]>(JSON.parse(writeOffActsJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
@@ -25,7 +30,10 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const handleSubmit = async (writeOffAct) => {
     await httpClient.writeOffActs.create(writeOffAct)
       .then((response) => {
-        setWriteOffActs((prev) => [...prev, response.data]);
+        if (writeOffActs.length < rowsPerPage) {
+          setWriteOffActs((prev) => [...prev, response.data]);
+        }
+        setWriteOffActsCount(writeOffActCount + 1);
         setModalActive(false);
         setAlertData({ alertType: 'success', alertText: 'Successfully created write-off act!', open: true });
       })
@@ -61,7 +69,15 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
             )
             : null}
           <Grid item xs={12}>
-            <WriteOffActTable writeOffActs={writeOffActs} searchData={searchData} />
+            <WriteOffActTable
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
+              setWriteOffActs={setWriteOffActs}
+              writeOffActs={writeOffActs}
+              searchData={searchData}
+              writeOffActsCount={writeOffActsCount}
+              setWriteOffActsCount={setWriteOffActsCount}
+            />
           </Grid>
         </Grid>
       </Box>

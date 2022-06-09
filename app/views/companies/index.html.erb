@@ -2,7 +2,8 @@
   <div class="client_content">
     <%=react_component('Company',{
       currentUserRole: current_user.role.role_name,
-      companiesJSON: @companies.to_json
+      companiesJSON: @serialized_companies,
+      companiesCount:@companies_count,
     }) %>
   </div>
 </center>

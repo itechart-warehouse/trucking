@@ -10,37 +10,13 @@ import FormikField from '../../UI/FormikField';
 import { warehouseFields } from '../../constants/warehouseFields';
 import warehouseInitialValues, { warehouseFormValues } from '../../initialValues/warehouseInitialValues';
 import warehouseValidation from '../../mixins/validation_schema/warehouse';
-import httpClient from '../../api/httpClient';
 import { CreateWarehouseFormProps, User } from '../../common/interfaces_types';
 
 const WarehouseCreateForm:
   React.FC<CreateWarehouseFormProps> = (props: CreateWarehouseFormProps) => {
     const {
-      isActiveModal, handleClose, setWarehouses, formErrors, setFormErrors, setAlertData,
-      warehousemen,
+      isActiveModal, handleClose, warehousemen, handleSubmit, formErrors,
     } = props;
-
-    const handleSubmit = (warehouse: warehouseFormValues) => {
-      httpClient.warehouses.create(warehouse)
-        .then((response) => {
-          // TODO: cast data type
-          setWarehouses((prev) => [...prev, response.data]);
-          handleClose();
-          setAlertData({
-            alertType: 'success',
-            alertText: 'Successfully created a warehouse!',
-            open: true,
-          });
-        })
-        .catch((error) => {
-          setFormErrors(error.response.data);
-          setAlertData({
-            alertType: 'error',
-            alertText: 'Something went wrong with creating a warehouse',
-            open: true,
-          });
-        });
-    };
 
     return (
       <div>
@@ -57,7 +33,11 @@ const WarehouseCreateForm:
                 <Formik
                   initialValues={warehouseInitialValues}
                   validationSchema={warehouseValidation}
-                  onSubmit={handleSubmit}
+                  onSubmit={(values, {resetForm}) => {
+                      handleSubmit(values);
+                      resetForm({});
+                      window.scrollTo(0, 0);
+                  }}
                 >
                   {({
                     dirty, isValid, handleChange, values,

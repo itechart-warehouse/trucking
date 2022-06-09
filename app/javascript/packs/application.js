@@ -7,3 +7,4 @@ const csrf = document.querySelector("meta[name='csrf-token']").getAttribute('con
 axios.defaults.headers.common['X-CSRF-TOKEN'] = csrf;
 ReactRailsUJS.useContext(componentRequireContext);
 // Support component names relative to this directory:
+//import "actiontext"

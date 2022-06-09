@@ -6,15 +6,15 @@ module Api
       def index
         authorize! :read, Consignment
         excluded_columns = %w[created_at updated_at]
-        consignment_api_columns = Consignment.attribute_names.reject do |column|
-          excluded_columns.include? column
-        end
-        render json: Consignment.select(consignment_api_columns), include: included_params
+        consignment_api_columns = Consignment.attribute_names - excluded_columns
+        consignments, meta = paginate_collection(Consignment.select(consignment_api_columns))
+        render json: { consignments: consignments.to_json(include: included_params),
+                       consignments_count: meta[:total_count] }
       end
 
       def show
         authorize! :read, Consignment
-        render json: Consignment.find(params[:id]), include: included_params
+        render json: Consignment.find(params[:id]).to_json(include: included_params)
       end
 
       private

@@ -7,6 +7,9 @@ truck_types = TruckType.create([{ truck_type_name: 'covered body' },
                                 { truck_type_name: 'refrigerator' }, { truck_type_name: 'cistern' }])
 # Companies
 companies = Company.create([{ name: 'jetlogistic' }, { name: 'gruzimvse' }])
+
+User.skip_callback(:validation, :before, :generate_password)
+
 # System admin
 sys_Admin = User.create(
   email: 'sysadmin@example.com',
@@ -18,7 +21,8 @@ sys_Admin = User.create(
   passport: '11337218, issued by the police department of the Centralniy district of Homel',
   login: 'sysAdmin',
   role: Role.find_by(role_name: 'system administrator'),
-  address: Address.new(town: 'Homel', street: 'Platonova', building: 43, apartment: 83)
+  address: Address.new(town: 'Homel', street: 'Platonova', building: 43, apartment: 83),
+  confirmed_at: DateTime.now
 )
 # jetlogistic trucks
 jetlogistic_trucks = Truck.create([
@@ -39,7 +43,8 @@ jetlogistic_admin = User.create(
   login: 'jetlogisticAdmin',
   role: Role.find_by(role_name: 'admin'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 77, apartment: 45),
-  company: Company.find_by(name: 'jetlogistic')
+  company: Company.find_by(name: 'jetlogistic'),
+  confirmed_at: DateTime.now
 )
 jetlogistic_owner = User.create(
   email: 'jetlogisticowner@example.com',
@@ -52,7 +57,8 @@ jetlogistic_owner = User.create(
   login: 'jetlogisticOwner',
   role: Role.find_by(role_name: 'owner'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 55, apartment: 4),
-  company: Company.find_by(name: 'jetlogistic')
+  company: Company.find_by(name: 'jetlogistic'),
+  confirmed_at: DateTime.now
 )
 jetlogistic_dispatcher = User.create(
   email: 'jetlogisticdispatcher@example.com',
@@ -65,7 +71,8 @@ jetlogistic_dispatcher = User.create(
   login: 'jetlogisticDispatcher',
   role: Role.find_by(role_name: 'dispatcher'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 60, apartment: 6),
-  company: Company.find_by(name: 'jetlogistic')
+  company: Company.find_by(name: 'jetlogistic'),
+  confirmed_at: DateTime.now
 )
 jetlogistic_manager = User.create(
   email: 'jetlogisticmanager@example.com',
@@ -78,7 +85,8 @@ jetlogistic_manager = User.create(
   login: 'jetlogisticManager',
   role: Role.find_by(role_name: 'manager'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 13, apartment: 3),
-  company: Company.find_by(name: 'jetlogistic')
+  company: Company.find_by(name: 'jetlogistic'),
+  confirmed_at: DateTime.now
 )
 jetlogistic_driver = User.create(
   email: 'jetlogisticdriver@example.com',
@@ -91,7 +99,8 @@ jetlogistic_driver = User.create(
   login: 'jetlogisticDriver',
   role: Role.find_by(role_name: 'driver'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 14, apartment: 41),
-  company: Company.find_by(name: 'jetlogistic')
+  company: Company.find_by(name: 'jetlogistic'),
+  confirmed_at: DateTime.now
 )
 # gruzimvse trucks
 gruzimvse_trucks = Truck.create([
@@ -112,7 +121,8 @@ gruzimvse_admin = User.create(
   login: 'gruzimvseAdmin',
   role: Role.find_by(role_name: 'admin'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 113, apartment: 74),
-  company: Company.find_by(name: 'gruzimvse')
+  company: Company.find_by(name: 'gruzimvse'),
+  confirmed_at: DateTime.now
 )
 gruzimvse_owner = User.create(
   email: 'gruzimvseowner@example.com',
@@ -125,7 +135,8 @@ gruzimvse_owner = User.create(
   login: 'gruzimvseOwner',
   role: Role.find_by(role_name: 'owner'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 33, apartment: 22),
-  company: Company.find_by(name: 'gruzimvse')
+  company: Company.find_by(name: 'gruzimvse'),
+  confirmed_at: DateTime.now
 )
 gruzimvse_dispatcher = User.create(
   email: 'gruzimvsedispatcher@example.com',
@@ -138,7 +149,8 @@ gruzimvse_dispatcher = User.create(
   login: 'gruzimvseDispatcher',
   role: Role.find_by(role_name: 'dispatcher'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 66, apartment: 102),
-  company: Company.find_by(name: 'gruzimvse')
+  company: Company.find_by(name: 'gruzimvse'),
+  confirmed_at: DateTime.now
 )
 gruzimvse_manager = User.create(
   email: 'gruzimvsemanager@example.com',
@@ -151,7 +163,8 @@ gruzimvse_manager = User.create(
   login: 'gruzimvseManager',
   role: Role.find_by(role_name: 'manager'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 107, apartment: 3),
-  company: Company.find_by(name: 'gruzimvse')
+  company: Company.find_by(name: 'gruzimvse'),
+  confirmed_at: DateTime.now
 )
 gruzimvse_driver = User.create(
   email: 'gruzimvsedriver@example.com',
@@ -164,7 +177,8 @@ gruzimvse_driver = User.create(
   login: 'gruzimvseDriver',
   role: Role.find_by(role_name: 'driver'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 77, apartment: 8),
-  company: Company.find_by(name: 'gruzimvse')
+  company: Company.find_by(name: 'gruzimvse'),
+  confirmed_at: DateTime.now
 )
 
 # Goods owners
@@ -188,7 +202,8 @@ grocery_store_owner = User.create(
   passport: '15206181, issued by the police department of the Centralniy district of Vilnus',
   login: 'grocerystoreowner',
   role: Role.find_by(role_name: 'warehouseman'),
-  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8)
+  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8),
+  confirmed_at: DateTime.now
 )
 Grocery_store = Warehouse.create(
   warehouse_name: 'Grocery store', warehouseman: grocery_store_owner, address: Address.new(town: 'Homel', street: 'Sovetskaya',
@@ -204,12 +219,16 @@ shopping_center_owner = User.create(
   passport: '18397261, issued by the police department of the Centralniy district of Vilnus',
   login: 'shoppingcenterowner',
   role: Role.find_by(role_name: 'warehouseman'),
-  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8)
+  address: Address.new(town: 'Vilnus', street: 'Volnaya', building: 13, apartment: 8),
+  confirmed_at: DateTime.now
 )
 Shopping_center = Warehouse.create(
   warehouse_name: 'Almi', address: Address.new(town: 'Homel', street: 'Mazurova', building: 79,
                                                apartment: 1), trusted: true, warehouseman: shopping_center_owner
 )
+
+User.set_callback(:validation, :before, :generate_password)
+
 # Consignments, Waybills and goods
 15.times do |i|
   # jetlogistics consignments and goods
@@ -260,13 +279,13 @@ Shopping_center = Warehouse.create(
                                                waybill_number: "10#{i}".to_i
                                              ))
   instance_variable_set("@checkpoints_waybill_CSJ_#{i}", Checkpoint.create([
-                                                                        {
-                                                                          city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
-                                                                        },
-                                                                        {
-                                                                          city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
-                                                                        }
-                                                                      ]))
+                                                                             {
+                                                                               city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
+                                                                             },
+                                                                             {
+                                                                               city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSJ_#{i}")
+                                                                             }
+                                                                           ]))
   # gruzimvse waybills
   Good.where(consignment: instance_variable_get("@CSG_#{i}")).each do |item|
     item.update!(status: 'checked')
@@ -290,13 +309,13 @@ Shopping_center = Warehouse.create(
                                                waybill_number: "20#{i}".to_i
                                              ))
   instance_variable_set("@checkpoints_waybill_CSG_#{i}", Checkpoint.create([
-                                                                        {
-                                                                          city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
-                                                                        },
-                                                                        {
-                                                                          city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
-                                                                        }
-                                                                      ]))
+                                                                             {
+                                                                               city: "checkpoint_1_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
+                                                                             },
+                                                                             {
+                                                                               city: "checkpoint_2_#{i}", waybill: instance_variable_get("@Waybill_CSG_#{i}")
+                                                                             }
+                                                                           ]))
   next unless i <= 2
 
   # Deliver jetlogistics waybills, consignments and goods

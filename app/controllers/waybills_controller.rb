@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 class WaybillsController < ApplicationController
-  before_action :company_waybills, only: :index
-
-  def index; end
+  def index
+    waybills,meta = paginate_collection(company_waybills)
+    @waybill_count = meta[:total_count]
+    @serialized_waybills = ActiveModelSerializers::SerializableResource.new(waybills).to_json
+    render json: waybills if params[:page]
+  end
 
   def create
     points = points_params
@@ -19,28 +22,27 @@ class WaybillsController < ApplicationController
       end
     end
 
-    render json: @waybill.to_json(include: [consignment: { include: %i[dispatcher driver truck
-                                                                       manager waybill goods] }])
+    render json: @waybill
   end
 
   def update
     authorize! :update, Waybill
 
-    @waybill = Waybill.find(params.permit(:id)[:id])
-    @waybill.update!(status: 'delivered to the recipient')
+    waybill = Waybill.find(params.permit(:id)[:id])
+    waybill.update!(status: 'delivered to the recipient')
 
-    render json: @waybill
+    render json: waybill
   end
 
   private
 
   def company_waybills
-    return @waybills = Waybill.all if current_user.role.role_name == 'system administrator'
+    return Waybill.all if current_user.role.role_name == 'system administrator'
 
     company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
                                      company: current_user.company)
     company_consignments = Consignment.where(dispatcher: company_dispatchers)
-    @waybills = Waybill.where(consignment: company_consignments)
+    Waybill.where(consignment: company_consignments)
   end
 
   def waybill_params

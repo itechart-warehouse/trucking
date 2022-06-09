@@ -26,6 +26,6 @@ Docker-compose up -d
 ```
 Set up database
 ```
-Docker-compose exec app rails db:setup
+Docker-compose exec web rails db:setup
 ```
 ## Now you good to go, check localhost:3000

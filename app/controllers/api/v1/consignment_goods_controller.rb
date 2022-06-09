@@ -7,9 +7,7 @@ module Api
       def index
         authorize! :read, Good
         excluded_columns = %w[created_at updated_at]
-        goods_api_columns = Good.attribute_names.reject do |column|
-          excluded_columns.include?(column)
-        end
+        goods_api_columns = Good.attribute_names - excluded_columns
         render json: @goods.select(goods_api_columns)
       end
 

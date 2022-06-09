@@ -11,25 +11,32 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { Waybill, WaybillTableProps } from '../../common/interfaces_types';
 import { getComparator, stableSort } from '../../utils/stableSort';
 import { Order } from '../../mixins/initialValues/userList';
+import httpClient from '../../api/httpClient';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
-    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints,
+    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints, setWaybillsCount, waybillsCount, setWaybill,
   } = props;
 
-  const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [dense, setDense] = React.useState<boolean>(false);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Waybill>('waybill_seria');
+  const [page, setPage] = React.useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - waybills.length) : 0;
-
-  const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    httpClient.waybill.getAll(newPage, rowsPerPage.toString())
+      .then((response) => setWaybill(response.data))
+      .then(() => setPage(newPage));
+  };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    httpClient.waybill.getAll(0, event.target.value)
+      .then((response) => setWaybill(response.data))
+      .then(() => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      });
   };
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,7 +110,6 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                   </TableRow>
                 )
                 : stableSort(waybillsData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((waybill) => {
                     const startpointAddress = `${waybill.startpoint.town} ${waybill.startpoint.street} ${waybill.startpoint.building}`;
                     const endpointAddress = `${waybill.endpoint.town} ${waybill.endpoint.street} ${waybill.endpoint.building}`;
@@ -122,22 +128,14 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                       </StyledTableRow>
                     );
                   })}
-              {emptyRows > 0 && (
-                <StyledTableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <StyledTableCell colSpan={6} />
-                </StyledTableRow>
-              )}
+
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={waybills.length}
+          count={waybillsCount}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

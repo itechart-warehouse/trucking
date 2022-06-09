@@ -7,9 +7,16 @@ import WarehouseCreateForm from './Warehouse/CreateWarehouseForm';
 import { Alert, Warehouse, WarehouseProps } from '../common/interfaces_types';
 import SiteAlerts from './Alert';
 import Search from './Search';
+import { warehouseFormValues } from '../initialValues/warehouseInitialValues';
+import httpClient from '../api/httpClient';
 
 const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
-  const { currentUserRole, warehousesJSON, warehousemansJSON } = props;
+  const {
+    currentUserRole, warehousesJSON, warehousemansJSON, warehouseCount,
+  } = props;
+
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [warehousesCount, setWarehousesCount] = React.useState<number>(warehouseCount);
   const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [warehouses, setWarehouses] = React.useState<Warehouse[]>(JSON.parse(warehousesJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
@@ -19,6 +26,29 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const handleClose = () => {
     setModalActive(false);
     setFormErrors(null);
+  };
+
+  const handleSubmit = (warehouse: warehouseFormValues) => {
+    httpClient.warehouses.create(warehouse)
+      .then((response) => {
+        // TODO: cast data type
+        if (warehouses.length < rowsPerPage)setWarehouses((prev) => [...prev, response.data]);
+        handleClose();
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created a warehouse!',
+          open: true,
+        });
+        setWarehousesCount(warehouseCount + 1);
+      })
+      .catch((error) => {
+        setFormErrors(error.response.data);
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating a warehouse',
+          open: true,
+        });
+      });
   };
 
   return (
@@ -48,6 +78,10 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
 
           <Grid item xs={12}>
             <WarehouseTable
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
+              warehousesCount={warehousesCount}
+              setWarehousesCount={setWarehousesCount}
               warehouses={warehouses}
               setWarehouses={setWarehouses}
               setAlertData={setAlertData}
@@ -59,13 +93,11 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
         </Grid>
       </Box>
       <WarehouseCreateForm
+        handleSubmit={handleSubmit}
         isActiveModal={isActiveModal}
         handleClose={handleClose}
-        setWarehouses={setWarehouses}
-        formErrors={formErrors}
-        setFormErrors={setFormErrors}
-        setAlertData={setAlertData}
         warehousemen={JSON.parse(warehousemansJSON)}
+        formErrors={formErrors}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>

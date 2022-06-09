@@ -4,6 +4,7 @@ module Api
   module V1
     # rubocop: disable Rails/ApplicationController
     class ApiController < ActionController::Base
+      include Concerns::Paginatable
       # rubocop: enable Rails/ApplicationController
       before_action :check_basic_auth
       before_action :deprecate_api

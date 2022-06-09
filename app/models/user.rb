@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  audited
+
   belongs_to :role, optional: true
   belongs_to :company, optional: true
   belongs_to :address, optional: true
@@ -21,14 +23,11 @@ class User < ApplicationRecord
   rescue StandardError
     record.errors.add(attr, 'Invalid date')
   end
+  before_validation :generate_password, on: :create
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :trackable and :omniauthable
+  # :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :timeoutable,
-         :validatable
-
-  def full_name
-    "#{first_name} #{second_name} #{middle_name}"
-  end
+         :validatable, :confirmable, :lockable
 
   def active_for_authentication?
     if company
@@ -40,5 +39,11 @@ class User < ApplicationRecord
 
   def inactive_message
     company.is_suspended ? :user_company_suspended : super
+  end
+
+  private
+
+  def generate_password
+    self.password = SecureRandom.hex(8)
   end
 end

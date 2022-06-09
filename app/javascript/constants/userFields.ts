@@ -55,23 +55,6 @@ export const userFields = [
     required: true,
     type: 'text',
   },
-  {
-    id: uuidv4(),
-    title: 'Password',
-    model: 'password',
-    onlyLogin: true,
-    placeholder: 'Password',
-    required: true,
-    type: 'password',
-  },
-  {
-    id: uuidv4(),
-    title: 'Repeat password',
-    model: 'password_confirmation',
-    placeholder: 'Repeat Password',
-    required: true,
-    type: 'password',
-  },
 ];
 
 export const userFirstFields = [

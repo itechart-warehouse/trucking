@@ -2,24 +2,31 @@
 
 class PagesController < ApplicationController
   before_action :set_user, only: %i[user_data update_user]
+
   def home; end
 
   def users_index
-    @roles = Role.where.not(role_name: 'system administrator')
-    @companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
-    @users = current_user.company ? User.where(company: current_user.company) : User.all
+    roles = Role.where.not(role_name: 'system administrator')
+    companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
+    users, meta = if current_user.company
+                    paginate_collection(User.where(company: current_user.company))
+                  else
+                    paginate_collection(User.all)
+                  end
+    @user_count = meta[:total_count]
+    @serialized_roles = ActiveModelSerializers::SerializableResource.new(roles).to_json
+    @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
+    @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
+    render json: users if params[:page]
   end
 
   def user_data
-    render json: @user.to_json(include:
-      { role: { only: [:role_name] },
-        company: { only: [:name] },
-        address: { only: %i[town street building apartment] } })
+    render json: @user
   end
 
   def update_user
     if @user.update(user_params)
-      render json: @user.to_json(include: %i[role address])
+      render json: @user
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -29,7 +36,7 @@ class PagesController < ApplicationController
     authorize! :create, User
     @user = User.new(user_params)
     if @user.save
-      render json: @user.to_json(include: %i[role address])
+      render json: @user
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -47,8 +54,8 @@ class PagesController < ApplicationController
 
   def permit_user_params
     params.permit(:first_name, :second_name, :middle_name, :birthday,
-                  :passport, :login, :email, :password, :password_confirmation,
-                  :role, :town, :street, :building, :apartment, :company)
+                  :passport, :login, :email, :role, :town, :street,
+                  :building, :apartment, :company)
   end
 
   def user_params
@@ -58,7 +65,9 @@ class PagesController < ApplicationController
                                         street: permit_user_params[:street],
                                         building: permit_user_params[:building],
                                         apartment: permit_user_params[:apartment])
-    user_params[:company] = Company.find_by(name: permit_user_params[:company])
+    if permit_user_params[:company].present?
+      user_params[:company] = Company.find_by(name: permit_user_params[:company])
+    end
     user_params.except(:town, :street, :building, :apartment)
   end
 end

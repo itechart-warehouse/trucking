@@ -2,9 +2,12 @@
   <div class="client_content">
     <%=react_component('Consignment',{
       currentUserRole: current_user.role.role_name,
-      driversJSON: @drivers.to_json, trucksJSON: @trucks.to_json, 
-      warehousesJSON: @warehouses.to_json, goodsOwnersJSON: @goods_owners.to_json,
-      consignmentsJSON: @consignments.to_json(include: %i[dispatcher manager waybill goods truck driver]),
+      driversJSON: @serialized_drivers,
+      trucksJSON: @serialized_trucks,
+      warehousesJSON: @serialized_warehouses,
+      goodsOwnersJSON: @serialized_goods_owners,
+      consignmentsJSON: @serialized_consignments,
+      consignmentsCount: @consignment_count,
       }) %>
   </div>
 </center>

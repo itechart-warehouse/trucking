@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Good < ApplicationRecord
+  audited
+
   belongs_to :consignment
   validates :good_name, presence: true, length: { in: 2..45 }
   validates :quantity, presence: true, numericality: { greater_than: 0 }

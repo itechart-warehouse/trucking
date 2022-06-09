@@ -12,8 +12,9 @@ import {
 } from '../common/interfaces_types';
 
 const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
-  const { currentUserRole, waybillsJSON } = props;
+  const { currentUserRole, waybillsJSON, waybillCount } = props;
 
+  const [waybillsCount, setWaybillsCount] = React.useState<number>(waybillCount);
   const [isWaybillModal, setWaybillModalActive] = React.useState<boolean>(false);
   const [waybillID, setWaybillID] = React.useState<number>(null);
   const [checkpoints, setCheckpoints] = React.useState<Checkpoint[]>([]);
@@ -26,11 +27,10 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
 
   const handleSubmitWaybill = (id) => {
     httpClient.waybill.finish(id)
-      .then((response) => {
-        const newWaybills = waybills;
-        newWaybills.find((waybill) => waybill.id === id).status = response.data.status;
-        setWaybill(newWaybills);
+      .then(() => {
         setAlertData({ alertType: 'success', alertText: 'Successfully finished cargo transportation!', open: true });
+
+        setWaybillsCount(waybillCount + 1);
       })
       .catch((error) => {
         setFormErrorsCheckpoints(error.response.data);
@@ -54,6 +54,9 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
           </Grid>
           <Grid item xs={12}>
             <WaybillTable
+              setWaybill={setWaybill}
+              waybillsCount={waybillsCount}
+              setWaybillsCount={setWaybillsCount}
               waybills={waybills}
               setWaybillID={setWaybillID}
               setWaybillModalActive={setWaybillModalActive}

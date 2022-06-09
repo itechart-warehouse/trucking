@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
 class ConsignmentsController < ApplicationController
-  before_action :company_consignments, only: :index
-
   def index
     authorize! :read, Consignment
-    @warehouses = Warehouse.all
-    @trucks = Truck.where(company: current_user.company)
-    @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
-    @goods_owners = GoodsOwner.all
+
+    consignments_resources
+    consignments,meta = paginate_collection(company_consignments)
+    @consignment_count = meta[:total_count]
+    @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
+    @serialized_trucks = ActiveModelSerializers::SerializableResource.new(@trucks).to_json
+    @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
+    @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
+    @serialized_consignments = ActiveModelSerializers::SerializableResource.new(consignments).to_json
+    render json: consignments if params[:page]
   end
 
   def create
@@ -19,18 +23,25 @@ class ConsignmentsController < ApplicationController
       @consignment = Consignment.create!(create_consignment_params)
       @goods = Good.create!(create_goods_params(@consignment))
     end
-
-    render json: @consignment.to_json(include: %i[dispatcher driver truck manager waybill goods])
+    render json: @consignment
   end
 
   private
 
-  def company_consignments
-    return @consignments = Consignment.all if current_user.role.role_name == 'system administrator'
+  def consignments_resources
+    @warehouses = Warehouse.all
+    @trucks = Truck.where(company: current_user.company)
+    @drivers = User.where(company: current_user.company, role: Role.find_by(role_name: 'driver'))
+    @goods_owners = GoodsOwner.all
+  end
 
-    company_dispatchers = User.where(role: Role.find_by(role_name: 'dispatcher'),
-                                     company: current_user.company)
-    @consignments = Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
+  def company_consignments
+    return Consignment.all if current_user.role.role_name == 'system administrator'
+
+    company_dispatchers = User.joins(:role)
+                                     .where(roles: { role_name: 'dispatcher' },
+                                                  company_id: current_user.company_id)
+    Consignment.where(dispatcher: company_dispatchers).order({ created_at: :desc })
   end
 
   def permit_consignment_params

@@ -42,6 +42,7 @@ export type Item = {
 export type Company = {
     id: number;
     name: string;
+    is_suspended: boolean;
 }
 
 export type Role = {
@@ -56,7 +57,7 @@ export type Alert = {
 }
 
 export type NewGoods = {
-    id:string;
+    id: string;
     good_name: string;
     quantity: number;
     unit_of_measurement: string;
@@ -83,8 +84,8 @@ export type Waybill = {
     status: string;
     waybill_seria: string;
     waybill_number: number;
-    startpoint: {town: string, street: string, building: string};
-    endpoint: {town: string, street: string, building: string};
+    startpoint: { town: string, street: string, building: string };
+    endpoint: { town: string, street: string, building: string };
 }
 
 export type Consignment = {
@@ -94,11 +95,11 @@ export type Consignment = {
     bundle_number: number;
     consignment_seria: string;
     consignment_number: string;
-    dispatcher: { first_name: string, second_name: string, middle_name: string };
-    manager: { first_name: string, second_name: string, middle_name: string };
-    driver: { first_name: string, second_name: string, middle_name: string };
-    truck: { truck_number: string };
-    waybill: Waybill;
+    dispatcher: string;
+    manager: string;
+    driver: string;
+    truck: string;
+    waybill: string;
     goods: Item[];
 }
 
@@ -138,11 +139,16 @@ export interface CreateConsignmentFormProps {
     handleSubmit: (consignment: consignmentFormValues) => void;
     handleFieldAdd: () => void;
     handleFieldChange: (e: NewGoods, index: number) => void;
-    handelDeleteGoods:(id:string)=>void;
+    handelDeleteGoods: (id: string) => void;
 }
 
 export interface WriteOffActTableProps {
-    writeOffActs: WriteOffAct[],
+    rowsPerPage:number;
+    setRowsPerPage:(actCount:number)=>void;
+    setWriteOffActs:(acts: WriteOffAct[])=>void;
+    writeOffActsCount:number;
+    setWriteOffActsCount:(actsCount: number)=>void;
+    writeOffActs: WriteOffAct[];
     searchData: string[] | number[];
 }
 
@@ -172,6 +178,10 @@ export interface CreateWaybillsFormProps {
 }
 
 export interface WarehouseTableProps {
+    rowsPerPage:number;
+    setRowsPerPage: (rowCount: number)=>void;
+    setWarehousesCount:(warhCount:number)=>void;
+    warehousesCount:number;
     warehouses: Warehouse[];
     currentUserRole: string;
     searchData: string[];
@@ -181,19 +191,21 @@ export interface WarehouseTableProps {
 }
 
 export interface CreateWarehouseFormProps {
+    handleSubmit: any;
     isActiveModal: boolean;
     formErrors: string[],
     warehousemen: User[];
     handleClose: () => void;
-    setWarehouses: (warehouses: (prev) => Warehouse[]) => void;
-    setFormErrors: (errors: string[]) => void;
-    setAlertData: (alert: Alert) => void;
 }
 
 export interface EnhancedTableProps {
+    rowsPerPage: number;
+    setRowsPerPage:(rowCount: number)=>void;
+    setUserCount:(userCount:number)=>void;
+    userCount:number
     users: User[];
     searchData: string[];
-    setUser: (user: (prev) => User[]) => void;
+    setUser: (user: User[]) => void;
     setEditUserModal: (id: number) => void;
     setUpdateModalActive: (updateModalActive: boolean) => void;
 }
@@ -208,6 +220,10 @@ export interface EnhancedHeadTableProps {
 }
 
 export interface EnhancedTableToolbarProps {
+    rowPerPage:number;
+    userCount:number;
+    page:number
+    setUserCount:(userCount:number)=>void;
     numSelected: number;
     // NOTE: unknown type
     users: any;
@@ -252,14 +268,14 @@ export interface CheckpointsFormProps {
 export interface CreateCheckpointsFormProps {
     isActiveModal: boolean;
     checkpointsHandleClose: () => void;
-    handleSubmitCheckpoints:(values:Checkpoint) => void;
-    editCheckpoint:Checkpoint
+    handleSubmitCheckpoints: (values: Checkpoint) => void;
+    editCheckpoint: Checkpoint
 }
-export interface checkpointsTableFormProps{
+export interface checkpointsTableFormProps {
     checkpoints: Checkpoint[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
-    setEditCheckpoint:(checkpoints: Checkpoint) => void;
-    setCreateCheckpoints:(setCreateCheckpoints:boolean)=>void
+    setEditCheckpoint: (checkpoints: Checkpoint) => void;
+    setCreateCheckpoints: (setCreateCheckpoints: boolean) => void
 }
 export interface ConsignmentGoodsProps {
     isActiveModal: boolean;
@@ -271,10 +287,15 @@ export interface ConsignmentGoodsProps {
     setTitleStatus: (titleStatus: string) => void;
     setSelectedGoods: (selectedGoods: Item[]) => void;
     handleGoodsSubmit: () => void;
-    waybillStatus:string
+    waybillStatus: string
 }
 
 export interface ConsignmentTableProps {
+    rowsPerPage:number;
+    setRowsPerPage:(rowCount:number)=>void;
+    setConsignment:(cons: Consignment[])=>void;
+    setConsignmentCount:(consCount: number) => void;
+    consignmentCount:number;
     formErrors: string[];
     consignments: Consignment[];
     currentUserRole: string;
@@ -284,10 +305,14 @@ export interface ConsignmentTableProps {
     setGoods: (goods: Item[]) => void;
     setConsID: (consID: number) => void;
     setCreateWaybillData: (createWaybillData: CreateWaybillData) => void;
-    setWaybillStatus:(status:string) => void
+    setWaybillStatus: (status: string) => void
 }
 
 export interface CreateCompanyFormProps {
+    companies:Company[];
+    rowsPerPage: number;
+    companyCount:number;
+    setCompanyCount:(setCompanyCount:number)=>void;
     isActiveModal: boolean;
     formErrors: string[];
     handleClose: () => void;
@@ -297,6 +322,10 @@ export interface CreateCompanyFormProps {
 }
 
 export interface CompanyTableProps {
+    rowsPerPage:number;
+    setRowsPerPage:(rowCount: number)=>void
+    companyCount:number;
+    setCompanyCount:(setCompanyCount:number)=>void;
     companies: Company[];
     searchData: string[];
     setCompany: (company: Company[]) => void;
@@ -305,6 +334,9 @@ export interface CompanyTableProps {
 }
 
 export interface WaybillTableProps {
+    setWaybill:(waybill: Waybill[])=>void;
+    setWaybillsCount:(wayCount:number)=>void;
+    waybillsCount:number;
     waybills: Waybill[];
     searchData: string[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
@@ -313,6 +345,7 @@ export interface WaybillTableProps {
 }
 
 export interface WaybillProps {
+    waybillCount:number;
     currentUserRole: string;
     waybillsJSON: string;
 }
@@ -329,6 +362,7 @@ export interface SearchProps {
 }
 
 export interface ConsignmentProps {
+    consignmentsCount:number
     currentUserRole: string;
     consignmentsJSON: string;
     trucksJSON: string;
@@ -338,23 +372,27 @@ export interface ConsignmentProps {
 }
 
 export interface WriteOffActsProps {
+    writeOffActCount:number,
     currentUserRole: string;
     writeOffActsJSON: string;
     consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
+    warehouseCount:number;
     currentUserRole: string;
     warehousesJSON: string;
     warehousemansJSON: string;
 }
 
 export interface CompanyProps {
+    companiesCount:number;
     currentUserRole: string;
     companiesJSON: string;
 }
 
 export interface UsersProps {
+    user_count: number;
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;

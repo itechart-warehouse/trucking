@@ -2,10 +2,10 @@
   <div class="client_content">
     <%=react_component('WriteOffAct', {
       currentUserRole: current_user.role.role_name,
-      writeOffActsJSON: @write_off_acts.to_json(include: { consignment: { only: %i[bundle_seria bundle_number]}}),
-      consignmentsJSON: @consignments.to_json
-    }
-       )
+      writeOffActsJSON: @serialized_write_off_acts,
+      consignmentsJSON: @serialized_consignments,
+      writeOffActCount: @write_off_acts_count,
+    })
     %>
   </div>
 </center>

@@ -6,7 +6,7 @@
           <%= link_to "Users", users_path, class:"share-links #{'active' if current_page?('/users')}" %>
         <% end %>
         <% if can? :manage, Company %>
-          <%= link_to "Companies", companies_path, class:"share-links #{'active' if current_page?('/companies')}" %>
+          <%= link_to "Companies", companies_path(0), class:"share-links #{'active' if current_page?('/companies')}" %>
         <% end %>
         <% if can? :manage, Warehouse %>
           <%= link_to "Warehouses", warehouses_path, class:"share-links #{'active' if current_page?('/warehouses')}" %>
