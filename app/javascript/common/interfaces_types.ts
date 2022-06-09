@@ -375,14 +375,23 @@ export interface UsersProps {
 export type MailTemplate = {
   id: number;
   name: string;
+  content: string;
 };
 
 export interface MailTemplateTableProps {
   templates: MailTemplate[];
-  searchData: string[];
   setTemplate: (template: MailTemplate[]) => void;
   setAlertData: (alert: Alert) => void;
 }
 export interface MailTemplateProps {
   templatesJSON: string;
+}
+
+export interface CreateMailTemplateFormProps {
+  isActiveModal: boolean;
+  formErrors: string[];
+  handleClose: () => void;
+  setTemplate: (company: (prev) => Company[]) => void;
+  setFormErrors: (errors: string[]) => void;
+  setAlertData: (alert: Alert) => void;
 }

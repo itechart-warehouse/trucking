@@ -48,6 +48,7 @@ function httpClient() {
         axios.patch(`${WarehouseUrl}/${id}`, warehouse),
     },
     mailTemplates: {
+      create: (template) => axios.post(`${MailTemplatesUrl}`, template),
       delete: (id) => axios.delete(`${MailTemplatesUrl}/${id}`),
     },
   };

@@ -7,12 +7,18 @@ import MailTemplateTable from './MailTemplate/MailTemplateTable';
 import SiteAlerts from './Alert';
 import { Alert, MailTemplate, MailTemplateProps } from '../common/interfaces_types';
 import Search from './Search';
+import CreateMailTemplateForm from './MailTemplate/CreateMailTemplateForm';
 
-const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) => {
-  const { templatesJSON } = props;
+const MailTemplates = ({ templatesJSON }: MailTemplateProps) => {
+  const [isActiveModal, setModalActive] = useState<boolean>(false);
+  const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [templates, setTemplates] = React.useState<MailTemplate[]>(JSON.parse(templatesJSON) || []);
-  const [searchData, setSearchData] = React.useState<string[]>();
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
+  };
 
   return (
     <div className="wrapper">
@@ -27,10 +33,10 @@ const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) =>
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={"templates"} keyField="" />
+            <Search Data={"templates"} keyField="" />
           </Grid>
           <Grid item xs={1.75} style={{ textAlign: 'right' }}>
-            <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => console.log("Created")}>
+            <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
               Create Template
             </Button>
           </Grid>
@@ -40,11 +46,18 @@ const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) =>
               templates={templates}
               setTemplate={setTemplates}
               setAlertData={setAlertData}
-              searchData={searchData}
             />
           </Grid>
         </Grid>
       </Box>
+      <CreateMailTemplateForm
+        isActiveModal={isActiveModal}
+        handleClose={handleClose}
+        setTemplate={setTemplates}
+        formErrors={formErrors}
+        setFormErrors={setFormErrors}
+        setAlertData={setAlertData}
+      />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>
   );
