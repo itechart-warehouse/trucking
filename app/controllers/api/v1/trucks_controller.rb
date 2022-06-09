@@ -10,7 +10,9 @@ module Api
         query = Truck.select(trucks_api_columns)
         trucks, meta = paginate_collection(query)
         if params[:search]
-          render json: query.search(params[:search])
+          render json: query.search(params[:search]).to_json(include: [
+            company: { only: :name }, truck_type: { only: :truck_type_name }
+          ])
         else
           render json: { trucks: trucks.to_json(include: [
                                                   company: { only: :name }, truck_type: { only: :truck_type_name }

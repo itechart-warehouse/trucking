@@ -10,7 +10,7 @@ module Api
         query = Consignment.select(consignment_api_columns)
         consignments, meta = paginate_collection(query)
         if params[:search]
-          render json: query.search(params[:search])
+          render json: query.search(params[:search]).to_json(include: included_params)
         else
           render json: { consignments: consignments.to_json(include: included_params),
                          consignments_count: meta[:total_count] }
