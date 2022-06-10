@@ -11,11 +11,11 @@ RSpec.describe 'Users', type: :request do
     it 'get users' do
       FactoryBot.create_list(:user, 5 )
       get '/users?page=0&per_page=5'
-      expect(JSON.parse(response.body).count).to eq(5)
+      expect(JSON.parse(JSON.parse(response.body)['users']).count).to eq(5)
     end
     it 'search' do
-      get "/users?search=#{user.second_name} #{user.first_name} #{user.middle_name}"
-      expect(JSON.parse(response.body)[0]['id']).to eq(user.id)
+      get "/users?page=0&search=#{user.second_name} #{user.first_name} #{user.middle_name}"
+      expect(JSON.parse(JSON.parse(response.body)['users'])[0]["id"]).to eq(user.id)
     end
   end
 

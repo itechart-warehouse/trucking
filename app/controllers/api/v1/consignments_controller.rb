@@ -8,13 +8,10 @@ module Api
         excluded_columns = %w[created_at updated_at]
         consignment_api_columns = Consignment.attribute_names - excluded_columns
         query = Consignment.select(consignment_api_columns)
+        query = query.by_seria_number(params[:search].squish) if params[:search]
         consignments, meta = paginate_collection(query)
-        if params[:search]
-          render json: query.search(params[:search]).to_json(include: included_params)
-        else
-          render json: { consignments: consignments.to_json(include: included_params),
-                         consignments_count: meta[:total_count] }
-        end
+        render json: { consignments: consignments.to_json(include: included_params),
+                       consignments_count: meta[:total_count] }
       end
 
       def show

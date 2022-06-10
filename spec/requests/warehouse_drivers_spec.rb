@@ -11,10 +11,10 @@ RSpec.describe 'warehouse drivers', type: :request do
       end
       it 'search' do
         user = create(:user,role_id:3)
-        print(user.role.role_name)
         headers= { 'authorization'=> 'Basic c2hvcHBpbmdjZW50ZXJvd25lckBleGFtcGxlLmNvbTpzaG9wcGluZ2NlbnRlcm93bmVyMTIz' }
-        get "/api/v1/drivers?search=#{user.second_name} #{user.first_name} #{user.middle_name}", :headers => headers
-        expect(JSON.parse(response.body)[0]['id']).to eq(user.id)
+        get "/api/v1/drivers?page=0&search=#{user.second_name} #{user.first_name} #{user.middle_name}", :headers => headers
+        drivers=JSON.parse(response.body)
+        expect(JSON.parse(drivers["drivers"])[0]["id"]).to eq(user.id)
       end
   end
 end

@@ -11,11 +11,11 @@ RSpec.describe 'Companies', type: :request do
       it 'get Companies' do
         FactoryBot.create_list(:company,5)
         get '/companies?page=0&per_page=5'
-        expect(JSON.parse(response.body).count).to eq(5)
+        expect(JSON.parse(JSON.parse(response.body)['companies']).count).to eq(5)
       end
       it 'search' do
-        get "/companies?search=#{company.name}"
-        expect(JSON.parse(response.body)[0]['id']).to eq(company.id)
+        get "/companies?page=0&per_page=5&search=#{company.name}"
+        expect(JSON.parse(JSON.parse(response.body)['companies'])[0]["id"]).to eq(company.id)
       end
   end
   describe 'delete methods' do

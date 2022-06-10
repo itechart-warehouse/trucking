@@ -13,7 +13,12 @@ class Waybill < ApplicationRecord
   validates :waybill_seria, presence: true, length: { in: 2..10 },
                             uniqueness: { scope: :waybill_number }
 
-  scope :search, lambda { |search|
-                   where("waybill_seria ILIKE '#{search.split[0]}%' and waybill_number::text  ILIKE '#{search.split[1]}%'")
-                 }
+  scope :by_seria_number, lambda { |search|
+                            seria, number = search.split
+                            query = "waybill_seria ILIKE '#{seria}%'"
+                            if number.present?
+                              query += "and waybill_number::text  ILIKE '#{number}%'"
+                            end
+                            where(query)
+                          }
 end

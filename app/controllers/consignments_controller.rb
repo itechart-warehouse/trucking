@@ -6,6 +6,7 @@ class ConsignmentsController < ApplicationController
 
     consignments_resources
     query = company_consignments
+    query = query.by_seria_number(params[:search].squish) if params[:search]
     consignments, meta = paginate_collection(query)
     @consignment_count = meta[:total_count]
     @serialized_warehouses = ActiveModelSerializers::SerializableResource.new(@warehouses).to_json
@@ -13,10 +14,8 @@ class ConsignmentsController < ApplicationController
     @serialized_drivers = ActiveModelSerializers::SerializableResource.new(@drivers).to_json
     @serialized_goods_owners = ActiveModelSerializers::SerializableResource.new(@goods_owners).to_json
     @serialized_consignments = ActiveModelSerializers::SerializableResource.new(consignments).to_json
-    if params[:search]
-      render json: query.search(params[:search])
-    elsif params[:page]
-      render json: consignments
+    if params[:page]
+      render json: { consignments: @serialized_consignments, total_count: @consignment_count }
     end
   end
 

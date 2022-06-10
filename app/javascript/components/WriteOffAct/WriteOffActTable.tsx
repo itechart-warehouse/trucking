@@ -27,13 +27,13 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.writeOffActs.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setWriteOffActs(response.data))
+      .then((response) => setWriteOffActs(JSON.parse(response.data.write_off_acts)))
       .then(() => setPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     httpClient.writeOffActs.getAll(0, event.target.value)
-      .then((response) => setWriteOffActs(response.data))
+      .then((response) => setWriteOffActs(JSON.parse(response.data.write_off_acts)))
       .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);

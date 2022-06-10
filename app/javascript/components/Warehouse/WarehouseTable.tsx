@@ -34,7 +34,8 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    httpClient.warehouses.getAll(0, event.target.value).then((response) => setWarehouses(response.data))
+    httpClient.warehouses.getAll(0, event.target.value)
+      .then((response) => setWarehouses(JSON.parse(response.data.warehouses)))
       .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
@@ -45,7 +46,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     warehouse.trusted = !warehouse.trusted;
     httpClient.warehouses.update(warehouse.id, warehouse).then((response) => {
       const objIndex = warehouses.findIndex((element) => element.id === warehouse.id);
-      warehouses[objIndex] = response.data;
+      warehouses[objIndex] = JSON.parse(response.data.warehouses);
       setWarehouses(warehouses);
       if (searchData) setSearchData([response.data]);
       setAlertData({ alertType: 'info', alertText: 'Warehouse successfully set trusted/untrusted', open: true });
@@ -56,7 +57,8 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
     setAlertData({ alertType: 'warning', alertText: 'Warehouse successfully deleted', open: true });
-    httpClient.warehouses.getAll(page, rowsPerPage.toString()).then((response) => setWarehouses(response.data))
+    httpClient.warehouses.getAll(page, rowsPerPage.toString())
+      .then((response) => setWarehouses(JSON.parse(response.data.warehouses)))
       .then(() => setWarehousesCount(warehousesCount - 1));
   };
 

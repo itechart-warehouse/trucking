@@ -9,16 +9,13 @@ class PagesController < ApplicationController
     roles = Role.where.not(role_name: 'system administrator')
     companies = current_user.company ? Company.where(name: current_user.company.name) : Company.all
     query = users_query
+    query = query.by_name(params[:search].squish) if params[:search]
     users, meta = paginate_collection(query)
     @user_count = meta[:total_count]
     @serialized_roles = ActiveModelSerializers::SerializableResource.new(roles).to_json
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
     @serialized_users = ActiveModelSerializers::SerializableResource.new(users).to_json
-    if params[:search]
-      render json: query.search(params[:search])
-    elsif params[:page]
-      render json: users
-    end
+    render json: { users: @serialized_users, total_count: meta[:total_count] } if params[:page]
   end
 
   def user_data

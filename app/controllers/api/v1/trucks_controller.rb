@@ -8,17 +8,12 @@ module Api
         excluded_columns = %w[created_at updated_at]
         trucks_api_columns = Truck.attribute_names - excluded_columns
         query = Truck.select(trucks_api_columns)
+        query = Truck.by_number(params[:search].squish) if params[:search]
         trucks, meta = paginate_collection(query)
-        if params[:search]
-          render json: query.search(params[:search]).to_json(include: [
-            company: { only: :name }, truck_type: { only: :truck_type_name }
-          ])
-        else
-          render json: { trucks: trucks.to_json(include: [
-                                                  company: { only: :name }, truck_type: { only: :truck_type_name }
-                                                ]),
-                         trucks_count: meta[:total_count] }
-        end
+        render json: { trucks: trucks.to_json(include: [
+                                                company: { only: :name }, truck_type: { only: :truck_type_name }
+                                              ]),
+                       trucks_count: meta[:total_count] }
       end
     end
   end

@@ -26,13 +26,13 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.waybill.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setWaybill(response.data))
+      .then((response) => setWaybill(JSON.parse(response.data.waybills)))
       .then(() => setPage(newPage));
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     httpClient.waybill.getAll(0, event.target.value)
-      .then((response) => setWaybill(response.data))
+      .then((response) => setWaybill(JSON.parse(response.data.waybills)))
       .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);

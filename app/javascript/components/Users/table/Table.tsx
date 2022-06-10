@@ -27,7 +27,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.users.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setUser(response.data))
+      .then((response) => setUser(JSON.parse(response.data.users)))
       .then(() => setPage(newPage));
   };
 
@@ -63,7 +63,8 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    httpClient.users.getAll(page, event.target.value).then((response) => setUser(response.data))
+    httpClient.users.getAll(page, event.target.value)
+      .then((response) => setUser(JSON.parse(response.data.users)))
       .then(() => setRowsPerPage(parseInt(event.target.value, 10)));
   };
 

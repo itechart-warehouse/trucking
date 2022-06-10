@@ -12,8 +12,9 @@ RSpec.describe 'warehouse consignments', type: :request do
     it 'search' do
       consignment = create(:consignment)
       headers= { 'authorization'=> 'Basic c2hvcHBpbmdjZW50ZXJvd25lckBleGFtcGxlLmNvbTpzaG9wcGluZ2NlbnRlcm93bmVyMTIz' }
-      get "/api/v1/consignments?search=#{consignment.consignment_seria} #{consignment.consignment_number}", :headers => headers
-      expect(JSON.parse(response.body)[0]['id']).to eq(consignment.id)
+      get "/api/v1/consignments?page=0&search=#{consignment.consignment_seria} #{consignment.consignment_number}", :headers => headers
+      consignments=JSON.parse(response.body)
+      expect(JSON.parse(consignments["consignments"])[0]['id']).to eq(consignment.id)
     end
   end
 end

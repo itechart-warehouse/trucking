@@ -43,14 +43,15 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.consignments.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setConsignment(response.data))
+      .then((response) => setConsignment(JSON.parse(response.data.consignments)))
       .then(() => setPage(newPage));
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     httpClient.consignments.getAll(0, event.target.value)
-      .then((response) => setConsignment(response.data)).then(() => {
+      .then((response) => setConsignment(JSON.parse(response.data.consignments)))
+      .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
       });

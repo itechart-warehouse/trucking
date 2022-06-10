@@ -19,7 +19,8 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
     );
 
     await Promise.all(promises).then(() => {
-      httpClient.users.getAll(page, rowPerPage.toString()).then((response) => setUser(response.data));
+      httpClient.users.getAll(page, rowPerPage.toString())
+        .then((response) => setUser(JSON.parse(response.data.users)));
       setSelectedUsersIds([]);
       setUserCount(userCount - selectedUsersIds.length);
     });

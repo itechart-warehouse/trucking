@@ -3,13 +3,12 @@
 class WaybillsController < ApplicationController
   def index
     query = company_waybills
+    query = query.by_seria_number(params[:search].squish) if params[:search]
     waybills, meta = paginate_collection(query)
     @waybill_count = meta[:total_count]
     @serialized_waybills = ActiveModelSerializers::SerializableResource.new(waybills).to_json
-    if params[:search]
-      render json: query.search(params[:search])
-    elsif params[:page]
-      render json: waybills
+    if params[:page]
+      render json: { waybills: @serialized_waybills, total_count: meta[:total_count] }
     end
   end
 
