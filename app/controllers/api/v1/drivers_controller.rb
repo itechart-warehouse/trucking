@@ -8,7 +8,7 @@ module Api
         excluded_columns = %w[created_at updated_at role_id address_id]
         drivers_api_columns = User.attribute_names - excluded_columns
         query = User.select(drivers_api_columns).joins(:role).where(roles: { role_name: 'driver' })
-        query = User.by_name(params[:search].squish) if params[:search]
+        query = User.by_name(params[:search].squish) if params[:search].present?
         drivers, meta = paginate_collection(query)
         render json: { drivers: drivers.to_json(include: [company: { only: :name }]),
                        drivers_count: meta[:total_count] }

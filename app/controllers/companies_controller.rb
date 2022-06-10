@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
 
   def index
     query = companies_query
-    query = query.by_name(params[:search].squish) if params[:search]
+    query = query.by_name(params[:search].squish) if params[:search].present?
     companies, meta = paginate_collection(query)
     @companies_count = meta[:total_count]
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json

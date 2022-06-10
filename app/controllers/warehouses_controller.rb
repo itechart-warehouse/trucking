@@ -5,7 +5,7 @@ class WarehousesController < ApplicationController
 
   def index
     query = Warehouse.all
-    query = query.by_name(params[:search].squish) if params[:search]
+    query = query.by_name(params[:search].squish) if params[:search].present?
     warehouses, meta = paginate_collection(query)
     warehousemans = User.where(role: Role.find_by(role_name: 'warehouseman'))
     @warehouses_count = meta[:total_count]
