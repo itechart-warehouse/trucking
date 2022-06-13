@@ -1,17 +1,20 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
+import Trix from "trix";
+import { ReactTrixRTEInput } from "react-trix-rte";
 
 import {
   Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button,
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
+import FormikActionText from '../../UI/FormikActionText';
 import { MailTemplate, CreateMailTemplateFormProps } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
 
 const CreateMailTemplateForm = ({ isActiveModal, handleClose, setTemplate, setFormErrors, formErrors, setAlertData }: CreateMailTemplateFormProps) => {
 
-  const companyInitialValues: MailTemplate = { id: undefined, name: '', content: '' };
+  const mailTemplateInitialValues: MailTemplate = { id: undefined, name: '', content: '' };
 
   const handleSubmit = async (template: MailTemplate) => {
     await httpClient.mailTemplates.create(template)
@@ -39,7 +42,7 @@ const CreateMailTemplateForm = ({ isActiveModal, handleClose, setTemplate, setFo
           <Grid container spacing={2} direction="column">
             <Grid item xs={8}>
               <Formik
-                initialValues={companyInitialValues}
+                initialValues={mailTemplateInitialValues}
                 onSubmit={handleSubmit}
               >
                 <Form>
@@ -52,12 +55,14 @@ const CreateMailTemplateForm = ({ isActiveModal, handleClose, setTemplate, setFo
                       type="text"
                       variant="standard"
                     />
-                    <FormikField
+                    <FormikActionText
                       name="content"
                       label="Enter content"
+                      multiline
                       required
                       type="text"
                       variant="standard"
+                      rows="4"
                     />
                   </Container>
                   <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
