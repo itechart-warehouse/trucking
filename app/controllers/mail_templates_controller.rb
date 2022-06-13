@@ -1,7 +1,7 @@
 class MailTemplatesController < ApplicationController
   load_and_authorize_resource
 
-  before_action :set_mail_template, only: %i[update destroy]
+  before_action :set_mail_template, only: %i[update destroy show]
 
   def index
     templates = MailTemplate.all
@@ -9,7 +9,7 @@ class MailTemplatesController < ApplicationController
   end
 
   def show
-
+    render json: @mail_template
   end
 
   def create

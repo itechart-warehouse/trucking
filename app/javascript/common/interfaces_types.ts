@@ -391,7 +391,12 @@ export interface CreateMailTemplateFormProps {
   isActiveModal: boolean;
   formErrors: string[];
   handleClose: () => void;
-  setTemplate: (company: (prev) => Company[]) => void;
+  setTemplate: (template: (prev) => MailTemplate[]) => void;
   setFormErrors: (errors: string[]) => void;
   setAlertData: (alert: Alert) => void;
+}
+
+export interface ShowMailTemplateProps {
+  isShowOpen: boolean;
+  handleShowClose: () => void;
 }
