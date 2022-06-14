@@ -94,6 +94,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                               required={column.required}
                               type={column.type}
                               variant="standard"
+                              InputProps={{ inputProps: { min: 1, max: 1000000 } }}
                             />
                           ))}
                         </Box>
@@ -114,6 +115,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                               required={column.required}
                               type={column.type}
                               variant="standard"
+                              InputProps={{ inputProps: { min: 1, max: 1000000 } }}
                             />
                           ))}
                         </Box>
@@ -150,11 +152,9 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                             margin="normal"
                             label="Role"
                             fullWidth
-                            value={values?.role}
                           />
                         )}
                       />
-
                     </Container>
 
                     <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
