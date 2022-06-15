@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class ConsignmentsController < ApplicationController
-
   def index
     authorize! :read, Consignment
 

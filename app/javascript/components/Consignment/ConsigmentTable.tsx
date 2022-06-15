@@ -118,37 +118,35 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                 )
                 : stableSort(consignmentsData, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((consignment: Consignment) => {
-                    return (
-                      <StyledTableRow key={consignment.id} tabIndex={-1}>
-                        <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.consignment_number}</StyledTableCell>
-                        <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.dispatcher}</StyledTableCell>
-                        <StyledTableCell align="center">{consignment.manager ? consignment.manager : "Isn't checked"}</StyledTableCell>
-                        <StyledTableCell align="center">
-                          <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
-                            Goods
-                          </Button>
-                        </StyledTableCell>
-                        {currentUserRole === 'manager'
-                          ? (
-                            <StyledTableCell align="center">
-                              <Button
-                                variant="outlined"
-                                disabled={!(consignment.status === 'checked' && !consignment.waybill)}
-                                onClick={() => openWaybillCreateModal(+consignment.id)}
-                              >
-                                Create Waybill
-                              </Button>
-                            </StyledTableCell>
-                          )
-                          : null}
-                      </StyledTableRow>
-                    );
-                  })}
+                  .map((consignment: Consignment) => (
+                    <StyledTableRow key={consignment.id} tabIndex={-1}>
+                      <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
+                      <StyledTableCell align="center">{consignment.consignment_number}</StyledTableCell>
+                      <StyledTableCell align="center" style={{ fontWeight: 'bold' }}>{consignment.status}</StyledTableCell>
+                      <StyledTableCell align="center">{consignment.bundle_seria}</StyledTableCell>
+                      <StyledTableCell align="center">{consignment.bundle_number}</StyledTableCell>
+                      <StyledTableCell align="center">{consignment.dispatcher}</StyledTableCell>
+                      <StyledTableCell align="center">{consignment.manager ? consignment.manager : "Isn't checked"}</StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Button variant="outlined" onClick={() => handleGetGoods(consignment)}>
+                          Goods
+                        </Button>
+                      </StyledTableCell>
+                      {currentUserRole === 'manager'
+                        ? (
+                          <StyledTableCell align="center">
+                            <Button
+                              variant="outlined"
+                              disabled={!(consignment.status === 'checked' && !consignment.waybill)}
+                              onClick={() => openWaybillCreateModal(+consignment.id)}
+                            >
+                              Create Waybill
+                            </Button>
+                          </StyledTableCell>
+                        )
+                        : null}
+                    </StyledTableRow>
+                  ))}
               {emptyRows > 0 && (
                 <StyledTableRow
                   style={{

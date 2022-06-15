@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class WaybillSerializer < ActiveModel::Serializer
   attributes :id, :status, :waybill_number, :waybill_seria
   belongs_to :consignment

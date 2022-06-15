@@ -1,31 +1,57 @@
 import * as React from 'react';
 import { Form, Formik } from 'formik';
-import Trix from "trix";
-import { ReactTrixRTEInput } from "react-trix-rte";
 
 import {
-  Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Grid,
+  Button,
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
 import FormikActionText from '../../UI/FormikActionText';
-import { MailTemplate, CreateMailTemplateFormProps } from '../../common/interfaces_types';
+import {
+  MailTemplate,
+  CreateMailTemplateFormProps,
+} from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
 
-const CreateMailTemplateForm = ({ isActiveModal, handleClose, setTemplate, setFormErrors, formErrors, setAlertData }: CreateMailTemplateFormProps) => {
-
-  const mailTemplateInitialValues: MailTemplate = { id: undefined, name: '', content: '' };
+const CreateMailTemplateForm = ({
+  isActiveModal,
+  handleClose,
+  setTemplate,
+  setFormErrors,
+  formErrors,
+  setAlertData,
+}: CreateMailTemplateFormProps) => {
+  const mailTemplateInitialValues: MailTemplate = {
+    id: undefined,
+    name: '',
+    content: '',
+  };
 
   const handleSubmit = async (template: MailTemplate) => {
-    await httpClient.mailTemplates.create(template)
+    await httpClient.mailTemplates
+      .create(template)
       .then((response) => {
         handleClose();
         setTemplate((prevTemplate) => [...prevTemplate, response.data]);
-        setAlertData({ alertType: 'success', alertText: 'Successfully created a mail template!', open: true });
+        setAlertData({
+          alertType: 'success',
+          alertText: 'Successfully created a mail template!',
+          open: true,
+        });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
-        setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating a mail template', open: true });
+        setAlertData({
+          alertType: 'error',
+          alertText: 'Something went wrong with creating a mail template',
+          open: true,
+        });
       });
   };
 
@@ -47,7 +73,9 @@ const CreateMailTemplateForm = ({ isActiveModal, handleClose, setTemplate, setFo
               >
                 <Form>
                   <Container maxWidth="sm">
-                    {formErrors ? <p className="error-msg">{formErrors}</p> : null}
+                    {formErrors ? (
+                      <p className="error-msg">{formErrors}</p>
+                    ) : null}
                     <FormikField
                       name="name"
                       label="Enter name"
@@ -65,9 +93,22 @@ const CreateMailTemplateForm = ({ isActiveModal, handleClose, setTemplate, setFo
                       rows="4"
                     />
                   </Container>
-                  <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
-                    <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                    <Button type="submit" color="success" variant="outlined">Create</Button>
+                  <DialogActions
+                    sx={{
+                      justifyContent: 'space-between',
+                      padding: '8px 24px',
+                    }}
+                  >
+                    <Button
+                      onClick={handleClose}
+                      color="error"
+                      variant="outlined"
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" color="success" variant="outlined">
+                      Create
+                    </Button>
                   </DialogActions>
                 </Form>
               </Formik>

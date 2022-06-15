@@ -33,7 +33,7 @@ const MailTemplates = ({ templatesJSON }: MailTemplateProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search Data={"templates"} keyField="" />
+            <Search Data="templates" keyField="" />
           </Grid>
           <Grid item xs={1.75} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>

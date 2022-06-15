@@ -1,16 +1,16 @@
 // USERS
-export const UsersUrl = "/users";
+export const UsersUrl = '/users';
 // COMPANIES
-export const CompaniesUrl = "/companies";
+export const CompaniesUrl = '/companies';
 // CONSIGNMENTS
-export const ConsignmentUrl = "/consignments";
+export const ConsignmentUrl = '/consignments';
 // WAYBILLS
-export const WaybillUrl = "/waybills";
+export const WaybillUrl = '/waybills';
 // GOODS
-export const createGoodsUrl = "/goods";
+export const createGoodsUrl = '/goods';
 // WRITE-OFF ACTS
-export const writeOffActUrl = "/write_off_acts";
+export const writeOffActUrl = '/write_off_acts';
 // WAREHOUSES
-export const WarehouseUrl = "/warehouses";
+export const WarehouseUrl = '/warehouses';
 // MAIL TEMPLATES
-export const MailTemplatesUrl = "/mail_templates";
+export const MailTemplatesUrl = '/mail_templates';

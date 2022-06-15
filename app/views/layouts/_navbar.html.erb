@@ -20,6 +20,9 @@
         <% if can? :read, WriteOffAct %>
           <%= link_to "Write-off acts", write_off_acts_path, class:"share-links #{'active' if current_page?('/write_off_acts')}" %>
         <% end %>
+        <% if can? :read, MailTemplate %>
+          <%= link_to "Mail templates", mail_templates_path, class:"share-links #{'active' if current_page?('/mail_templates')}" %>
+        <% end %>
       </div>
       <div class="nav-right">
           <h3 id="nav-bar-info">

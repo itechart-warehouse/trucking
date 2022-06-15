@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MailTemplatesController < ApplicationController
   load_and_authorize_resource
 
@@ -9,7 +11,7 @@ class MailTemplatesController < ApplicationController
   end
 
   def show
-    render json: @mail_template
+    render json: { name: @mail_template.name, body: @mail_template.content.body.to_html }
   end
 
   def create
@@ -24,15 +26,13 @@ class MailTemplatesController < ApplicationController
     end
   end
 
-  def update
-
-  end
+  def update; end
 
   def destroy
     if @mail_template.destroy
       render json: @serialized_templates
     else
-      render json: "Template was not deleted", status: :unprocessable_entity
+      render json: 'Template was not deleted', status: :unprocessable_entity
     end
   end
 

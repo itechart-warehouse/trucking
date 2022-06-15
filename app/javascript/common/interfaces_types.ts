@@ -1,8 +1,8 @@
-import * as React from "react";
-import { AlertColor } from "@mui/material";
-import { Order, UserData } from "../mixins/initialValues/userList";
-import { consignmentFormValues } from "../initialValues/consignmentInitialValues";
-import { userFormValues } from "../initialValues/userInitialValues";
+import * as React from 'react';
+import { AlertColor } from '@mui/material';
+import { Order, UserData } from '../mixins/initialValues/userList';
+import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
+import { userFormValues } from '../initialValues/userInitialValues';
 
 /* eslint-disable no-unused-vars */
 
@@ -124,7 +124,7 @@ export type Warehouse = {
   warehouseman: User;
 };
 
-export declare type AlignType = "left" | "center" | "right";
+export declare type AlignType = 'left' | 'center' | 'right';
 
 export type SearchData = {
   search: string;
@@ -399,4 +399,6 @@ export interface CreateMailTemplateFormProps {
 export interface ShowMailTemplateProps {
   isShowOpen: boolean;
   handleShowClose: () => void;
+  handleOpen: (id: number) => void;
+  clickedTemplateId: number;
 }
