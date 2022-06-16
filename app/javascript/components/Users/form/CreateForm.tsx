@@ -151,12 +151,12 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                             onSelect={handleChange}
                             margin="normal"
                             label="Role"
+                            value={values?.role}
                             fullWidth
                           />
                         )}
                       />
                     </Container>
-
                     <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
                       <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">{btnTitle}</Button>
