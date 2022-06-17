@@ -48,7 +48,7 @@ const CreateCompanyForm: React.FC<CreateCompanyFormProps> = (props: CreateCompan
             <Grid item xs={8}>
               <Formik
                 initialValues={companyInitialValues}
-                onSubmit={(values, {resetForm}) => {
+                onSubmit={(values, { resetForm }) => {
                   handleSubmit(values);
                   resetForm({});
                   window.scrollTo(0, 0);

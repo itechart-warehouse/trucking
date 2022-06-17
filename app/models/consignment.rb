@@ -23,9 +23,8 @@ class Consignment < ApplicationRecord
   scope :by_seria_number, lambda { |search|
                             seria, number = search.split
                             query = "consignment_seria ILIKE '#{seria}%'"
-                            if number.present?
-                              query += "and consignment_number::text  ILIKE '#{number}%'"
-                            end
+                            query += "and consignment_number::text  ILIKE '#{number}%'" if
+                              number.present?
                             where(query)
                           }
 

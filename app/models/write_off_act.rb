@@ -13,9 +13,8 @@ class WriteOffAct < ApplicationRecord
   scope :by_seria_number, lambda { |search|
                             seria, number = search.split
                             query = "consignments.bundle_seria ILIKE '#{seria}%'"
-                            if number.present?
-                              query += "and consignments.bundle_number ILIKE '#{number}%'"
-                            end
+                            query += "and consignments.bundle_number ILIKE '#{number}%'" if
+                              number.present?
                             where(query)
                           }
 

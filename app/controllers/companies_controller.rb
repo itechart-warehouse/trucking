@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    query = companies_query
+    query = current_user.company ? Company.accessible_by(current_ability) : Company.all
     query = query.by_name(params[:search].squish) if params[:search].present?
     companies, meta = paginate_collection(query)
     @companies_count = meta[:total_count]
@@ -37,14 +37,6 @@ class CompaniesController < ApplicationController
   end
 
   private
-
-  def  companies_query
-    if current_user.company
-      Company.accessible_by(current_ability)
-    else
-      Company.all
-    end
-  end
 
   def company_params
     params.permit(:name)

@@ -20,7 +20,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
   } = props;
 
   const LoadUserData = ({ id }) => {
-    const { setFieldValue} = useFormikContext();
+    const { setFieldValue } = useFormikContext();
 
     // TODO: probably it is possible to load data
     // from front-end instead of requesting back-end
@@ -56,7 +56,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
               <Formik
                 initialValues={userInitialValues}
                 validationSchema={userValidation}
-                onSubmit={(values, {resetForm}) => {
+                onSubmit={(values, { resetForm }) => {
                   handleSubmit(values);
                   resetForm({});
                   window.scrollTo(0, 0);
