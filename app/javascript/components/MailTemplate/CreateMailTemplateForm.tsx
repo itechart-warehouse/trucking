@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { Form, Formik } from 'formik';
+import * as React from "react";
+import { Form, Formik } from "formik";
 
 import {
   Container,
@@ -9,15 +9,15 @@ import {
   DialogTitle,
   Grid,
   Button,
-} from '@mui/material';
+} from "@mui/material";
 
-import FormikField from '../../UI/FormikField';
-import FormikActionText from '../../UI/FormikActionText';
+import FormikField from "../../UI/FormikField";
+import FormikActionText from "../../UI/FormikActionText";
 import {
   MailTemplate,
   CreateMailTemplateFormProps,
-} from '../../common/interfaces_types';
-import httpClient from '../../api/httpClient';
+} from "../../common/interfaces_types";
+import httpClient from "../../api/httpClient";
 
 const CreateMailTemplateForm = ({
   isActiveModal,
@@ -29,8 +29,8 @@ const CreateMailTemplateForm = ({
 }: CreateMailTemplateFormProps) => {
   const mailTemplateInitialValues: MailTemplate = {
     id: undefined,
-    name: '',
-    content: '',
+    name: "",
+    content: "",
   };
 
   const handleSubmit = async (template: MailTemplate) => {
@@ -40,16 +40,16 @@ const CreateMailTemplateForm = ({
         handleClose();
         setTemplate((prevTemplate) => [...prevTemplate, response.data]);
         setAlertData({
-          alertType: 'success',
-          alertText: 'Successfully created a mail template!',
+          alertType: "success",
+          alertText: "Successfully created a mail template!",
           open: true,
         });
       })
       .catch((error) => {
         setFormErrors(error.response.data);
         setAlertData({
-          alertType: 'error',
-          alertText: 'Something went wrong with creating a mail template',
+          alertType: "error",
+          alertText: "Something went wrong with creating a mail template",
           open: true,
         });
       });
@@ -60,7 +60,7 @@ const CreateMailTemplateForm = ({
       <Dialog
         open={isActiveModal}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+        sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 535 } }}
         maxWidth="xs"
       >
         <DialogTitle>Add Mail Template</DialogTitle>
@@ -95,8 +95,8 @@ const CreateMailTemplateForm = ({
                   </Container>
                   <DialogActions
                     sx={{
-                      justifyContent: 'space-between',
-                      padding: '8px 24px',
+                      justifyContent: "space-between",
+                      padding: "8px 24px",
                     }}
                   >
                     <Button
