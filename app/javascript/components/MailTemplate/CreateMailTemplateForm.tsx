@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 
 import FormikField from "../../UI/FormikField";
-import RichTextEditor from "../RichTextEditor";
+import FormikActionText from "../../UI/FormikActionText";
 
 import {
   MailTemplate,
@@ -35,6 +35,7 @@ const CreateMailTemplateForm = ({
   };
 
   const handleSubmit = async (template: MailTemplate) => {
+    console.log(template);
     await httpClient.mailTemplates
       .create(template)
       .then((response) => {
@@ -84,14 +85,13 @@ const CreateMailTemplateForm = ({
                       type="text"
                       variant="standard"
                     />
-                    <FormikField
+                    <FormikActionText
                       name="content"
                       label="Enter content"
                       required
                       type="text"
                       variant="standard"
                     />
-                    <RichTextEditor />
                   </Container>
                   <DialogActions
                     sx={{

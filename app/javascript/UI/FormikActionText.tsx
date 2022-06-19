@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { ErrorMessage, Field } from 'formik';
-import TextField from '@mui/material/TextField';
+import * as React from "react";
+import { ErrorMessage, Field } from "formik";
+import RichTextEditor from "../components/RichTextEditor";
 
 interface FormikActionTextProps {
   name: string;
@@ -8,31 +8,23 @@ interface FormikActionTextProps {
   type: string;
   required: boolean;
   variant: string;
-  multiline: boolean;
-  rows: number;
-  [key: string]: any;
 }
 
-const FormikActionText: FormikActionTextProps = ({
+const FormikActionText: React.FC<FormikActionTextProps> = ({
   name,
   label,
   type,
   required,
   variant,
-  multiline,
-  rows,
   ...other
 }) => (
   <Field
     required={required}
     autoComplete="off"
-    as={TextField}
+    as={RichTextEditor}
     label={label}
     name={name}
-    multiline
-    fullWidth
     type={type}
-    rows={rows}
     helperText={<ErrorMessage name={name} className="error-msg" />}
     variant={variant}
     {...other}

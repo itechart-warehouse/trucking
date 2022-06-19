@@ -1,5 +1,5 @@
-import * as React from "react";
-import { useState } from "react";
+import * as React from 'react';
+import { useState } from 'react';
 
 import {
   Table,
@@ -10,12 +10,12 @@ import {
   Paper,
   Button,
   CircularProgress,
-} from "@mui/material";
-import httpClient from "../../api/httpClient";
+} from '@mui/material';
+import httpClient from '../../api/httpClient';
 
-import { StyledTableCell, StyledTableRow } from "../../utils/style";
-import { MailTemplateTableProps } from "../../common/interfaces_types";
-import ShowMailTemplate from "./ShowMailTemplate";
+import { StyledTableCell, StyledTableRow } from '../../utils/style';
+import { MailTemplateTableProps } from '../../common/interfaces_types';
+import ShowMailTemplate from './ShowMailTemplate';
 
 const MailTemplateTable = ({
   templates,
@@ -40,8 +40,8 @@ const MailTemplateTable = ({
       setTemplate(templates.filter((template) => id !== template.id));
     });
     setAlertData({
-      alertType: "success",
-      alertText: "Mail template successfully deleted!",
+      alertType: 'success',
+      alertText: 'Mail template successfully deleted!',
       open: true,
     });
   };
@@ -53,7 +53,7 @@ const MailTemplateTable = ({
           <TableHead>
             <TableRow>
               <StyledTableCell>Name&nbsp;</StyledTableCell>
-              <StyledTableCell align="center" style={{ width: "22%" }}>
+              <StyledTableCell align="center" style={{ width: '22%' }}>
                 Action&nbsp;
               </StyledTableCell>
             </TableRow>
