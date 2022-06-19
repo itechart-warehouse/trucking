@@ -12,7 +12,8 @@ import {
 } from "@mui/material";
 
 import FormikField from "../../UI/FormikField";
-import FormikActionText from "../../UI/FormikActionText";
+import RichTextEditor from "../RichTextEditor";
+
 import {
   MailTemplate,
   CreateMailTemplateFormProps,
@@ -60,8 +61,8 @@ const CreateMailTemplateForm = ({
       <Dialog
         open={isActiveModal}
         onClose={handleClose}
-        sx={{ "& .MuiDialog-paper": { width: "80%", maxHeight: 535 } }}
-        maxWidth="xs"
+        sx={{ "& .MuiDialog-paper": { width: "100%", maxHeight: 535 } }}
+        maxWidth="md"
       >
         <DialogTitle>Add Mail Template</DialogTitle>
         <DialogContent>
@@ -90,6 +91,7 @@ const CreateMailTemplateForm = ({
                       type="text"
                       variant="standard"
                     />
+                    <RichTextEditor />
                   </Container>
                   <DialogActions
                     sx={{
