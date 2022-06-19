@@ -43,6 +43,6 @@ class MailTemplatesController < ApplicationController
   end
 
   def mail_template_params
-    params.require(:mail_template).permit(:name, :content)
+    params.permit(:name, :content)
   end
 end

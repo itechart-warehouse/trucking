@@ -83,14 +83,12 @@ const CreateMailTemplateForm = ({
                       type="text"
                       variant="standard"
                     />
-                    <FormikActionText
+                    <FormikField
                       name="content"
                       label="Enter content"
-                      multiline
                       required
                       type="text"
                       variant="standard"
-                      rows="4"
                     />
                   </Container>
                   <DialogActions
