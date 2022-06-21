@@ -103,6 +103,11 @@ export type Consignment = {
     goods: Item[];
 }
 
+export type Country = {
+    id: number;
+    name: string;
+}
+
 export type WriteOffAct = {
     id: number;
     good_name: string;
@@ -410,6 +415,10 @@ export interface UsersProps {
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;
+}
+export interface CountriesProps{
+    countries: Country[];
+    total_count: number;
 }
 
 export interface BasicDateRangePickerProps {

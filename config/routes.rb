@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require 'sidekiq/web'
+
 
 Rails.application.routes.draw do
-  mount Sidekiq::Web => '/sidekiq'
+
 
   root 'pages#home'
   # User
@@ -22,6 +22,9 @@ Rails.application.routes.draw do
   # Companies
   resources :companies, except: :show
 
+  resources :countries do
+    resources :cities
+  end
 
   # Consignment
   resources :consignments, only: %i[create index]
