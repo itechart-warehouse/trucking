@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 class CountriesController < ApplicationController
   def index
     @countries, meta = paginate_collection(Country.all)
     @total_count = meta[:total_count]
-    render json: {countries: @countries,total_count: @total_count} if params[:page].present?
+    render json: { countries: @countries, total_count: @total_count } if params[:page].present?
   end
 
   def update
     country = Country.find(params[:id])
-    answer(country) {country.update(name: country_params[:name])}
+    answer(country) { country.update(name: country_params[:name]) }
   end
 
   def create
     country = Country.new(country_params)
-    answer(country) {country.save}
+    answer(country) { country.save }
   end
 
   def destroy
