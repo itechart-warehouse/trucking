@@ -32,7 +32,7 @@ const CreateCountryForm: React.FC<CreateCountryFormProps> = (props: CreateCountr
         .then((response) => {
           handleClose();
           setCountriesCount(countriesCount + 1);
-          if (countries.length < rowsPerPage) {
+          if (country.length < rowsPerPage) {
             setCountry((prevCountry) => [...prevCountry, response.data]);
           }
         });

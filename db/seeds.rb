@@ -10,6 +10,14 @@ companies = Company.create([{ name: 'jetlogistic' }, { name: 'gruzimvse' }])
 
 User.skip_callback(:validation, :before, :generate_password)
 
+countries = Country.create([{ name: 'Belarus' },
+                            { name: 'Albania' },
+                            { name: 'Algeria' },
+                            { name: 'Andorra' },])
+cities = Country.create(name:'Poland').city.create([{ name: 'Liverpool' },
+                            { name: 'Manchester' },
+                            { name: 'Bradford' },
+                            { name: 'Brighton & Hove' },])
 # System admin
 sys_Admin = User.create(
   email: 'sysadmin@example.com',
