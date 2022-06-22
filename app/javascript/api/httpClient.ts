@@ -11,7 +11,6 @@ import {
   CityUrl,
   StatisticsUrl,
 } from './clientAPI';
-import Countries from '../components/countries';
 
 function httpClient() {
   return {
