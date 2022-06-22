@@ -64,6 +64,8 @@ function httpClient() {
       get: (id) => axios.get(`${MailTemplatesUrl}/${id}`),
       create: (template) => axios.post(`${MailTemplatesUrl}`, template),
       delete: (id) => axios.delete(`${MailTemplatesUrl}/${id}`),
+      search: (page, pageCount, search) => axios.get(`${MailTemplatesUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
+      getAll: (page, pageCount = '') => axios.get(`${MailTemplatesUrl}?page=${page}&per_page=${pageCount}`),
     },
   };
 }

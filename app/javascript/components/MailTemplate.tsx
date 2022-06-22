@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Box, Grid, Button } from '@mui/material';
+import { useState } from 'react';
 import MailTemplateTable from './MailTemplate/MailTemplateTable';
 import SiteAlerts from './Alert';
 import { Alert, MailTemplate, MailTemplateProps } from '../common/interfaces_types';
@@ -8,11 +9,19 @@ import CreateMailTemplateForm from './MailTemplate/CreateMailTemplateForm';
 import httpClient from '../api/httpClient';
 
 const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) => {
-  const { templatesJSON } = props;
+  const { templatesJSON, templatesCount } = props;
   const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [templates, setTemplates] = React.useState<MailTemplate[]>(JSON.parse(templatesJSON) || []);
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [templateCount, setTemplateCount] = useState<number>(templatesCount);
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
+
+  const handleClose = () => {
+    setModalActive(false);
+    setFormErrors(null);
+  };
 
   const handleSubmit = async (template) => {
     await httpClient.mailTemplates.create(template)
@@ -28,9 +37,21 @@ const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) =>
       });
   };
 
-  const handleClose = () => {
-    setModalActive(false);
-    setFormErrors(null);
+  const handleSearch = (text: string) => {
+    if (text) {
+      httpClient.mailTemplates.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setTemplates(JSON.parse(response.data.templates));
+          setTemplateCount(response.data.total_count);
+        });
+    } else {
+      httpClient.mailTemplates.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setTemplates(JSON.parse(response.data.templates));
+          setTemplateCount(response.data.total_count);
+          setPage(0);
+        });
+    }
   };
 
   return (
@@ -59,6 +80,12 @@ const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) =>
               templates={templates}
               setTemplate={setTemplates}
               setAlertData={setAlertData}
+              templateCount={templateCount}
+              setTemplateCount={setTemplateCount}
+              setPage={setPage}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
             />
           </Grid>
         </Grid>

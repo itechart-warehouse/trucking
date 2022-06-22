@@ -6,8 +6,13 @@ class MailTemplatesController < ApplicationController
   before_action :set_mail_template, only: %i[update destroy show]
 
   def index
-    templates = MailTemplate.all
+    query = MailTemplate.all
+    templates, meta = paginate_collection(query)
+    @template_count = meta[:total_count]
     @serialized_templates = ActiveModelSerializers::SerializableResource.new(templates).to_json
+    if params[:page]
+      render json: { templates: @serialized_templates, total_count: @template_count }
+    end
   end
 
   def show

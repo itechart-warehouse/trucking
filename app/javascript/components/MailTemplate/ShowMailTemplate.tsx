@@ -1,4 +1,3 @@
-// import * as React from 'react';
 import React, { useState, useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 
@@ -15,7 +14,6 @@ const ShowMailTemplate: React.FC<ShowMailTemplateProps> = (props: ShowMailTempla
   useEffect(() => {
     if (clickedTemplateId) {
       httpClient.mailTemplates.get(clickedTemplateId).then((res) => {
-        console.log('Response', res);
         setTemplate(res.data);
       });
     }

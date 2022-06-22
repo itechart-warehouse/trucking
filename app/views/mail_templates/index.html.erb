@@ -1,7 +1,8 @@
 <center>
   <div class="client_content">
     <%=react_component('MailTemplate',{
-      templatesJSON: @serialized_templates
+      templatesJSON: @serialized_templates,
+      templatesCount: @template_count,
     }) %>
   </div>
 </center>

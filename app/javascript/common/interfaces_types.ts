@@ -429,12 +429,19 @@ export interface StatisticsProps {
 
 export interface MailTemplateProps {
     templatesJSON: string;
+    templatesCount: number;
 }
 
 export interface MailTemplateTableProps {
     templates: MailTemplate[],
     setTemplate: (template: MailTemplate[]) => void;
     setAlertData: (alert: Alert) => void;
+    setPage: (page:number)=>void;
+    page: number;
+    rowsPerPage:number;
+    setRowsPerPage:(rowCount: number) => void;
+    templateCount: number;
+    setTemplateCount:(templateCount: number) => void;
 }
 
 export interface ShowMailTemplateProps {
