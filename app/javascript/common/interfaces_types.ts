@@ -140,6 +140,12 @@ export type StatAccordion = {
     item: UserLogs;
 };
 
+export type MailTemplate = {
+    id: number;
+    name: string;
+    content: string;
+};
+
 // INTERFACES
 export interface CreateConsignmentFormProps {
     isActiveModal: boolean;
@@ -421,4 +427,25 @@ export interface StatisticsProps {
     statisticsJSON: string;
 }
 
-export const
+export interface MailTemplateProps {
+    templatesJSON: string;
+}
+
+export interface MailTemplateTableProps {
+    templates: MailTemplate[],
+    setTemplate: (template: MailTemplate[]) => void;
+    setAlertData: (alert: Alert) => void;
+}
+
+export interface ShowMailTemplateProps {
+    isShowOpen: boolean;
+    handleShowClose: () => void;
+    clickedTemplateId: number;
+}
+
+export interface CreateMailTemplateFormProps {
+    isActiveModal: boolean;
+    formErrors: string[];
+    handleClose: () => void;
+    handleSubmit: (template: MailTemplate) => void;
+}
