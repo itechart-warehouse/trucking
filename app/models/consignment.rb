@@ -20,6 +20,14 @@ class Consignment < ApplicationRecord
   validate :validate_user_roles
   before_save :upcase_bundle_consignment_seria
 
+  scope :by_seria_number, ->(search) {
+                            seria, number = search.split
+                            query = "consignment_seria ILIKE '#{seria}%'"
+                            query += "and consignment_number::text  ILIKE '#{number}%'" if
+                              number.present?
+                            where(query)
+                          }
+
   private
 
   def upcase_bundle_consignment_seria

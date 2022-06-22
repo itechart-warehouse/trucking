@@ -11,16 +11,35 @@ import Search from './Search';
 import httpClient from '../api/httpClient';
 
 const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
-  const { currentUserRole, companiesJSON } = props;
+  const { currentUserRole, companiesJSON, companiesCount } = props;
+  const [companyCount, setCompanyCount] = useState<number>(companiesCount);
   const [isActiveModal, setModalActive] = useState<boolean>(false);
   const [companies, setCompany] = React.useState<Company[]>(JSON.parse(companiesJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
-  const [searchData, setSearchData] = React.useState<string[]>();
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
 
   const handleClose = () => {
     setModalActive(false);
     setFormErrors(null);
+  };
+
+  const handleSearch = (text: string) => {
+    if (text) {
+      httpClient.companies.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setCompany(JSON.parse(response.data.companies));
+          setCompanyCount(response.data.total_count);
+        });
+    } else {
+      httpClient.companies.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setCompany(JSON.parse(response.data.companies));
+          setCompanyCount(response.data.total_count);
+          setPage(0);
+        });
+    }
   };
 
   const changeCompanyStatus = (id: number, alertText: string) => {
@@ -28,7 +47,7 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
       const companyIndex = companies.findIndex((element) => element.id === id);
       companies[companyIndex] = response.data;
       setCompany(companies);
-      if (searchData) setSearchData([response.data]);
+
       setAlertData({
         alertType: 'info',
         alertText: `Company successfully ${alertText}`,
@@ -50,7 +69,7 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={companies} keyField="" />
+            <Search handleSubmit={handleSearch} />
           </Grid>
           {currentUserRole === 'system administrator'
             ? (
@@ -64,16 +83,25 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
 
           <Grid item xs={12}>
             <CompanyTable
+              setPage={setPage}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
               companies={companies}
               setCompany={setCompany}
               setAlertData={setAlertData}
-              searchData={searchData}
               changeCompanyStatus={changeCompanyStatus}
+              companyCount={companyCount}
+              setCompanyCount={setCompanyCount}
             />
           </Grid>
         </Grid>
       </Box>
       <CreateCompanyForm
+        companies={companies}
+        rowsPerPage={rowsPerPage}
+        companyCount={companyCount}
+        setCompanyCount={setCompanyCount}
         isActiveModal={isActiveModal}
         handleClose={handleClose}
         setCompany={setCompany}

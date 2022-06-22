@@ -1,12 +1,18 @@
 # frozen_string_literal: true
 
+require 'sidekiq/web'
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
+
   root 'pages#home'
   # User
-  devise_for :users
+  devise_for :users, controllers: {
+        confirmations: 'users/confirmations'
+      }
 
   scope '/users' do
-    get '', to: 'pages#users_index', as: 'users'
+    get '',to: 'pages#users_index',as: "users"
     post '/create', to: 'pages#create_user'
     get '/:id', to: 'pages#user_data'
     patch '/:id/edit', to: 'pages#update_user'
@@ -17,7 +23,8 @@ Rails.application.routes.draw do
   resources :companies, except: :show
 
   # Consignment
-  resources :consignments, only: %i[index create]
+  resources :consignments, only: %i[create index]
+
   patch 'consignment/:consignment_id/goods', to: 'goods#update'
 
   # Write off acts
@@ -27,7 +34,7 @@ Rails.application.routes.draw do
   resources :waybills, except: :show
 
   # warehouses
-  resources :warehouses, except: :show do
+  resources :warehouses, except: %i[show] do
     collection do
       patch 'trust/:id', to: 'warehouses#trust_warehouse'
     end
@@ -35,6 +42,9 @@ Rails.application.routes.draw do
 
   # Checkpoints
   patch '/checkpoints', to: 'checkpoints#update'
+
+  # Statistics
+  resources :statistics, only: :index
 
   # Mail templates
   resources :mail_templates
@@ -48,6 +58,7 @@ Rails.application.routes.draw do
         resources :consignment_goods, only: :index
       end
       resources :drivers, only: :index
+
       resources :trucks, only: :index
     end
     namespace :v2 do

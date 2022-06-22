@@ -1,6 +1,6 @@
 import { Order } from '../mixins/initialValues/userList';
 import {
-  Consignment, User, Waybill, WriteOffAct,
+  Consignment, User, UserLogs, Waybill, WriteOffAct,
 } from '../common/interfaces_types';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -29,7 +29,7 @@ export function getComparator<Key extends keyof any>(
 // need to support IE11, you can use Array.prototype.sort() directly
 // eslint-disable-next-line no-unused-vars
 export function stableSort<T>(
-  array: User[] | Consignment[] | Waybill[] | WriteOffAct[],
+  array: User[] | Consignment[] | Waybill[] | WriteOffAct[] | UserLogs[] | string[],
   // eslint-disable-next-line no-unused-vars
   comparator: (a: T, b: T) => number,
 ) {

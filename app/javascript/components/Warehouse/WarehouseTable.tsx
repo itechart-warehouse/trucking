@@ -1,29 +1,51 @@
 import * as React from 'react';
 
 import {
-  List, ListItem, ListItemButton, ListItemText,
-  Checkbox, IconButton, ListItemIcon, Box, CircularProgress, TableRow,
+  Checkbox,
+  IconButton,
+  CircularProgress,
+  TableRow,
+  TableContainer,
+  Paper,
+  Table,
+  TableHead, TableBody, Button, TablePagination,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { blue } from '@mui/material/colors';
 
 import httpClient from '../../api/httpClient';
 import { Warehouse, WarehouseTableProps } from '../../common/interfaces_types';
 import { warehouseTable } from '../../constants/warehouseFields';
-import { StyledTableCell } from '../../utils/style';
+import { StyledTableCell, StyledTableRow } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertData, currentUserRole, searchData, setSearchData,
+    warehouses, setWarehouses, setAlertData, currentUserRole, setWarehousesCount,
+    warehousesCount, rowsPerPage, setRowsPerPage, page, setPage,
   } = props;
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    httpClient.warehouses.getAll(newPage, rowsPerPage.toString())
+      .then((response) => {
+        setWarehouses(response.data);
+        setPage(newPage);
+      });
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    httpClient.warehouses.getAll(0, event.target.value)
+      .then((response) => setWarehouses(JSON.parse(response.data.warehouses)))
+      .then(() => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      });
+  };
 
   const setWarehouseTrusted = (warehouse: Warehouse) => {
     warehouse.trusted = !warehouse.trusted;
     httpClient.warehouses.update(warehouse.id, warehouse).then((response) => {
       const objIndex = warehouses.findIndex((element) => element.id === warehouse.id);
-      warehouses[objIndex] = response.data;
+      warehouses[objIndex] = JSON.parse(response.data.warehouses);
       setWarehouses(warehouses);
-      if (searchData) setSearchData([response.data]);
       setAlertData({ alertType: 'info', alertText: 'Warehouse successfully set trusted/untrusted', open: true });
     });
   };
@@ -32,74 +54,67 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
     setAlertData({ alertType: 'warning', alertText: 'Warehouse successfully deleted', open: true });
+    httpClient.warehouses.getAll(page, rowsPerPage.toString())
+      .then((response) => setWarehouses(JSON.parse(response.data.warehouses)))
+      .then(() => setWarehousesCount(warehousesCount - 1));
   };
 
   const handleToggle = (value: Warehouse) => () => setWarehouseTrusted(value);
 
-  const warehousesData = searchData || warehouses;
-
   return (
     <div>
-      <List sx={{
-        width: '100%', bgcolor: 'background.paper', paddingTop: '0px',
-      }}
-      >
-        <div style={{
-          width: '100%', display: 'flex', justifyContent: 'space-between', backgroundColor: '#57606f',
-        }}
-        >
-          {warehouseTable.map((cell) => (
-            <Box key={cell.id} component="div" display="inline" p={2} color="#fff">
-              {cell.title}
-            </Box>
-          ))}
-        </div>
-        {!warehouses
-          ? (
-            <TableRow>
-              <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
-            </TableRow>
-          )
-          : warehousesData.map((value) => {
-            const labelId = `checkbox-list-label-${value}`;
-            return (
-              <ListItem
-                key={value?.id}
-                secondaryAction={(
-                  <IconButton
-                    edge="end"
-                    aria-label="delete"
-                    disabled={!(currentUserRole === 'admin')}
-                    onClick={() => handleDeleteWarehouse(value?.id)}
-                  >
-                    <DeleteIcon color="error" />
-                  </IconButton>
-                )}
-                disablePadding
-                sx={{ width: '95%' }}
-              >
-                <ListItemButton
-                  role={undefined}
-                  onClick={handleToggle(value)}
-                  dense
-                  disabled={!(currentUserRole === 'admin')}
-                >
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={value?.trusted}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ 'aria-labelledby': labelId }}
-                      sx={{ color: blue[800], '&.Mui-checked': { color: blue[600] } }}
-                    />
-                  </ListItemIcon>
-                  <ListItemText id={labelId} primary={value?.warehouse_name} />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-      </List>
+      <Paper sx={{ width: '100%', mb: 2 }}>
+        <TableContainer component={Paper}>
+          <Table aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                {warehouseTable.map((cell) => (
+                  <StyledTableCell key={cell.id}>
+                    {cell.title}
+                  </StyledTableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {!warehouses
+                ? (
+                  <TableRow>
+                    <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
+                  </TableRow>
+                )
+                : warehouses.map((warehouse) => (
+                  <StyledTableRow key={warehouse.id}>
+                    <StyledTableCell scope="warehouse">
+                      <Button onClick={handleToggle(warehouse)} disabled={!(currentUserRole === 'admin')}>
+                        <Checkbox defaultChecked={warehouse.trusted} />
+                      </Button>
+                    </StyledTableCell>
+                    <StyledTableCell scope="company">{warehouse.warehouse_name}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      <IconButton
+                        edge="end"
+                        aria-label="delete"
+                        disabled={!(currentUserRole === 'admin')}
+                        onClick={() => handleDeleteWarehouse(warehouse.id)}
+                      >
+                        <DeleteIcon color="error" />
+                      </IconButton>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={warehousesCount}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Paper>
     </div>
   );
 };

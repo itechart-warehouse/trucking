@@ -1,5 +1,4 @@
 // Support component names relative to this directory:
-// Support component names relative to this directory:
 import 'actiontext';
 import 'controllers';
 

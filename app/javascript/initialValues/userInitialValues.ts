@@ -5,8 +5,6 @@ export interface userFormValues {
   second_name: string;
   email: string;
   login: string;
-  password: string;
-  password_confirmation: string;
   birthday: string;
   address: { town: string, street: string, building: number, apartment: number }
   role: { role_name: string },
@@ -22,8 +20,6 @@ const userInitialValues: userFormValues = {
   birthday: '',
   login: '',
   email: '',
-  password: '',
-  password_confirmation: '',
   address: {
     town: '', street: '', building: null, apartment: null,
   },

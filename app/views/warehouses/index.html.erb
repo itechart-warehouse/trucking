@@ -3,7 +3,8 @@
     <%=react_component('Warehouse',{
       currentUserRole: current_user.role.role_name,
       warehousesJSON: @serialized_warehouses,
-      warehousemansJSON: @serialized_warehousemans
+      warehousemansJSON: @serialized_warehousemans,
+      warehouseCount: @warehouses_count,
     }) %>
   </div>
 </center>

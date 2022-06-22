@@ -10,14 +10,17 @@ import Search from './Search';
 import { User, UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
-  const { rolesJSON, companiesJSON, usersJSON } = props;
-
+  const {
+    rolesJSON, companiesJSON, usersJSON, usersCount,
+  } = props;
+  const [userCount, setUserCount] = React.useState<number>(usersCount);
   const [createModal, setCreateModalActive] = React.useState<boolean>(false);
   const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
   const [editUserModal, setEditUserModal] = React.useState<number>(null);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [users, setUser] = React.useState<User[]>(JSON.parse(usersJSON));
-  const [searchData, setSearchData] = React.useState<string[]>();
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
 
   const handleClose = () => {
     setCreateModalActive(false);
@@ -26,10 +29,30 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
     setFormErrors(null);
   };
 
+  const handleSearch = (text:string) => {
+    if (text) {
+      httpClient.users.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setUserCount(response.data.total_count);
+          setUser(JSON.parse(response.data.users));
+        });
+    } else {
+      httpClient.users.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setUserCount(response.data.total_count);
+          setUser(JSON.parse(response.data.users));
+        })
+        .then(() => setPage(0));
+    }
+  };
+
   const handleSubmit = (user: userFormValues) => {
     httpClient.users.create(user)
       .then((response) => {
-        setUser((prevUsers) => [...prevUsers, response.data]);
+        if (users.length < rowsPerPage) {
+          setUser((prevUsers) => [...prevUsers, response.data]);
+        }
+        setUserCount(userCount + 1);
         handleClose();
       })
       .catch((error) => setFormErrors(error.response.data));
@@ -65,7 +88,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={users} keyField="role" />
+            <Search handleSubmit={handleSearch} />
           </Grid>
           <Grid item xs={1.75} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setCreateModalActive(true)}>
@@ -74,11 +97,16 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           </Grid>
           <Grid item xs={12}>
             <UsersTable
+              page={page}
+              setPage={setPage}
+              setRowsPerPage={setRowsPerPage}
+              rowsPerPage={rowsPerPage}
+              setUserCount={setUserCount}
+              userCount={userCount}
               users={users}
               setUser={setUser}
               setEditUserModal={setEditUserModal}
               setUpdateModalActive={setUpdateModalActive}
-              searchData={searchData}
             />
           </Grid>
         </Grid>

@@ -3,7 +3,8 @@
     <%=react_component('WriteOffAct', {
       currentUserRole: current_user.role.role_name,
       writeOffActsJSON: @serialized_write_off_acts,
-      consignmentsJSON: @serialized_consignments
+      consignmentsJSON: @serialized_consignments,
+      writeOffActCount: @write_off_acts_count,
     })
     %>
   </div>

@@ -23,10 +23,19 @@ class User < ApplicationRecord
   rescue StandardError
     record.errors.add(attr, 'Invalid date')
   end
+  before_validation :generate_password, on: :create
   # Include default devise modules. Others available are:
-  # :confirmable, :trackable and :omniauthable
+  # :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :timeoutable,
-         :validatable, :lockable
+         :validatable, :confirmable, :lockable
+
+  scope :by_name, ->(search) {
+                    sec_name, first_name, mid_name = search.split
+                    query = "second_name ILIKE '#{sec_name}%'"
+                    query += "and first_name ILIKE '#{first_name}'" if first_name.present?
+                    query += " and middle_name ILIKE '#{mid_name}%'" if mid_name.present?
+                    where(query)
+                  }
 
   def active_for_authentication?
     if company
@@ -38,5 +47,11 @@ class User < ApplicationRecord
 
   def inactive_message
     company.is_suspended ? :user_company_suspended : super
+  end
+
+  private
+
+  def generate_password
+    self.password = SecureRandom.hex(8)
   end
 end

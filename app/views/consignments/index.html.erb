@@ -2,11 +2,12 @@
   <div class="client_content">
     <%=react_component('Consignment',{
       currentUserRole: current_user.role.role_name,
-      driversJSON: @serialized_drivers, 
-      trucksJSON: @serialized_trucks, 
-      warehousesJSON: @serialized_warehouses, 
+      driversJSON: @serialized_drivers,
+      trucksJSON: @serialized_trucks,
+      warehousesJSON: @serialized_warehouses,
       goodsOwnersJSON: @serialized_goods_owners,
       consignmentsJSON: @serialized_consignments,
+      consignmentsCount: @consignment_count,
       }) %>
   </div>
 </center>

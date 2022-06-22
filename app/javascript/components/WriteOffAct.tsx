@@ -10,12 +10,17 @@ import { Alert, WriteOffActsProps, WriteOffAct } from '../common/interfaces_type
 import Search from './Search';
 
 const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => {
-  const { currentUserRole, writeOffActsJSON, consignmentsJSON } = props;
+  const {
+    currentUserRole, writeOffActsJSON, consignmentsJSON, writeOffActCount,
+  } = props;
+
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [writeOffActsCount, setWriteOffActsCount] = React.useState<number>(writeOffActCount);
   const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [writeOffActs, setWriteOffActs] = React.useState<WriteOffAct[]>(JSON.parse(writeOffActsJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
-  const [searchData, setSearchData] = React.useState<string[]>();
+  const [page, setPage] = React.useState<number>(0);
 
   const handleClose = () => {
     setModalActive(false);
@@ -25,7 +30,10 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const handleSubmit = async (writeOffAct) => {
     await httpClient.writeOffActs.create(writeOffAct)
       .then((response) => {
-        setWriteOffActs((prev) => [...prev, response.data]);
+        if (writeOffActs.length < rowsPerPage) {
+          setWriteOffActs((prev) => [...prev, response.data]);
+        }
+        setWriteOffActsCount(writeOffActCount + 1);
         setModalActive(false);
         setAlertData({ alertType: 'success', alertText: 'Successfully created write-off act!', open: true });
       })
@@ -33,6 +41,23 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
         setFormErrors(error.response.data);
         setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating write-off act', open: true });
       });
+  };
+
+  const handleSearch = (text:string) => {
+    if (text) {
+      httpClient.writeOffActs.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setWriteOffActsCount(response.data.total_count);
+          setWriteOffActs(JSON.parse(response.data.write_off_acts));
+        });
+    } else {
+      httpClient.writeOffActs.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setWriteOffActsCount(response.data.total_count);
+          setWriteOffActs(JSON.parse(response.data.write_off_acts));
+        })
+        .then(() => setPage(0));
+    }
   };
 
   return (
@@ -49,7 +74,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={writeOffActs} keyField="consignment" />
+            <Search handleSubmit={handleSearch} />
           </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (
@@ -61,7 +86,16 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
             )
             : null}
           <Grid item xs={12}>
-            <WriteOffActTable writeOffActs={writeOffActs} searchData={searchData} />
+            <WriteOffActTable
+              page={page}
+              setPage={setPage}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
+              setWriteOffActs={setWriteOffActs}
+              writeOffActs={writeOffActs}
+              writeOffActsCount={writeOffActsCount}
+              setWriteOffActsCount={setWriteOffActsCount}
+            />
           </Grid>
         </Grid>
       </Box>

@@ -56,7 +56,11 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
               <Formik
                 initialValues={userInitialValues}
                 validationSchema={userValidation}
-                onSubmit={handleSubmit}
+                onSubmit={(values, { resetForm }) => {
+                  handleSubmit(values);
+                  resetForm({});
+                  window.scrollTo(0, 0);
+                }}
               >
                 {({
                   dirty, isValid, handleChange, values,
@@ -147,6 +151,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                             label="Role"
                             fullWidth
                             value={values?.role}
+                            required
                           />
                         )}
                       />

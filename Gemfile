@@ -27,7 +27,9 @@ gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 # Rich text gem
-gem 'actiontext', github: 'kobaltz/actiontext', branch: 'archive', require: 'action_text'
+gem 'actiontext', github: 'rails/actiontext', branch: 'archive', require: 'action_text'
+gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
+gem 'sidekiq', '~> 4.1', '>= 4.1.2'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

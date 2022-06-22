@@ -11,20 +11,18 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { Consignment, ConsignmentTableProps } from '../../common/interfaces_types';
 import { getComparator, stableSort } from '../../utils/stableSort';
 import { Order } from '../../mixins/initialValues/userList';
+import httpClient from '../../api/httpClient';
 
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    currentUserRole, setCreateWaybillData, searchData, setWaybillStatus,
+    currentUserRole, setCreateWaybillData, setWaybillStatus, consignmentCount,
+    setConsignment, rowsPerPage, setRowsPerPage, setPage, page,
   } = props;
 
-  const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [dense, setDense] = React.useState<boolean>(false);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Consignment>('consignment_seria');
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - consignments.length) : 0;
 
   const handleGetGoods = (consignment: Consignment) => {
     setModalGoodsActive(true);
@@ -42,11 +40,21 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
     setWayBillActive(true);
   };
 
-  const handleChangePage = (event: unknown, newPage: number) => setPage(newPage);
+  const handleChangePage = (event: unknown, newPage: number) => {
+    httpClient.consignments.getAll(newPage, rowsPerPage.toString())
+      .then((response) => {
+        setConsignment(JSON.parse(response.data.consignments));
+        setPage(newPage);
+      });
+  };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    httpClient.consignments.getAll(0, event.target.value)
+      .then((response) => setConsignment(JSON.parse(response.data.consignments)))
+      .then(() => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
+      });
   };
 
   const handleChangeDense = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,13 +70,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const createSortHandler = (property) => (event: React.MouseEvent<unknown>) => {
     handleRequestSort(event, property);
   };
-
-  let consignmentsData: any[];
-
-  if (searchData) consignmentsData = searchData;
-  else consignmentsData = consignments;
-
-  // const consignmentsData = searchData || consignments;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -110,14 +111,13 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               </TableRow>
             </TableHead>
             <TableBody>
-              {!consignmentsData
+              {!consignments
                 ? (
                   <TableRow>
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : stableSort(consignmentsData, getComparator(order, orderBy))
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : stableSort(consignments, getComparator(order, orderBy))
                   .map((consignment: Consignment) => (
                     <StyledTableRow key={consignment.id} tabIndex={-1}>
                       <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>
@@ -147,22 +147,13 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
                         : null}
                     </StyledTableRow>
                   ))}
-              {emptyRows > 0 && (
-                <StyledTableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
-                  <StyledTableCell colSpan={6} />
-                </StyledTableRow>
-              )}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={consignments.length}
+          count={consignmentCount}
           page={page}
           onPageChange={handleChangePage}
           rowsPerPage={rowsPerPage}

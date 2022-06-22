@@ -31,3 +31,16 @@
 
 en:
   hello: "Hello world"
+  no_access: "Access restricted"
+  bad: "Bad request"
+  c_is_placed: "This consignment is placed"
+  no_warehouse: "No warehouse"
+  y_must_check: "You must check the consignment before placing in the warehouse"
+  no_area: "No area"
+  must_placed: "This consignment must be placed"
+  y_must_recheck: "You must recheck the consignment before shipped of the warehouse"
+  not_your_cons: "This is not consignment from your warehouse!"
+  time:
+    formats:
+      default: "%d-%m-%Y %H:%M"
+

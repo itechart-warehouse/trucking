@@ -161,6 +161,8 @@ GEM
     rack (2.2.3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-protection (2.2.0)
+      rack
     rack-proxy (0.7.2)
       rack
     rack-test (1.1.0)
@@ -200,6 +202,9 @@ GEM
       execjs
       railties (>= 3.2)
       tilt
+    redis (3.3.5)
+    redis-namespace (1.8.2)
+      redis (>= 3.0.4)
     regexp_parser (2.2.0)
     responders (3.0.1)
       actionpack (>= 5.0)
@@ -255,6 +260,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
     semantic_range (3.0.0)
+    sidekiq (4.2.10)
+      concurrent-ruby (~> 1.0)
+      connection_pool (~> 2.2, >= 2.2.0)
+      rack-protection (>= 1.5.0)
+      redis (~> 3.2, >= 3.2.1)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -331,11 +341,13 @@ DEPENDENCIES
   rack-cors
   rails (~> 5.2.6)
   react-rails
+  redis-namespace (~> 1.5, >= 1.5.2)
   rspec-rails (~> 5.0.0)
   rubocop
   rubocop-rails
   sass-rails (~> 5.0)
   selenium-webdriver
+  sidekiq (~> 4.1, >= 4.1.2)
   simplecov
   turbolinks (~> 5)
   tzinfo-data

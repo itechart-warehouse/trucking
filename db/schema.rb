@@ -175,8 +175,12 @@ ActiveRecord::Schema.define(version: 2022_06_18_133951) do
     t.text "passport"
     t.integer "failed_attempts", default: 0, null: false
     t.datetime "locked_at"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.index ["address_id"], name: "index_users_on_address_id"
     t.index ["company_id"], name: "index_users_on_company_id"
+    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

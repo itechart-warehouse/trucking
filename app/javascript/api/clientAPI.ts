@@ -14,3 +14,5 @@ export const writeOffActUrl = '/write_off_acts';
 export const WarehouseUrl = '/warehouses';
 // MAIL TEMPLATES
 export const MailTemplatesUrl = '/mail_templates';
+// STATISTICS
+export const StatisticsUrl = '/statistics';

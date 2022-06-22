@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :consignment do
-    driver { create(:user_driver) }
-    dispatcher { create(:user_dispatcher) }
-    manager { create(:user_manager) }
+    driver { create(:user, role_id: 3) }
+    dispatcher { create(:user, role_id: 1) }
+    manager { create(:user, role_id: 4) }
     association(:truck)
     status { 'registered' }
     consignment_seria { 'CS' }
-    sequence(:consignment_number) { |i| i.to_i }
-    bundle_seria { 'BS' }
-    sequence(:bundle_number) { |i| i.to_i }
+    sequence(:consignment_number, &:to_i)
+    bundle_seria { 'BS_test' }
+    sequence(:bundle_number, &:to_i)
   end
 end
