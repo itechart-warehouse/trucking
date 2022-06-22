@@ -9,7 +9,7 @@ RSpec.describe "Cities", type: :request do
 
   describe "GET standard CRUD methods" do
     it 'get 5 cities' do
-      FactoryBot.create_list(:city, 5,country: country)
+      create_list(:city, 5,country: country)
       get "/countries/#{country.id}/cities?page=0&per_page=5"
       expect(JSON.parse(response.body)['cities'].size).to eq(5)
     end
