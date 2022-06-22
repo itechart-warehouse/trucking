@@ -373,7 +373,7 @@ export interface UsersProps {
 }
 
 export type MailTemplate = {
-  id: number;
+  id: string;
   name: string;
   content: string;
 };
@@ -391,14 +391,11 @@ export interface CreateMailTemplateFormProps {
   isActiveModal: boolean;
   formErrors: string[];
   handleClose: () => void;
-  setTemplate: (template: (prev) => MailTemplate[]) => void;
-  setFormErrors: (errors: string[]) => void;
-  setAlertData: (alert: Alert) => void;
+  handleSubmit: (template: MailTemplate) => void;
 }
 
 export interface ShowMailTemplateProps {
   isShowOpen: boolean;
   handleShowClose: () => void;
-  handleOpen: (id: number) => void;
   clickedTemplateId: number;
 }

@@ -1,6 +1,6 @@
-import * as React from "react";
-import { ErrorMessage, Field } from "formik";
-import RichTextEditor from "../components/RichTextEditor";
+import * as React from 'react';
+import { ErrorMessage, Field } from 'formik';
+import RichTextEditor from '../components/RichTextEditor';
 
 interface FormikActionTextProps {
   name: string;
@@ -8,6 +8,7 @@ interface FormikActionTextProps {
   type: string;
   required: boolean;
   variant: string;
+  [key: string]: any;
 }
 
 const FormikActionText: React.FC<FormikActionTextProps> = ({

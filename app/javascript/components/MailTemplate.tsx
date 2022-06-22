@@ -1,19 +1,32 @@
 import * as React from 'react';
-import { useState } from 'react';
-
 import { Box, Grid, Button } from '@mui/material';
-
 import MailTemplateTable from './MailTemplate/MailTemplateTable';
 import SiteAlerts from './Alert';
 import { Alert, MailTemplate, MailTemplateProps } from '../common/interfaces_types';
 import Search from './Search';
 import CreateMailTemplateForm from './MailTemplate/CreateMailTemplateForm';
+import httpClient from '../api/httpClient';
 
-const MailTemplates = ({ templatesJSON }: MailTemplateProps) => {
-  const [isActiveModal, setModalActive] = useState<boolean>(false);
+const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) => {
+  const { templatesJSON } = props;
+  const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [templates, setTemplates] = React.useState<MailTemplate[]>(JSON.parse(templatesJSON) || []);
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
+
+  const handleSubmit = async (template) => {
+    await httpClient.mailTemplates.create(template)
+      .then((response) => {
+        setTemplates((prevTemplate) => [...prevTemplate, response.data]);
+        setModalActive(false);
+        setAlertData({ alertType: 'success', alertText: 'Successfully created a mail template!', open: true });
+        handleClose();
+      })
+      .catch((error) => {
+        setFormErrors(error.response.data);
+        setAlertData({ alertType: 'error', alertText: 'Something went wrong with creating a mail template', open: true });
+      });
+  };
 
   const handleClose = () => {
     setModalActive(false);
@@ -33,7 +46,7 @@ const MailTemplates = ({ templatesJSON }: MailTemplateProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search Data="templates" keyField="" />
+            <Search handleSubmit={handleSearch} />
           </Grid>
           <Grid item xs={1.75} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setModalActive(true)}>
@@ -53,10 +66,8 @@ const MailTemplates = ({ templatesJSON }: MailTemplateProps) => {
       <CreateMailTemplateForm
         isActiveModal={isActiveModal}
         handleClose={handleClose}
-        setTemplate={setTemplates}
         formErrors={formErrors}
-        setFormErrors={setFormErrors}
-        setAlertData={setAlertData}
+        handleSubmit={handleSubmit}
       />
       <SiteAlerts alertData={alertData} setAlertData={setAlertData} />
     </div>

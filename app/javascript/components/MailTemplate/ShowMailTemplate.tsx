@@ -1,24 +1,15 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+// import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+import ReactHtmlParser from 'react-html-parser';
 
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Grid,
-  Button,
+  Dialog, DialogActions, DialogContent, DialogTitle, Grid, Button,
 } from '@mui/material';
-
 import httpClient from '../../api/httpClient';
-
 import { ShowMailTemplateProps } from '../../common/interfaces_types';
 
-const ShowMailTemplate = ({
-  isShowOpen,
-  handleShowClose,
-  clickedTemplateId,
-}: ShowMailTemplateProps) => {
+const ShowMailTemplate: React.FC<ShowMailTemplateProps> = (props: ShowMailTemplateProps) => {
+  const { isShowOpen, handleShowClose, clickedTemplateId } = props;
   const [template, setTemplate] = useState(null);
 
   useEffect(() => {
@@ -44,7 +35,7 @@ const ShowMailTemplate = ({
             {template && template.name}
           </Grid>
           <Grid item xs={8}>
-            {template && template.body}
+            {template && ReactHtmlParser(template.body)}
           </Grid>
           <Grid item xs={8}>
             <DialogActions

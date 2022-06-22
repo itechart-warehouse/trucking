@@ -1,6 +1,7 @@
 // Support component names relative to this directory:
 // Support component names relative to this directory:
 import 'actiontext';
+import 'controllers';
 
 const componentRequireContext = require.context('components', true);
 const ReactRailsUJS = require('react_ujs');

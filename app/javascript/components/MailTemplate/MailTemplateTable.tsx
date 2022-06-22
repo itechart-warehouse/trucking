@@ -17,11 +17,8 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { MailTemplateTableProps } from '../../common/interfaces_types';
 import ShowMailTemplate from './ShowMailTemplate';
 
-const MailTemplateTable = ({
-  templates,
-  setTemplate,
-  setAlertData,
-}: MailTemplateTableProps) => {
+const MailTemplateTable: React.FC<MailTemplateTableProps> = (props: MailTemplateTableProps) => {
+  const { templates, setTemplate, setAlertData } = props;
   const [isShowOpen, setShowOpen] = useState<boolean>(false);
   const [clickedTemplateId, setClickedTemplateId] = useState<number>(null);
 
@@ -39,15 +36,11 @@ const MailTemplateTable = ({
     httpClient.mailTemplates.delete(id).then(() => {
       setTemplate(templates.filter((template) => id !== template.id));
     });
-    setAlertData({
-      alertType: 'success',
-      alertText: 'Mail template successfully deleted!',
-      open: true,
-    });
+    setAlertData({ alertType: 'success', alertText: 'Mail template successfully deleted!', open: true });
   };
 
   return (
-    <>
+    <div>
       <TableContainer component={Paper}>
         <Table aria-label="customized table">
           <TableHead>
@@ -98,7 +91,7 @@ const MailTemplateTable = ({
         clickedTemplateId={clickedTemplateId}
         handleShowClose={handleShowClose}
       />
-    </>
+    </div>
   );
 };
 
