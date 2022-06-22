@@ -21,6 +21,9 @@
           <%= link_to "Write-off acts", write_off_acts_path, class:"share-links #{'active' if current_page?('/write_off_acts')}" %>
         <% end %>
         <%= link_to "Statistics", statistics_path, class:"share-links #{'active' if current_page?('/statistics')}" %>
+        <% if can? :read, Country %>
+          <%= link_to "Countries", countries_path, class:"share-links #{'active' if current_page?('/countries')}" %>
+        <% end %>
       </div>
       <div class="nav-right">
           <h3 id="nav-bar-info">
