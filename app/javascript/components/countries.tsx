@@ -4,6 +4,8 @@ import { Button, Grid } from '@mui/material';
 import { CountriesProps, Country } from '../common/interfaces_types';
 import CountryTable from './countries/table';
 import CreateCountryForm from './countries/createCountry';
+import Search from './Search';
+import CompanyTable from './Company/CompanyTable';
 
 const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
   const { countries, total_count } = props;
@@ -27,13 +29,32 @@ const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
 
   return (
     <div className="wrapper">
-      <Grid container spacing={2} sx={{ justifyContent: "end" }}>
-        <Grid item xs={6}>
+      <Grid
+        container
+        rowSpacing={3}
+        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+        justifyContent="flex-end"
+      >
+        <Grid item xs={1.75} style={{ textAlign: 'right' }}>
           <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setActiveModal(true)}>
-            Create country
+            Create Company
           </Button>
         </Grid>
+        <Grid item xs={12}>
+          <CountryTable
+            countries={country}
+            setCountries={setCountry}
+            countriesCount={countriesCount}
+            setCountriesCount={setCountriesCount}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            setPage={setPage}
+            setRowsPerPage={setRowsPerPage}
+            handleEdit={handleEdit}
+          />
+        </Grid>
       </Grid>
+
       <CreateCountryForm
         country={country}
         setCountriesCount={setCountriesCount}
@@ -45,18 +66,6 @@ const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
         setEditRecord={setEditRecord}
         setCountry={setCountry}
       />
-      <CountryTable
-        countries={country}
-        setCountries={setCountry}
-        countriesCount={countriesCount}
-        setCountriesCount={setCountriesCount}
-        page={page}
-        rowsPerPage={rowsPerPage}
-        setPage={setPage}
-        setRowsPerPage={setRowsPerPage}
-        handleEdit={handleEdit}
-      />
-
     </div>
   );
 };

@@ -120,10 +120,6 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.string "name", null: false
   end
 
-  create_table "country", force: :cascade do |t|
-    t.string "name", null: false
-  end
-
   create_table "goods", force: :cascade do |t|
     t.string "good_name", null: false
     t.integer "quantity", null: false

@@ -46,6 +46,7 @@ const CountryTable: React.FC<CountryTableProps> = (props: CountryTableProps) => 
     httpClient.countries.delete(id).then(() => {
       httpClient.countries.getByPage(page, rowsPerPage).then((response) => {
         setCountries(response.data.countries);
+        setCountriesCount(response.data.total_count);
       });
     });
   };
@@ -60,16 +61,16 @@ const CountryTable: React.FC<CountryTableProps> = (props: CountryTableProps) => 
 
   return (
     <Box sx={{ width: '100%' }}>
-      <CityTable
-        countryId={countryId}
-        isActiveModal={isActiveModal}
-        handleClose={handleCloseCities}
-        setCities={setCities}
-        setCitiesCount={setCitiesCount}
-        cities={cities}
-        citiesCount={citiesCount}
-      />
       <Paper sx={{ width: '100%', mb: 2 }}>
+        <CityTable
+          countryId={countryId}
+          isActiveModal={isActiveModal}
+          handleClose={handleCloseCities}
+          setCities={setCities}
+          setCitiesCount={setCitiesCount}
+          cities={cities}
+          citiesCount={citiesCount}
+        />
         <TableContainer component={Paper}>
           <Table
             sx={{ width: '100%' }}

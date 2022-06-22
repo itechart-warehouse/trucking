@@ -44,7 +44,7 @@ const CreateCountryForm: React.FC<CreateCountryFormProps> = (props: CreateCountr
       <Dialog
         open={isActiveModal}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 535 } }}
         maxWidth="xs"
       >
         <DialogTitle>{editRecord ? 'edit country' : 'Create country'}</DialogTitle>

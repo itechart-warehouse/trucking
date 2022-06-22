@@ -51,6 +51,7 @@ const CityTable: React.FC<CityTableProps> = (props: CityTableProps) => {
     httpClient.cities.delete(countryId, id).then(() => {
       httpClient.cities.getByPage(countryId, page, rowsPerPage).then((response) => {
         setCities(response.data.cities);
+        setCitiesCount(response.data.total_count);
       });
     });
   };
@@ -70,11 +71,12 @@ const CityTable: React.FC<CityTableProps> = (props: CityTableProps) => {
         editRecord={editRecord}
       />
       <Dialog
+        maxWidth="lg"
         open={isActiveModal}
         onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '80%', maxHeight: 535 } }}
-        maxWidth="xs"
+        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 535 } }}
       >
+        <Button onClick={() => setActiveModalCreate(true)}>Create</Button>
         <Paper sx={{ width: '100%', mb: 2 }}>
           <TableContainer component={Paper}>
             <Table
@@ -125,7 +127,6 @@ const CityTable: React.FC<CityTableProps> = (props: CityTableProps) => {
           />
         </Paper>
         <div />
-        <Button onClick={() => setActiveModalCreate(true)}>Create</Button>
       </Dialog>
     </Box>
   );
