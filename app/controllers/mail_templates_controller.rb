@@ -7,6 +7,7 @@ class MailTemplatesController < ApplicationController
 
   def index
     query = MailTemplate.all
+    query = query.by_name(params[:search].squish) if params[:search].present?
     templates, meta = paginate_collection(query)
     @template_count = meta[:total_count]
     @serialized_templates = ActiveModelSerializers::SerializableResource.new(templates).to_json
