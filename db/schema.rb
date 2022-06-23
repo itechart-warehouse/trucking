@@ -89,7 +89,8 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
 
   create_table "cities", force: :cascade do |t|
     t.string "name", null: false
-    t.integer "country_id"
+    t.integer "country_id", null: false
+    t.index ["name"], name: "index_cities_on_name", unique: true
   end
 
   create_table "companies", force: :cascade do |t|
@@ -118,6 +119,7 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
 
   create_table "countries", force: :cascade do |t|
     t.string "name", null: false
+    t.index ["name"], name: "index_countries_on_name", unique: true
   end
 
   create_table "goods", force: :cascade do |t|

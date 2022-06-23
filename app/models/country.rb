@@ -3,6 +3,6 @@
 class Country < ApplicationRecord
   audited
 
-  has_many :city
+  has_many :cities
   validates :name, presence: true, uniqueness: true
 end

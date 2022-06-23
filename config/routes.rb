@@ -21,8 +21,11 @@ Rails.application.routes.draw do
   # Companies
   resources :companies, except: :show
 
-  resources :countries do
-    resources :cities
+
+  namespace :settings do
+    resources :countries do
+      resources :cities
+    end
   end
 
   # Consignment

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-class CountriesController < ApplicationController
+class Settings::CountriesController < ApplicationController
+  before_action :find_country, only: %i[update destroy]
+
   def index
     @countries, meta = paginate_collection(Country.all)
     @total_count = meta[:total_count]
@@ -8,8 +10,7 @@ class CountriesController < ApplicationController
   end
 
   def update
-    country = Country.find(params[:id])
-    answer(country) { country.update(name: country_params[:name]) }
+    answer(@country) { @country.update(country_params) }
   end
 
   def create
@@ -18,10 +19,14 @@ class CountriesController < ApplicationController
   end
 
   def destroy
-    Country.find(params[:id]).destroy
+    @country.destroy
   end
 
   private
+
+  def find_country
+    @country = Country.find(params[:id])
+  end
 
   def answer(country)
     if yield

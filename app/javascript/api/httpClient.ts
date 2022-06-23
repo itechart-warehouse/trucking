@@ -75,10 +75,10 @@ function httpClient() {
       update: (data, id) => axios.patch(`${CountryUrl}/${id}`, data),
     },
     cities: {
-      getByPage: (countryId, page, rowsPerPage) => axios.get(`${CountryUrl}/${countryId}/${CityUrl}?page=${page}$perPage=${rowsPerPage}`),
-      delete: (countryId, id) => axios.delete(`${CountryUrl}/${countryId}/${CityUrl}/${id}`),
-      create: (countryId, data) => axios.post(`${CountryUrl}/${countryId}/${CityUrl}`, data),
-      update: (countryId, data, id) => axios.patch(`${CountryUrl}/${countryId}/${CityUrl}/${id}`, data),
+      getByPage: (countryId, page, rowsPerPage) => axios.get(`${CountryUrl}/${countryId}${CityUrl}?page=${page}$perPage=${rowsPerPage}`),
+      delete: (countryId, id) => axios.delete(`${CountryUrl}/${countryId}${CityUrl}/${id}`),
+      create: (countryId, data) => axios.post(`${CountryUrl}/${countryId}${CityUrl}`, data),
+      update: (countryId, data, id) => axios.patch(`${CountryUrl}/${countryId}${CityUrl}/${id}`, data),
     },
   };
 }

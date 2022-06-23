@@ -13,8 +13,8 @@ export const writeOffActUrl = '/write_off_acts';
 // WAREHOUSES
 export const WarehouseUrl = '/warehouses';
 // COUNTRY
-export const CountryUrl = '/countries';
+export const CountryUrl = '/settings/countries';
 // CITY
-export const CityUrl = 'cities';
+export const CityUrl = '/cities';
 // STATISTICS
 export const StatisticsUrl = '/statistics';

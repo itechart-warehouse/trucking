@@ -22,7 +22,7 @@
         <% end %>
         <%= link_to "Statistics", statistics_path, class:"share-links #{'active' if current_page?('/statistics')}" %>
         <% if can? :read, Country %>
-          <%= link_to "Countries", countries_path, class:"share-links #{'active' if current_page?('/countries')}" %>
+          <%= link_to "Countries", settings_countries_path, class:"share-links #{'active' if current_page?('/countries')}" %>
         <% end %>
       </div>
       <div class="nav-right">
