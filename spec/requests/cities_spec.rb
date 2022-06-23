@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Cities", type: :request do
-  let(:user) { create(:user, role_id: 6) }
+  let(:user) { create(:user_sysAdmin) }
   let(:country) {create(:country)}
   before do
     sign_in user
