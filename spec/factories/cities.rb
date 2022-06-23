@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :city do
-    sequence(:name) { |i| "city_#{i}"}
+    name {Faker::Address.country}
     association(:country)
   end
 end
