@@ -9,6 +9,14 @@ class ApplicationController < ActionController::Base
 
   before_action :authenticate_user!
 
+  def answer(city)
+    if yield
+      render json: city
+    else
+      render json: city.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def record_not_found(error)

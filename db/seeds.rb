@@ -14,7 +14,7 @@ Country.create([{ name: 'Belarus' },
                             { name: 'Albania' },
                             { name: 'Algeria' },
                             { name: 'Poland' },])
-Country.last.cities.create([{ name: 'Warsaw ' },
+Country.find_by(name: 'Poland').cities.create([{ name: 'Warsaw ' },
                             { name: 'Krakow' },
                             { name: 'Zakopane' },
                             { name: 'Gdańsk' },])

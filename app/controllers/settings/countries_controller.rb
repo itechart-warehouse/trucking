@@ -28,14 +28,6 @@ class Settings::CountriesController < ApplicationController
     @country = Country.find(params[:id])
   end
 
-  def answer(country)
-    if yield
-      render json: country
-    else
-      render json: country.errors.full_messages, status: :unprocessable_entity
-    end
-  end
-
   def country_params
     params.permit(:name)
   end
