@@ -2,20 +2,13 @@
 
 class ApplicationController < ActionController::Base
   include Concerns::Paginatable
+  include Concerns::Answers
   rescue_from CanCan::AccessDenied, with: :access_denied
   rescue_from ActiveRecord::DeleteRestrictionError, with: :record_delete_error
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :authenticate_user!
-
-  def answer(city)
-    if yield
-      render json: city
-    else
-      render json: city.errors.full_messages, status: :unprocessable_entity
-    end
-  end
 
   private
 

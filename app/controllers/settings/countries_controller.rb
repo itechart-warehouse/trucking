@@ -10,12 +10,12 @@ class Settings::CountriesController < ApplicationController
   end
 
   def update
-    answer(@country) { @country.update(country_params) }
+    render_object(@country) { @country.update(country_params) }
   end
 
   def create
     country = Country.new(country_params)
-    answer(country) { country.save }
+    render_object(country) { country.save }
   end
 
   def destroy

@@ -10,12 +10,12 @@ class Settings::CitiesController < ApplicationController
   end
 
   def update
-    answer(@city) { @city.update(city_params) }
+    render_object(@city) { @city.update(city_params) }
   end
 
   def create
     city = @country.cities.new(city_params)
-    answer(city) { city.save }
+    render_object(city) { city.save }
   end
 
   def destroy
