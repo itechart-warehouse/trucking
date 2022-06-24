@@ -8,7 +8,6 @@ import {
 import FormikField from '../../UI/FormikField';
 import { Country, CreateCountryFormProps } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
-import countries from '../Сountries';
 
 const CreateCountryForm: React.FC<CreateCountryFormProps> = (props: CreateCountryFormProps) => {
   const {

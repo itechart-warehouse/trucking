@@ -1,11 +1,13 @@
 import * as React from 'react';
 
 import { Button, Grid } from '@mui/material';
-import { CountriesProps, Country } from '../common/interfaces_types';
+import { CountryFormProps, Country } from '../common/interfaces_types';
 import CountryTable from './countries/Table';
 import CreateCountryForm from './countries/CreateCountry';
+import Search from './Search';
+import httpClient from '../api/httpClient';
 
-const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
+const CountryForm: React.FC<CountryFormProps> = (props: CountryFormProps) => {
   const { countries, totalCount } = props;
 
   const [countriesCount, setCountriesCount] = React.useState<number>(totalCount);
@@ -18,6 +20,23 @@ const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
   const handleClose = () => {
     setActiveModal(false);
     setEditRecord(null);
+  };
+
+  const handleSearch = (text: string) => {
+    if (text) {
+      httpClient.countries.search(text, page, rowsPerPage)
+        .then((response) => {
+          setCountry(response.data.countries);
+          setCountriesCount(response.data.total_count);
+        });
+    } else {
+      httpClient.countries.getByPage(0, rowsPerPage)
+        .then((response) => {
+          setCountry(response.data.countries);
+          setCountriesCount(response.data.total_count);
+          setPage(0);
+        });
+    }
   };
 
   const handleEdit = (editRecord) => {
@@ -33,6 +52,9 @@ const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
         columnSpacing={{ xs: 1, sm: 2, md: 3 }}
         justifyContent="flex-end"
       >
+        <Grid item md={2} style={{ textAlign: 'left' }}>
+          <Search handleSubmit={handleSearch} />
+        </Grid>
         <Grid item xs={1.75} style={{ textAlign: 'right' }}>
           <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setActiveModal(true)}>
             Create country
@@ -68,4 +90,4 @@ const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
   );
 };
 
-export default Countries;
+export default CountryForm;

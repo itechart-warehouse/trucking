@@ -4,7 +4,9 @@ class Settings::CountriesController < ApplicationController
   before_action :find_country, only: %i[update destroy]
 
   def index
-    @countries, meta = paginate_collection(Country.all)
+    query = Country.all
+    query = query.by_name(params[:search]) if params[:search].present?
+    @countries, meta = paginate_collection(query)
     @total_count = meta[:total_count]
     render json: { countries: @countries, total_count: @total_count } if params[:page].present?
   end

@@ -73,6 +73,7 @@ function httpClient() {
       delete: (id) => axios.delete(`${CountryUrl}/${id}`),
       create: (data) => axios.post(`${CountryUrl}`, data),
       update: (data, id) => axios.patch(`${CountryUrl}/${id}`, data),
+      search: (search, page, rowsPerPage) => axios.get(`${CountryUrl}?page=${page}$perPage=${rowsPerPage}&search=${search}`),
     },
     cities: {
       getByPage: (countryId, page, rowsPerPage) => axios.get(`${CountryUrl}/${countryId}${CityUrl}?page=${page}$perPage=${rowsPerPage}`),

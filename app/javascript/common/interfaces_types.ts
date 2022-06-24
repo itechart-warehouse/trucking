@@ -468,7 +468,7 @@ export interface UsersProps {
     rolesJSON: string;
     companiesJSON: string;
 }
-export interface CountriesProps{
+export interface CountryFormProps{
     countries: Country[];
     totalCount: number;
 }
