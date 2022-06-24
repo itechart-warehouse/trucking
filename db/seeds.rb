@@ -51,9 +51,10 @@ jetlogistic_admin = User.create(
   login: 'jetlogisticAdmin',
   role: Role.find_by(role_name: 'admin'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 77, apartment: 45),
-  company: Company.find_by(name: 'jetlogistic'),
   confirmed_at: DateTime.now
 )
+jetlogistic_admin.companies << Company.find_by(name: 'jetlogistic')
+
 jetlogistic_owner = User.create(
   email: 'jetlogisticowner@example.com',
   password: 'jetlogisticowner123',
@@ -65,9 +66,10 @@ jetlogistic_owner = User.create(
   login: 'jetlogisticOwner',
   role: Role.find_by(role_name: 'owner'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 55, apartment: 4),
-  company: Company.find_by(name: 'jetlogistic'),
   confirmed_at: DateTime.now
 )
+jetlogistic_owner.companies << Company.find_by(name: 'jetlogistic')
+
 jetlogistic_dispatcher = User.create(
   email: 'jetlogisticdispatcher@example.com',
   password: 'jetlogisticdispatcher123',
@@ -79,9 +81,10 @@ jetlogistic_dispatcher = User.create(
   login: 'jetlogisticDispatcher',
   role: Role.find_by(role_name: 'dispatcher'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 60, apartment: 6),
-  company: Company.find_by(name: 'jetlogistic'),
   confirmed_at: DateTime.now
 )
+jetlogistic_dispatcher.companies << Company.find_by(name: 'jetlogistic')
+
 jetlogistic_manager = User.create(
   email: 'jetlogisticmanager@example.com',
   password: 'jetlogisticmanager123',
@@ -93,9 +96,10 @@ jetlogistic_manager = User.create(
   login: 'jetlogisticManager',
   role: Role.find_by(role_name: 'manager'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 13, apartment: 3),
-  company: Company.find_by(name: 'jetlogistic'),
   confirmed_at: DateTime.now
 )
+jetlogistic_manager.companies << Company.find_by(name: 'jetlogistic')
+
 jetlogistic_driver = User.create(
   email: 'jetlogisticdriver@example.com',
   password: 'jetlogisticdriver123',
@@ -107,9 +111,10 @@ jetlogistic_driver = User.create(
   login: 'jetlogisticDriver',
   role: Role.find_by(role_name: 'driver'),
   address: Address.new(town: 'Homel', street: 'Sovetskaya', building: 14, apartment: 41),
-  company: Company.find_by(name: 'jetlogistic'),
   confirmed_at: DateTime.now
 )
+jetlogistic_driver.companies << Company.find_by(name: 'jetlogistic')
+
 # gruzimvse trucks
 gruzimvse_trucks = Truck.create([
                                   { fuel_consumption: 25.03, truck_number: 'MAN 07-81 BY',
@@ -129,9 +134,10 @@ gruzimvse_admin = User.create(
   login: 'gruzimvseAdmin',
   role: Role.find_by(role_name: 'admin'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 113, apartment: 74),
-  company: Company.find_by(name: 'gruzimvse'),
   confirmed_at: DateTime.now
 )
+gruzimvse_admin.companies << Company.find_by(name: 'gruzimvse')
+
 gruzimvse_owner = User.create(
   email: 'gruzimvseowner@example.com',
   password: 'gruzimvseowner123',
@@ -143,9 +149,10 @@ gruzimvse_owner = User.create(
   login: 'gruzimvseOwner',
   role: Role.find_by(role_name: 'owner'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 33, apartment: 22),
-  company: Company.find_by(name: 'gruzimvse'),
   confirmed_at: DateTime.now
 )
+gruzimvse_owner.companies << Company.find_by(name: 'gruzimvse')
+
 gruzimvse_dispatcher = User.create(
   email: 'gruzimvsedispatcher@example.com',
   password: 'gruzimvsedispatcher123',
@@ -157,9 +164,10 @@ gruzimvse_dispatcher = User.create(
   login: 'gruzimvseDispatcher',
   role: Role.find_by(role_name: 'dispatcher'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 66, apartment: 102),
-  company: Company.find_by(name: 'gruzimvse'),
   confirmed_at: DateTime.now
 )
+gruzimvse_dispatcher.companies << Company.find_by(name: 'gruzimvse')
+
 gruzimvse_manager = User.create(
   email: 'gruzimvsemanager@example.com',
   password: 'gruzimvsemanager123',
@@ -171,9 +179,10 @@ gruzimvse_manager = User.create(
   login: 'gruzimvseManager',
   role: Role.find_by(role_name: 'manager'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 107, apartment: 3),
-  company: Company.find_by(name: 'gruzimvse'),
   confirmed_at: DateTime.now
 )
+gruzimvse_manager.companies << Company.find_by(name: 'gruzimvse')
+
 gruzimvse_driver = User.create(
   email: 'gruzimvsedriver@example.com',
   password: 'gruzimvse123',
@@ -185,9 +194,9 @@ gruzimvse_driver = User.create(
   login: 'gruzimvseDriver',
   role: Role.find_by(role_name: 'driver'),
   address: Address.new(town: 'Homel', street: 'Pravdi', building: 77, apartment: 8),
-  company: Company.find_by(name: 'gruzimvse'),
   confirmed_at: DateTime.now
 )
+gruzimvse_driver.companies << Company.find_by(name: 'gruzimvse')
 
 # Goods owners
 goods_owner_ibm = GoodsOwner.create(goods_owner_name: 'IBM',

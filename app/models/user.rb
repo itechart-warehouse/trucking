@@ -4,8 +4,9 @@ class User < ApplicationRecord
   audited
 
   belongs_to :role, optional: true
-  belongs_to :company, optional: true
   belongs_to :address, optional: true
+  has_many :user_companies
+  has_many :companies, through: :user_companies
   has_many :driver_consignments, dependent: :restrict_with_exception, class_name: 'Consignment',
                                  foreign_key: 'driver_id'
   has_many :dispatcher_consignments, dependent: :restrict_with_exception, class_name: 'Consignment',

@@ -3,7 +3,8 @@
 class Company < ApplicationRecord
   audited
 
-  has_many :users, dependent: :destroy
+  has_many :user_companies
+  has_many :users, through: :user_companies
   has_many :trucks, dependent: :destroy
   validates :name, presence: true, length: { in: 3..30 }, uniqueness: true
 
