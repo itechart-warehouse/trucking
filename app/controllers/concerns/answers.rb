@@ -5,9 +5,9 @@ module Concerns
 
     def render_object(object)
       if yield
-        render json: city
+        render json: object
       else
-        render json: city.errors.full_messages, status: :unprocessable_entity
+        render json: object.errors.full_messages, status: :unprocessable_entity
       end
     end
 
