@@ -12,7 +12,7 @@ const MailTemplates: React.FC<MailTemplateProps> = (props: MailTemplateProps) =>
   const { templatesJSON, templatesCount } = props;
   const [isActiveModal, setModalActive] = React.useState<boolean>(false);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
-  const [templates, setTemplates] = React.useState<MailTemplate[]>(JSON.parse(templatesJSON) || []);
+  const [templates, setTemplates] = React.useState<MailTemplate[]>(JSON.parse(templatesJSON));
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
   const [templateCount, setTemplateCount] = useState<number>(templatesCount);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
