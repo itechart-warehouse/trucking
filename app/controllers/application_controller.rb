@@ -9,8 +9,14 @@ class ApplicationController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :authenticate_user!
+  before_action :switch_locale
 
   private
+
+  def switch_locale
+    locale = params[:locale] || I18n.default_locale
+    I18n.locale = locale
+  end
 
   def record_not_found(error)
     render json: error, status: :not_found
