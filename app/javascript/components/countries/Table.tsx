@@ -8,7 +8,7 @@ import { City, CountryTableProps } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { CountriesField } from '../../constants/countriesField';
-import CityTable from '../city/table';
+import CityTable from '../city/Table';
 
 const CountryTable: React.FC<CountryTableProps> = (props: CountryTableProps) => {
   const {
@@ -16,11 +16,10 @@ const CountryTable: React.FC<CountryTableProps> = (props: CountryTableProps) => 
     page, setPage, setRowsPerPage, rowsPerPage, handleEdit,
   } = props;
 
-  const [citiesCount, setCitiesCount] = React.useState<number>();
-  const [cities, setCities] = React.useState<City[]>();
+  const [citiesCount, setCitiesCount] = React.useState<number>(0);
+  const [cities, setCities] = React.useState<City[]>(null);
   const [isActiveModal, setActiveModal] = React.useState<boolean>(false);
   const [countryId, setcountryId] = React.useState<number>(null);
-
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.countries.getByPage(newPage, rowsPerPage.toString())
       .then((response) => {
@@ -84,11 +83,11 @@ const CountryTable: React.FC<CountryTableProps> = (props: CountryTableProps) => 
               </TableRow>
             </TableHead>
             <TableBody>
-              {!countries
+              {!countries || countries.length === 0
                 ? (
-                  <TableRow>
+                  <StyledTableRow>
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
-                  </TableRow>
+                  </StyledTableRow>
                 )
                 : countries
                   .map((country) => (

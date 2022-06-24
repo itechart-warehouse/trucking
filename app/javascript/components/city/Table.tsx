@@ -8,7 +8,7 @@ import httpClient from '../../api/httpClient';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
 import { City, CityTableProps } from '../../common/interfaces_types';
 import { citiesFields } from '../../constants/citiesFields';
-import CreateCity from './createCity';
+import CreateCity from './CreateCity';
 
 const CityTable: React.FC<CityTableProps> = (props: CityTableProps) => {
   const {
@@ -91,7 +91,7 @@ const CityTable: React.FC<CityTableProps> = (props: CityTableProps) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {!cities
+                {!cities || cities.length === 0
                   ? (
                     <TableRow>
                       <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>

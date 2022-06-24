@@ -8,7 +8,7 @@ import {
 import FormikField from '../../UI/FormikField';
 import { Country, CreateCountryFormProps } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
-import countries from '../countries';
+import countries from '../Сountries';
 
 const CreateCountryForm: React.FC<CreateCountryFormProps> = (props: CreateCountryFormProps) => {
   const {
@@ -40,46 +40,44 @@ const CreateCountryForm: React.FC<CreateCountryFormProps> = (props: CreateCountr
   };
 
   return (
-    <div>
-      <Dialog
-        open={isActiveModal}
-        onClose={handleClose}
-        sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 535 } }}
-        maxWidth="xs"
-      >
-        <DialogTitle>{editRecord ? 'edit country' : 'Create country'}</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={2} direction="column">
-            <Grid item xs={8}>
-              <Formik
-                initialValues={countryInitialValues}
-                onSubmit={(values, { resetForm }) => {
-                  handleSubmit(values);
-                  resetForm({});
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <Form>
-                  <Container maxWidth="sm">
-                    <FormikField
-                      name="name"
-                      label="Enter title"
-                      required
-                      type="text"
-                      variant="standard"
-                    />
-                  </Container>
-                  <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
-                    <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                    <Button type="submit" color="success" variant="outlined">{editRecord ? 'edit' : 'Create'}</Button>
-                  </DialogActions>
-                </Form>
-              </Formik>
-            </Grid>
+    <Dialog
+      open={isActiveModal}
+      onClose={handleClose}
+      sx={{ '& .MuiDialog-paper': { width: '100%', maxHeight: 535 } }}
+      maxWidth="xs"
+    >
+      <DialogTitle>{editRecord ? 'edit country' : 'Create country'}</DialogTitle>
+      <DialogContent>
+        <Grid container spacing={2} direction="column">
+          <Grid item xs={8}>
+            <Formik
+              initialValues={countryInitialValues}
+              onSubmit={(values, { resetForm }) => {
+                handleSubmit(values);
+                resetForm({});
+                window.scrollTo(0, 0);
+              }}
+            >
+              <Form>
+                <Container maxWidth="sm">
+                  <FormikField
+                    name="name"
+                    label="Enter title"
+                    required
+                    type="text"
+                    variant="standard"
+                  />
+                </Container>
+                <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
+                  <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
+                  <Button type="submit" color="success" variant="outlined">{editRecord ? 'edit' : 'Create'}</Button>
+                </DialogActions>
+              </Form>
+            </Formik>
           </Grid>
-        </DialogContent>
-      </Dialog>
-    </div>
+        </Grid>
+      </DialogContent>
+    </Dialog>
   );
 };
 

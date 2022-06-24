@@ -2,15 +2,13 @@ import * as React from 'react';
 
 import { Button, Grid } from '@mui/material';
 import { CountriesProps, Country } from '../common/interfaces_types';
-import CountryTable from './countries/table';
-import CreateCountryForm from './countries/createCountry';
-import Search from './Search';
-import CompanyTable from './Company/CompanyTable';
+import CountryTable from './countries/Table';
+import CreateCountryForm from './countries/CreateCountry';
 
 const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
-  const { countries, total_count } = props;
+  const { countries, totalCount } = props;
 
-  const [countriesCount, setCountriesCount] = React.useState<number>(total_count);
+  const [countriesCount, setCountriesCount] = React.useState<number>(totalCount);
   const [country, setCountry] = React.useState<Country[]>(countries);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [page, setPage] = React.useState<number>(0);
@@ -37,7 +35,7 @@ const Countries: React.FC<CountriesProps> = (props: CountriesProps) => {
       >
         <Grid item xs={1.75} style={{ textAlign: 'right' }}>
           <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setActiveModal(true)}>
-            Create Company
+            Create country
           </Button>
         </Grid>
         <Grid item xs={12}>

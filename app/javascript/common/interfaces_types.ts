@@ -470,7 +470,7 @@ export interface UsersProps {
 }
 export interface CountriesProps{
     countries: Country[];
-    total_count: number;
+    totalCount: number;
 }
 
 export interface BasicDateRangePickerProps {
