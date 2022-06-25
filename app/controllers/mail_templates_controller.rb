@@ -11,9 +11,7 @@ class MailTemplatesController < ApplicationController
     templates, meta = paginate_collection(query)
     @template_count = meta[:total_count]
     @serialized_templates = ActiveModelSerializers::SerializableResource.new(templates).to_json
-    if params[:page]
-      render json: { templates: @serialized_templates, total_count: @template_count }
-    end
+    render json: { templates: @serialized_templates, total_count: @template_count } if params[:page]
   end
 
   def show
@@ -32,7 +30,15 @@ class MailTemplatesController < ApplicationController
     end
   end
 
-  def update; end
+  def update
+    authorize! :create, MailTemplate
+
+    if @mail_template.update(mail_template_params)
+      render json: @mail_template
+    else
+      render json: @mail_template.errors.full_messages, status: :unprocessable_entity
+    end
+  end
 
   def destroy
     if @mail_template.destroy
