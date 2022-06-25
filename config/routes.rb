@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   # Companies
   resources :companies, except: :show
 
-
   # Consignment
   resources :consignments, only: %i[create index]
 
@@ -46,6 +45,9 @@ Rails.application.routes.draw do
 
   # Statistics
   resources :statistics, only: :index
+
+  # Mail templates
+  resources :mail_templates
 
   # API
   namespace :api do

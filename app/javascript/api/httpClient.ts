@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {
-  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl, StatisticsUrl,
+  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl, MailTemplatesUrl, StatisticsUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -59,6 +59,13 @@ function httpClient() {
       ) => axios.get(
         `${StatisticsUrl}.json?name=${filters.name}&actions=${filters.action}&start_date=${startDate}&end_date=${endDate}`,
       ),
+    },
+    mailTemplates: {
+      get: (id) => axios.get(`${MailTemplatesUrl}/${id}`),
+      create: (template) => axios.post(`${MailTemplatesUrl}`, template),
+      delete: (id) => axios.delete(`${MailTemplatesUrl}/${id}`),
+      search: (page, pageCount, search) => axios.get(`${MailTemplatesUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
+      getAll: (page, pageCount = '') => axios.get(`${MailTemplatesUrl}?page=${page}&per_page=${pageCount}`),
     },
   };
 }
