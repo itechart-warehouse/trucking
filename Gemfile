@@ -28,6 +28,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 # Rich text gem
 gem 'actiontext', github: 'rails/actiontext', branch: 'archive', require: 'action_text'
+gem 'bootstrap', '~> 4.0.0'
+gem 'jquery-rails', '~> 4.4'
 gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
 
