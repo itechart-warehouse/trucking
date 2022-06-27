@@ -1,0 +1,18 @@
+ru:
+  no_access: "Отказ в доступе"
+  bad: "Плохой запрос"
+  not_found: 'запрашиваемый контент не найден'
+  consignment: 'товарно-транспортная накладная'
+  waybill: 'путевой лист'
+  warehouse: 'склад'
+  write_off_act: 'акт'
+  company: 'компания'
+  good: 'товар'
+  goods_owner: 'владелец товара'
+  user: 'пользователь'
+  truck: 'машина'
+  checkpoint: 'контрольная точка'
+  error: "ошибка %{status_code}"
+  time:
+    formats:
+      default: "%d-%m-%Y %H:%M"
