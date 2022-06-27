@@ -29,6 +29,7 @@ gem 'webpacker'
 # Rich text gem
 gem 'actiontext', github: 'rails/actiontext', branch: 'archive', require: 'action_text'
 gem 'bootstrap', '~> 4.0.0'
+gem 'devise_zxcvbn', '~> 5.1'
 gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
 gem 'sidekiq', '~> 4.1', '>= 4.1.2'
 

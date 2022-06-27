@@ -107,6 +107,9 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    devise_zxcvbn (5.2.0)
+      devise
+      zxcvbn-js (~> 4.4.1)
     diff-lcs (1.5.0)
     docile (1.4.0)
     duktape (2.6.0.0)
@@ -321,6 +324,8 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    zxcvbn-js (4.4.3)
+      execjs
 
 PLATFORMS
   ruby
@@ -339,6 +344,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
   devise (~> 4.8, >= 4.8.1)
+  devise_zxcvbn (~> 5.1)
   duktape
   exception_notification
   factory_bot_rails (~> 6.2)
