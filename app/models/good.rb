@@ -8,4 +8,6 @@ class Good < ApplicationRecord
   validates :quantity, presence: true, numericality: { greater_than: 0 }
   validates :unit_of_measurement, presence: true, length: { in: 2..15 }
   validates :status, presence: true, inclusion: { in: %w[accepted checked delivered lost] }
+
+  translates :good_name, :unit_of_measurement, :status
 end

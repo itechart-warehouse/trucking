@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_20_101256) do
+ActiveRecord::Schema.define(version: 2022_06_27_095622) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,6 +46,17 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "address_translations", force: :cascade do |t|
+    t.bigint "address_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "town"
+    t.string "street"
+    t.index ["address_id"], name: "index_address_translations_on_address_id"
+    t.index ["locale"], name: "index_address_translations_on_locale"
+  end
+
   create_table "addresses", force: :cascade do |t|
     t.string "town"
     t.string "street"
@@ -78,6 +89,16 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "checkpoint_translations", force: :cascade do |t|
+    t.bigint "checkpoint_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "city"
+    t.index ["checkpoint_id"], name: "index_checkpoint_translations_on_checkpoint_id"
+    t.index ["locale"], name: "index_checkpoint_translations_on_locale"
+  end
+
   create_table "checkpoints", force: :cascade do |t|
     t.string "city"
     t.date "pass_date"
@@ -87,18 +108,32 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.integer "waybill_id"
   end
 
-  create_table "cities", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "country_id", null: false
-    t.index ["name"], name: "index_cities_on_name", unique: true
-  end
-
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "is_suspended", default: false, null: false
     t.index ["name"], name: "index_companies_on_name", unique: true
+  end
+
+  create_table "company_translations", force: :cascade do |t|
+    t.bigint "company_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name"
+    t.index ["company_id"], name: "index_company_translations_on_company_id"
+    t.index ["locale"], name: "index_company_translations_on_locale"
+  end
+
+  create_table "consignment_translations", force: :cascade do |t|
+    t.bigint "consignment_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["consignment_id"], name: "index_consignment_translations_on_consignment_id"
+    t.index ["locale"], name: "index_consignment_translations_on_locale"
   end
 
   create_table "consignments", force: :cascade do |t|
@@ -117,9 +152,16 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.index ["consignment_seria", "consignment_number"], name: "index_consignments_on_consignment_seria_and_consignment_number", unique: true
   end
 
-  create_table "countries", force: :cascade do |t|
-    t.string "name", null: false
-    t.index ["name"], name: "index_countries_on_name", unique: true
+  create_table "good_translations", force: :cascade do |t|
+    t.bigint "good_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "good_name"
+    t.string "unit_of_measurement"
+    t.string "status"
+    t.index ["good_id"], name: "index_good_translations_on_good_id"
+    t.index ["locale"], name: "index_good_translations_on_locale"
   end
 
   create_table "goods", force: :cascade do |t|
@@ -133,19 +175,49 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.index ["consignment_id"], name: "index_goods_on_consignment_id"
   end
 
+  create_table "goods_owner_translations", force: :cascade do |t|
+    t.bigint "goods_owner_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "goods_owner_name"
+    t.index ["goods_owner_id"], name: "index_goods_owner_translations_on_goods_owner_id"
+    t.index ["locale"], name: "index_goods_owner_translations_on_locale"
+  end
+
   create_table "goods_owners", force: :cascade do |t|
-    t.string "goods_owner_name", null: false
+    t.string "goods_owner_name"
     t.bigint "address_id"
     t.index ["goods_owner_name"], name: "index_goods_owners_on_goods_owner_name", unique: true
   end
 
+  create_table "role_translations", force: :cascade do |t|
+    t.bigint "role_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "role_name"
+    t.index ["locale"], name: "index_role_translations_on_locale"
+    t.index ["role_id"], name: "index_role_translations_on_role_id"
+  end
+
   create_table "roles", force: :cascade do |t|
-    t.string "role_name", null: false
+    t.string "role_name"
     t.index ["role_name"], name: "index_roles_on_role_name", unique: true
   end
 
+  create_table "truck_type_translations", force: :cascade do |t|
+    t.bigint "truck_type_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "truck_type_name"
+    t.index ["locale"], name: "index_truck_type_translations_on_locale"
+    t.index ["truck_type_id"], name: "index_truck_type_translations_on_truck_type_id"
+  end
+
   create_table "truck_types", force: :cascade do |t|
-    t.string "truck_type_name", null: false
+    t.string "truck_type_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["truck_type_name"], name: "index_truck_types_on_truck_type_name", unique: true
@@ -159,6 +231,18 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.bigint "truck_type_id"
     t.bigint "company_id"
     t.index ["truck_number"], name: "index_trucks_on_truck_number", unique: true
+  end
+
+  create_table "user_translations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "second_name"
+    t.string "middle_name"
+    t.index ["locale"], name: "index_user_translations_on_locale"
+    t.index ["user_id"], name: "index_user_translations_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -192,8 +276,18 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.index ["role_id"], name: "index_users_on_role_id"
   end
 
+  create_table "warehouse_translations", force: :cascade do |t|
+    t.bigint "warehouse_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "warehouse_name"
+    t.index ["locale"], name: "index_warehouse_translations_on_locale"
+    t.index ["warehouse_id"], name: "index_warehouse_translations_on_warehouse_id"
+  end
+
   create_table "warehouses", force: :cascade do |t|
-    t.string "warehouse_name", null: false
+    t.string "warehouse_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "address_id"
@@ -201,6 +295,16 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.bigint "warehouseman_id"
     t.index ["address_id"], name: "index_warehouses_on_address_id"
     t.index ["warehouse_name"], name: "index_warehouses_on_warehouse_name", unique: true
+  end
+
+  create_table "waybill_translations", force: :cascade do |t|
+    t.bigint "waybill_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status"
+    t.index ["locale"], name: "index_waybill_translations_on_locale"
+    t.index ["waybill_id"], name: "index_waybill_translations_on_waybill_id"
   end
 
   create_table "waybills", force: :cascade do |t|
@@ -218,6 +322,17 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.bigint "warehouse_id"
     t.index ["warehouse_id"], name: "index_waybills_on_warehouse_id"
     t.index ["waybill_seria", "waybill_number"], name: "index_waybills_on_waybill_seria_and_waybill_number", unique: true
+  end
+
+  create_table "write_off_act_translations", force: :cascade do |t|
+    t.bigint "write_off_act_id", null: false
+    t.string "locale", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "good_name"
+    t.text "description"
+    t.index ["locale"], name: "index_write_off_act_translations_on_locale"
+    t.index ["write_off_act_id"], name: "index_write_off_act_translations_on_write_off_act_id"
   end
 
   create_table "write_off_acts", force: :cascade do |t|

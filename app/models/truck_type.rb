@@ -3,4 +3,6 @@
 class TruckType < ApplicationRecord
   has_many :trucks, dependent: :destroy
   validates :truck_type_name, presence: true, length: { in: 3..30 }, uniqueness: true
+
+  translates :truck_type_name
 end
