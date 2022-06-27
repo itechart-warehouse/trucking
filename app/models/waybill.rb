@@ -15,7 +15,7 @@ class Waybill < ApplicationRecord
 
   translates :status
 
-  scope :by_seria_number, ->(search)  {
+  scope :by_seria_number, ->(search) {
                             seria, number = search.split
                             query = "waybill_seria ILIKE '#{seria}%'"
                             if number.present?
