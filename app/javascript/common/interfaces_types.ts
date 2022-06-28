@@ -120,6 +120,26 @@ export type Warehouse = {
 
 export declare type AlignType = 'left' | 'center' | 'right';
 
+export type UserLogs = {
+    id: string;
+    username: string;
+    company: string;
+    date: string;
+    action: string;
+    changes: {};
+    type: string;
+}
+
+export type StatisticsTableType = {
+    userLogs: UserLogs[];
+    statisticsCount: number;
+    setUserLogs: (userLog) => void;
+};
+
+export type StatAccordion = {
+    item: UserLogs;
+};
+
 // INTERFACES
 export interface CreateConsignmentFormProps {
     isActiveModal: boolean;
@@ -333,7 +353,6 @@ export interface WaybillTableProps {
     setPage: (page:number)=>void;
     page: number;
     setWaybill:(waybill: Waybill[])=>void;
-    setWaybillsCount:(wayCount:number)=>void;
     waybillsCount:number;
     waybills: Waybill[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
@@ -354,6 +373,7 @@ export interface SiteAlertProps {
 
 export interface SearchProps {
     handleSubmit: (text: string)=>void;
+    label: string;
 }
 
 export interface ConsignmentProps {
@@ -367,14 +387,14 @@ export interface ConsignmentProps {
 }
 
 export interface WriteOffActsProps {
-    writeOffActCount:number,
+    writeOffActCount: number,
     currentUserRole: string;
     writeOffActsJSON: string;
     consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
-    warehouseCount:number;
+    warehouseCount: number;
     currentUserRole: string;
     warehousesJSON: string;
     warehousemansJSON: string;
@@ -387,8 +407,17 @@ export interface CompanyProps {
 }
 
 export interface UsersProps {
-    user_count: number;
+    usersCount: number;
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;
+}
+
+export interface BasicDateRangePickerProps {
+    setUserLogs: (userLog) => void;
+}
+
+export interface StatisticsProps {
+    statisticsCount: number;
+    statisticsJSON: string;
 }

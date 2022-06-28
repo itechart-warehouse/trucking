@@ -19,10 +19,15 @@ export const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export const SearchPanel = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  columnGap: '10px',
+  rowGap: '10px',
+  marginBottom: '20px',
+  padding: '10px',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.5),
   '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.9),
   },
-  marginLeft: 0,
 }));

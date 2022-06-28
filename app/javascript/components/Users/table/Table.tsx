@@ -1,10 +1,8 @@
 import * as React from 'react';
-
 import {
   Table, TableBody, TableContainer, Paper, Box,
-  Checkbox, FormControlLabel, Switch, TablePagination, Button, TableRow, CircularProgress,
+  Checkbox, FormControlLabel, Switch, TablePagination, Button, CircularProgress,
 } from '@mui/material';
-
 import EnhancedTableToolbar from './TableToolbar';
 import EnhancedTableHead from './TableHead';
 import { Order } from '../../../mixins/initialValues/userList';
@@ -106,9 +104,9 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
             <TableBody>
               {!users
                 ? (
-                  <TableRow>
+                  <StyledTableRow>
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
-                  </TableRow>
+                  </StyledTableRow>
                 )
                 : stableSort(users, getComparator(order, orderBy))
 
@@ -116,7 +114,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                     const name = `${user.first_name} ${user.middle_name} ${user.second_name}`;
                     const labelId = `enhanced-table-checkbox-${index}`;
                     return (
-                      <TableRow
+                      <StyledTableRow
                         hover
                         tabIndex={-1}
                         key={user.id}
@@ -146,7 +144,7 @@ const EnhancedTable: React.FC<EnhancedTableProps> = (props: EnhancedTableProps) 
                         </StyledTableCell>
                         <StyledTableCell align="left">{user.login}</StyledTableCell>
                         <StyledTableCell align="left">{user.role.role_name}</StyledTableCell>
-                      </TableRow>
+                      </StyledTableRow>
                     );
                   })}
 

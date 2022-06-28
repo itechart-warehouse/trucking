@@ -81,7 +81,7 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search handleSubmit={handleSearch} />
+            <Search handleSubmit={handleSearch} label="warehouse name..." />
           </Grid>
           {currentUserRole === 'admin'
             ? (

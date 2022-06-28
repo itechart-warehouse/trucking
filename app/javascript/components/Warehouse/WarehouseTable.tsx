@@ -69,7 +69,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
             <TableHead>
               <TableRow>
                 {warehouseTable.map((cell) => (
-                  <StyledTableCell>
+                  <StyledTableCell key={cell.id}>
                     {cell.title}
                   </StyledTableCell>
                 ))}

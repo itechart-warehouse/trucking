@@ -74,7 +74,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search handleSubmit={handleSearch} />
+            <Search handleSubmit={handleSearch} label="bundle seria and bundle number..." />
           </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (

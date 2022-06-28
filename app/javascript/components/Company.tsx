@@ -69,7 +69,7 @@ const Companies: React.FC<CompanyProps> = (props: CompanyProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search handleSubmit={handleSearch} />
+            <Search handleSubmit={handleSearch} label="company name..." />
           </Grid>
           {currentUserRole === 'system administrator'
             ? (

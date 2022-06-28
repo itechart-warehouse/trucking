@@ -151,6 +151,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                             label="Role"
                             fullWidth
                             value={values?.role}
+                            required
                           />
                         )}
                       />

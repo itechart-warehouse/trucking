@@ -1,3 +1,3 @@
 Audited.config do |config|
-  config.audit_class = TruckingAudit
+  config.audit_class = Statistics
 end

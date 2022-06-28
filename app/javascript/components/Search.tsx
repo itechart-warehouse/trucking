@@ -9,7 +9,7 @@ import FormikField from '../UI/FormikField';
 import { SearchPanel } from '../utils/style';
 
 const Search: React.FC<SearchProps> = (props: SearchProps) => {
-  const { handleSubmit } = props;
+  const { handleSubmit, label } = props;
 
   const normalize = (text: any) => {
     handleSubmit(text.text.replace('\t', ' '));
@@ -24,7 +24,7 @@ const Search: React.FC<SearchProps> = (props: SearchProps) => {
         <Form style={{ display: 'flex', alignItems: 'center', padding: '0 0 0 15px' }}>
           <FormikField
             name="text"
-            label="Search..."
+            label={label}
             required={false}
             type="text"
             color="success"
