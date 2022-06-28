@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_20_101256) do
+ActiveRecord::Schema.define(version: 2022_06_24_113127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,6 +161,16 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.index ["truck_number"], name: "index_trucks_on_truck_number", unique: true
   end
 
+  create_table "user_companies", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_user_companies_on_company_id"
+    t.index ["user_id", "company_id"], name: "index_user_companies_on_user_id_and_company_id", unique: true
+    t.index ["user_id"], name: "index_user_companies_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -175,7 +185,6 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.string "middle_name"
     t.date "birthday"
     t.string "login"
-    t.bigint "company_id"
     t.bigint "address_id"
     t.text "passport"
     t.integer "failed_attempts", default: 0, null: false
@@ -184,7 +193,6 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.index ["address_id"], name: "index_users_on_address_id"
-    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["login"], name: "index_users_on_login", unique: true
