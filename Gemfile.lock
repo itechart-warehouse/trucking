@@ -340,8 +340,8 @@ DEPENDENCIES
   duktape
   exception_notification
   factory_bot_rails (~> 6.2)
-  globalize
   faker
+  globalize
   hirb
   jbuilder (~> 2.7)
   letter_opener
