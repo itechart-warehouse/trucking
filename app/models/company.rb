@@ -8,8 +8,6 @@ class Company < ApplicationRecord
 
   scope :by_name, ->(search) { where("name ilike '#{search}%'") }
 
-  translates :name
-
   def change_status
     update(is_suspended: !is_suspended)
   end
