@@ -1,34 +1,84 @@
-<div class="container">
-<h2>Log in</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<head>
+    <title>Log in</title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Datta Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+    <meta name="keywords" content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template, free admin theme, free dashboard template"/>
+    <meta name="author" content="CodedThemes"/>
 
-    <p class="notice error-msg"><%= notice %></p>
-    <p class="alert error-msg"><%= alert %></p>
+</head>
 
-  <div class="field">
-    <%= f.email_field :email, autocomplete: "email", placeholder: "Email", class: 'input-field' %>
-  </div>
+<body>
 
-  <div class="input-field">
-    <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "input-box_field", id: "myInput" %>
-    <span class="eye" onclick="myFunction()">
-      <i id="hide1" class="fas fa-eye"></i>
-      <i id="hide2" class="fas fa-eye-slash"></i>
-    </span>
-  </div>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me, class: 'remember-checkbox' %>
-      <%= f.label :remember_me, class: 'remember' %>
-    </div>
-  <% end %>
+        <div class="auth-wrapper">
+          <div class="auth-content">
+              <div class="auth-bg">
+                  <span class="r"></span>
+                  <span class="r s"></span>
+                  <span class="r s"></span>
+                  <span class="r"></span>
+              </div>
 
-  <div class="actions">
-    <%= f.submit "Log in", class: 'btn'%>
-  </div>
-<% end %>
+              <div class="card">
+                  <div class="card-body text-center">
+                      <div class="mb-4">
+                          <i class="feather icon-unlock auth-icon"></i>
+                      </div>
+                      <h3 class="mb-4">Login</h3>
+
+                      <p class="notice error-msg"><%= notice %></p>
+                      <p class="alert error-msg"><%= alert %></p>
+
+                      <div class="input-group mb-3">
+                          <%= f.email_field :email, autocomplete: "email", placeholder: "Email", class: 'form-control' %>
+                      </div>
+
+                      <div class="input-group mb-4">
+                          <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "form-control input-box_field", id: "myInput" %>
+                          <span class="eye" onclick="myFunction()">
+                            <i id="hide1" class="feather icon-eye"></i>
+                            <i id="hide2" class="feather icon-eye-off"></i>
+                          </span>
+                      </div>
+
+                      <% if devise_mapping.rememberable? %>
+                          <div class="form-group text-left">
+                              <div class="checkbox checkbox-fill d-inline">
+                                  <%= f.check_box :remember_me, name:'checkbox-fill-1', id:"checkbox-fill-a1", checked:""%>
+                                  <%= f.label :remember_me, for:"checkbox-fill-a1", class: 'cr' do %>
+                                      Save Details
+                                  <%end %>
+                              </div>
+                          </div>
+                      <% end %>
+
+                      <%= f.submit "Log in", class: 'btn btn-primary shadow-2 mb-4'%>
+                      <p class="mb-2 text-muted">Forgot password? <a href="/users/password/new">Reset</a></p>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+        <!-- Required Js -->
+        <script src="assets/js/vendor-all.min.js"></script>
+        <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+    <% end %>
+</body>
 
 <%= render "devise/shared/links" %>
-</div>
+</html>
+
