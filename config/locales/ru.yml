@@ -1,18 +1,49 @@
 ru:
-  no_access: "Отказ в доступе"
-  bad: "Плохой запрос"
-  not_found: 'запрашиваемый контент не найден'
-  consignment: 'товарно-транспортная накладная'
-  waybill: 'путевой лист'
-  warehouse: 'склад'
-  write_off_act: 'акт'
-  company: 'компания'
-  good: 'товар'
-  goods_owner: 'владелец товара'
-  user: 'пользователь'
-  truck: 'машина'
-  checkpoint: 'контрольная точка'
-  error: "ошибка %{status_code}"
+  resource:
+    consignment:
+      one: 'товарно-транспортная накладная'
+      two: 'товарно-транспортные накладные'
+    waybill:
+      one: 'путевой лист'
+      two: 'путевые листы'
+    warehouse:
+      one: 'склад'
+      two: 'склады'
+    write_off_act:
+      one: 'акт утери'
+      two: 'акты утери'
+    company:
+      one: 'компания'
+      two: 'компании'
+    good:
+      one: 'товар'
+      two: 'товары'
+    goods_owner:
+      one: 'владелец товара'
+      two: 'владельцы товаров'
+    user:
+      one: 'пользователь'
+      two: 'пользователи'
+    truck:
+      one: 'машина'
+      two: 'машины'
+    checkpoint:
+      one: 'контрольная точка'
+      two: 'контрольные точки'
+  response:
+    success:
+      create: "%{resource} успешно создан"
+      update: "%{resource} успешно обновлён"
+      delete: "%{resource} успешно удалён"
+    error:
+      create: "%{resource} не был создан код ошибки %{status_code}"
+      update: "%{resource} не был обновлён код ошибки %{status_code}"
+      delete: "%{resource} не был удалён код ошибки %{status_code}"
+      no_access: "Отказ в доступе"
+      bad: "ошибка в запросе"
+      not_found: 'запрашиваемый %{resource} не найден'
+
+
   time:
     formats:
       default: "%d-%m-%Y %H:%M"
