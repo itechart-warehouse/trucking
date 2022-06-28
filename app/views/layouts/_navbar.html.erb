@@ -62,6 +62,8 @@
               <a href="/write_off_acts" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Write-off acts</span></a>
             </li>
         <% end %>
+
+            <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
         </ul>
       </div>
     </div>

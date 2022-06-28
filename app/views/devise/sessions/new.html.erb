@@ -39,20 +39,30 @@
                       </div>
                       <h3 class="mb-4">Login</h3>
 
-                      <p class="notice error-msg"><%= notice %></p>
-                      <p class="alert error-msg"><%= alert %></p>
+                      <%if alert%>
+                          <div class="alert alert-danger" role="alert"><%=alert %></div>
+                      <%end %>
 
                       <div class="input-group mb-3">
+                          <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1"><i class="feather icon-users"></i></span>
+                          </div>
                           <%= f.email_field :email, autocomplete: "email", placeholder: "Email", class: 'form-control' %>
                       </div>
 
-                      <div class="input-group mb-4">
-                          <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "form-control input-box_field", id: "myInput" %>
-                          <span class="eye" onclick="myFunction()">
-                            <i id="hide1" class="feather icon-eye"></i>
-                            <i id="hide2" class="feather icon-eye-off"></i>
-                          </span>
-                      </div>
+                          <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text" id="basic-addon1"><i class="feather icon-lock"></i></span>
+                              </div>
+                              <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "form-control input-box_field", id: "myInput"%>
+
+                              <div class="input-group-append">
+                                <span class="input-group-text" onclick="myFunction()">
+                                  <i class="feather icon-eye" id="hide1"></i>
+                                  <i class="feather icon-eye-off" id="hide2"></i>
+                                </span>
+                              </div>
+                          </div>
 
                       <% if devise_mapping.rememberable? %>
                           <div class="form-group text-left">
@@ -73,12 +83,11 @@
       </div>
 
         <!-- Required Js -->
-        <script src="assets/js/vendor-all.min.js"></script>
-        <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="../../assets/stylesheets/assets/js/vendor-all.min.js"></script>
+        <script src="../../assets/stylesheets/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
 
     <% end %>
 </body>
 
 <%= render "devise/shared/links" %>
 </html>
-
