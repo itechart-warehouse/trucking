@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     delete '/:id', to: 'pages#destroy_user'
   end
 
+  # User profile
+  resources :member
   # Companies
   resources :companies, except: :show
 

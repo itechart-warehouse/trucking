@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 class MemberController < ApplicationController
-  before_action :set_user, only: %i[update show destroy]
+  before_action :set_user, only: %i[update index destroy]
 
-  def show
-    render json: @user
+  def index
+    @serialized_user_data = ActiveModelSerializers::SerializableResource.new(@user).to_json
+    respond_to do |format|
+      format.html
+      format.json { render json: @serialized_user_data }
+    end
   end
 
   def update
@@ -32,7 +36,7 @@ class MemberController < ApplicationController
   private
 
   def set_user
-    @user = User.find(params[:id])
+    @user = current_user
   end
 
   def permit_user_params

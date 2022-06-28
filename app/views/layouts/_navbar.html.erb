@@ -62,6 +62,10 @@
               <a href="/write_off_acts" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Write-off acts</span></a>
             </li>
         <% end %>
+
+            <li data-username="Table bootstrap datatable footable" class="nav-item">
+              <a href="/member" class="nav-link "><span class="pcoded-mtext"><%= "#{current_user.first_name} #{current_user.second_name}" %></span></a>
+            </li>
         </ul>
       </div>
     </div>
