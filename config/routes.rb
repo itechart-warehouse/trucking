@@ -1,17 +1,16 @@
 # frozen_string_literal: true
+
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-    mount Sidekiq::Web => '/sidekiq'
-    scope "(:locale)", locale: /en|ru/ do
+  mount Sidekiq::Web => '/sidekiq'
+  scope '(:locale)', locale: /en|ru/ do
     root 'pages#home'
     # User
-    devise_for :users, controllers: {
-          confirmations: 'users/confirmations'
-        }
+    devise_for :users, controllers: { confirmations: 'users/confirmations' }
 
     scope '/users' do
-      get '',to: 'pages#users_index',as: "users"
+      get '', to: 'pages#users_index', as: 'users'
       post '/create', to: 'pages#create_user'
       get '/:id', to: 'pages#user_data'
       patch '/:id/edit', to: 'pages#update_user'
@@ -21,15 +20,14 @@ Rails.application.routes.draw do
     # Companies
     resources :companies, except: :show
 
-
-  namespace :settings do
-    resources :countries do
-      resources :cities
+    namespace :settings do
+      resources :countries do
+        resources :cities
+      end
     end
-  end
 
-  # Consignment
-  resources :consignments, only: %i[create index]
+    # Consignment
+    resources :consignments, only: %i[create index]
 
     patch 'consignment/:consignment_id/goods', to: 'goods#update'
 
