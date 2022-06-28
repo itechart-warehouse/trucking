@@ -13,8 +13,6 @@ class Waybill < ApplicationRecord
   validates :waybill_seria, presence: true, length: { in: 2..10 },
                             uniqueness: { scope: :waybill_number }
 
-  translates :status
-
   scope :by_seria_number, ->(search) {
                             seria, number = search.split
                             query = "waybill_seria ILIKE '#{seria}%'"

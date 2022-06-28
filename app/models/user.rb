@@ -29,8 +29,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :timeoutable,
          :validatable, :confirmable, :lockable
 
-  translates :first_name, :second_name, :middle_name
-
   scope :by_name, ->(search) {
                     sec_name, first_name, mid_name = search.split
                     query = "second_name ILIKE '#{sec_name}%'"
