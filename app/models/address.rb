@@ -15,5 +15,4 @@ class Address < ApplicationRecord
   validates :town, presence: true, length: { in: 3..30 }
   validates :street, presence: true, length: { in: 3..30 }
   validates :building, presence: true, numericality: { greater_than: 0 }
-
 end
