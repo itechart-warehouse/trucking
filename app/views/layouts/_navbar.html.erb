@@ -63,20 +63,29 @@
             </li>
         <% end %>
 
-          <% if can? :read, Country %>
+        <% if can? :read, Statistics %>
             <li data-username="Table bootstrap datatable footable" class="nav-item">
-              <a href="/countries" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Countries</span></a>
+              <a href="/statistics" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Statistics</span></a>
             </li>
-          <% end %>
+        <% end %>
 
-          <li data-username="Table bootstrap datatable footable" class="nav-item">
-            <a href="/statistics" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Statistics</span></a>
-          </li>
+        <% if can? :read, Country %>
+            <li data-username="Table bootstrap datatable footable" class="nav-item">
+              <a href="/settings/countries" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Countries</span></a>
+            </li>
+        <% end %>
 
-            <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
-        </ul>
+        <% if can? :read, Unit %>
+            <li data-username="Table bootstrap datatable footable" class="nav-item">
+              <a href="/settings/units" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Measure units</span></a>
+            </li>
+        <% end %>
+            <li data-username="Table bootstrap datatable footable" class="nav-item">
+              <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link'%>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
 <% end %>
-

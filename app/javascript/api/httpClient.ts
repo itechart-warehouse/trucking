@@ -10,6 +10,7 @@ import {
   CountryUrl,
   CityUrl,
   StatisticsUrl,
+  UnitUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -80,6 +81,14 @@ function httpClient() {
       delete: (countryId, id) => axios.delete(`${CountryUrl}/${countryId}${CityUrl}/${id}`),
       create: (countryId, data) => axios.post(`${CountryUrl}/${countryId}${CityUrl}`, data),
       update: (countryId, data, id) => axios.patch(`${CountryUrl}/${countryId}${CityUrl}/${id}`, data),
+    },
+    Unit: {
+      create: (Unit) => axios.post(`${UnitUrl}`, Unit),
+      update: (id, Unit) => axios.patch(`${UnitUrl}/${id}`, Unit),
+      delete: (id) => axios.delete(`${UnitUrl}/${id}`),
+      getAll: (page, pageCount = '') => axios.get(`${UnitUrl}?page=${page}&per_page=${pageCount}`),
+      get: (id) => axios.get(`${UnitUrl}/${id}`),
+      search: (page, pageCount, search) => axios.get(`${UnitUrl}?page=${page}&per_page=${pageCount}&search=${search}`),
     },
   };
 }

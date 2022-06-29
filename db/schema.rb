@@ -161,6 +161,12 @@ ActiveRecord::Schema.define(version: 2022_06_20_101256) do
     t.index ["truck_number"], name: "index_trucks_on_truck_number", unique: true
   end
 
+  create_table "units", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "short_name"
+    t.index ["name"], name: "index_units_on_name", unique: true
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false

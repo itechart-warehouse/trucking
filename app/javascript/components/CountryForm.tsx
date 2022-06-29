@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Button, Grid } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { CountryFormProps, Country } from '../common/interfaces_types';
 import CountryTable from './countries/Table';
 import CreateCountryForm from './countries/CreateCountry';
@@ -46,34 +46,39 @@ const CountryForm: React.FC<CountryFormProps> = (props: CountryFormProps) => {
 
   return (
     <div className="wrapper">
-      <Grid
-        container
-        rowSpacing={3}
-        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-        justifyContent="flex-end"
+      <Box sx={{
+        flexGrow: 1, display: 'flex', rowGap: '20px', flexDirection: 'column', maxWidth: '66%',
+      }}
       >
-        <Grid item md={2} style={{ textAlign: 'left' }}>
-          <Search handleSubmit={handleSearch} />
+        <Grid
+          container
+          rowSpacing={3}
+          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          justifyContent="flex-end"
+        >
+          <Grid item md={2} style={{ textAlign: 'left' }}>
+            <Search handleSubmit={handleSearch} label="country" />
+          </Grid>
+          <Grid item xs={1.75} style={{ textAlign: 'right' }}>
+            <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setActiveModal(true)}>
+              Create country
+            </Button>
+          </Grid>
+          <Grid item xs={12}>
+            <CountryTable
+              countries={country}
+              setCountries={setCountry}
+              countriesCount={countriesCount}
+              setCountriesCount={setCountriesCount}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              setPage={setPage}
+              setRowsPerPage={setRowsPerPage}
+              handleEdit={handleEdit}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={1.75} style={{ textAlign: 'right' }}>
-          <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setActiveModal(true)}>
-            Create country
-          </Button>
-        </Grid>
-        <Grid item xs={12}>
-          <CountryTable
-            countries={country}
-            setCountries={setCountry}
-            countriesCount={countriesCount}
-            setCountriesCount={setCountriesCount}
-            page={page}
-            rowsPerPage={rowsPerPage}
-            setPage={setPage}
-            setRowsPerPage={setRowsPerPage}
-            handleEdit={handleEdit}
-          />
-        </Grid>
-      </Grid>
+      </Box>
 
       <CreateCountryForm
         country={country}

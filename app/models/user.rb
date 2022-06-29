@@ -49,6 +49,10 @@ class User < ApplicationRecord
     company.is_suspended ? :user_company_suspended : super
   end
 
+  def sysadmin?
+    role.role_name == 'system administrator'
+  end
+
   private
 
   def generate_password

@@ -8,6 +8,7 @@ RSpec.describe 'consignments', type: :request do
   before do
     sign_in user
   end
+
   describe 'GET consignments' do
     it 'get consignments' do
       FactoryBot.create_list(:consignment, 5)

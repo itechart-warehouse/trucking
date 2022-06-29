@@ -34,9 +34,9 @@
 /.idea
 /public/packs
 /public/packs-test
-/app/javascript/controllers
 /node_modules
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
 /coverage
+.vscode

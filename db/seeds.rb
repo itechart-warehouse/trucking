@@ -1,3 +1,4 @@
+# System resources
 # Roles
 roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role_name: 'driver' },
                      { role_name: 'manager' }, { role_name: 'admin' }, { role_name: 'system administrator' },
@@ -5,6 +6,24 @@ roles = Role.create([{ role_name: 'dispatcher' }, { role_name: 'owner' }, { role
 # Truck types
 truck_types = TruckType.create([{ truck_type_name: 'covered body' },
                                 { truck_type_name: 'refrigerator' }, { truck_type_name: 'cistern' }])
+
+# Measurement Units
+units = Unit.create([{ name: 'kilogram', short_name: 'kg' },
+                                            { name: 'gram', short_name: 'g' },
+                                            { name: 'liter', short_name: 'L' },
+                                            { name: 'Bag', short_name: 'BAG' },
+                                            { name: 'Bucket', short_name: 'BKT' },
+                                            { name: 'Bundle', short_name: 'BND' },
+                                            { name: 'Box', short_name: 'BX' },
+                                            { name: 'Case', short_name: 'CS' },
+                                            { name: 'Dozen', short_name: 'DZ' },
+                                            { name: 'Foot', short_name: 'FT' },
+                                            { name: 'Gross', short_name: 'GROSS' },
+                                            { name: 'Inches', short_name: 'IN' },
+                                            { name: 'Pack', short_name: 'PK' },
+                                            { name: 'Piece', short_name: 'PC' },
+                                            { name: 'Pair', short_name: 'PR' },
+                                            { name: 'Single', short_name: 'SGL' }])
 # Companies
 companies = Company.create([{ name: 'jetlogistic' }, { name: 'gruzimvse' }])
 
