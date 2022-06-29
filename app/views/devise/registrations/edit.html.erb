@@ -1,56 +1,88 @@
-<div class="container">
-  <h2>Edit <%= resource_name.to_s.humanize %></h2>
+<center>
+  <div class="container">
+    <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-    <div class="field">
-      <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: 'input-field' %>
-    </div>
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: 'input-field' %>
+      </div>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="field">
+        <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
+        <div class="input-field">
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password", class: "input-box_field", id: "myInput" %>
+          <span class="eye" onclick="myFunction()">
+          <i id="hide1" class="fas fa-eye"></i>
+          <i id="hide2" class="fas fa-eye-slash"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="input-field">
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Password confirmation", class: "input-box_field", id: "myInput2" %>
+        <span class="eye" onclick="myFunction2()">
+            <i id="hide3" class="fas fa-eye"></i>
+            <i id="hide4" class="fas fa-eye-slash"></i>
+        </span>
+      </div>
+
+      <div class="field">
+        <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+        <div class="input-field">
+          <%= f.password_field :current_password, autocomplete: "current-password", placeholder: "Current password", class: "input-box_field", id: "myInput3" %>
+          <span class="eye" onclick="myFunction3()">
+            <i id="hide5" class="fas fa-eye"></i>
+            <i id="hide6" class="fas fa-eye-slash"></i>
+          </span>
+        </div>
+      </div>
+
+      <div class="field">
+        <%= f.label :login %>
+        <%= f.text_field :login, autocomplete: "login", placeholder: "Login", class: 'input-field' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name, autocomplete: "first-name", placeholder: "First name", class: 'input-field' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :second_name %>
+        <%= f.text_field :second_name, autocomplete: "second-name", placeholder: "Second name", class: 'input-field' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :middle_name %>
+        <%= f.text_field :middle_name, autocomplete: "middle-name", placeholder: "Middle name", class: 'input-field' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :birthday %>
+        <%= f.date_select  :birthday, autocomplete: "birthday", placeholder: "Birthday", class: 'input-field' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :passport %>
+        <%= f.text_area :passport, autocomplete: "passport", placeholder: "Passport", class: 'input-field' %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "Update", class: 'btn' %>
+      </div>
     <% end %>
 
-    <div class="field">
-      <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-      <div class="input-field">
-        <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password", class: "input-box_field", id: "myInput" %>
-        <span class="eye" onclick="myFunction()">
-        <i id="hide1" class="fas fa-eye"></i>
-        <i id="hide2" class="fas fa-eye-slash"></i>
-        </span>
-      </div>
+    <h3>Cancel my account</h3>
 
-    </div>
+    <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'cancel-btn' %></p>
 
-    <div class="input-field">
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Password confirmation", class: "input-box_field", id: "myInput2" %>
-      <span class="eye" onclick="myFunction2()">
-          <i id="hide3" class="fas fa-eye"></i>
-          <i id="hide4" class="fas fa-eye-slash"></i>
-      </span>
-    </div>
-
-    <div class="field">
-      <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-      <div class="input-field">
-        <%= f.password_field :current_password, autocomplete: "current-password", placeholder: "Current password", class: "input-box_field", id: "myInput3" %>
-        <span class="eye" onclick="myFunction3()">
-          <i id="hide5" class="fas fa-eye"></i>
-          <i id="hide6" class="fas fa-eye-slash"></i>
-        </span>
-      </div>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Update", class: 'btn' %>
-    </div>
-  <% end %>
-
-  <h3>Cancel my account</h3>
-
-  <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'cancel-btn' %></p>
-
-  <%= link_to "Back", :back, class: 'share-links' %>
-</div>
+    <%= link_to "Back", :back, class: 'share-links' %>
+  </div>
+</center>

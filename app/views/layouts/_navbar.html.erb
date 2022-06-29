@@ -64,7 +64,11 @@
         <% end %>
 
             <li data-username="Table bootstrap datatable footable" class="nav-item">
-              <a href="/member" class="nav-link "><span class="pcoded-mtext"><%= "#{current_user.first_name} #{current_user.second_name}" %></span></a>
+              <a href="/users/edit" class="nav-link "><span class="pcoded-mtext"><%= "#{current_user.first_name} #{current_user.second_name}" %></span></a>
+            </li>
+
+            <li data-username="Table bootstrap datatable footable" class="nav-item">
+              <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'nav-link'%>
             </li>
         </ul>
       </div>
