@@ -62,23 +62,16 @@
               <a href="/write_off_acts" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Write-off acts</span></a>
             </li>
         <% end %>
-        <%= link_to "Statistics", statistics_path, class:"share-links #{'active' if current_page?('/statistics')}" %>
-        <% if can? :read, Country %>
-          <%= link_to "Countries", settings_countries_path, class:"share-links #{'active' if current_page?('/countries')}" %>
-        <% end %>
-      </div>
-      <div class="nav-right">
-          <h3 id="nav-bar-info">
-            <%= current_user.first_name %>
-            <%= current_user.second_name %>
-            -
-            <%= current_user.role.role_name %>
-            <% if current_user.company %>
-              for
-              <%= current_user.company.name %>
-            <% end %>
-          </h3>
-        <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
+
+          <% if can? :read, Country %>
+            <li data-username="Table bootstrap datatable footable" class="nav-item">
+              <a href="/countries" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Countries</span></a>
+            </li>
+          <% end %>
+
+          <li data-username="Table bootstrap datatable footable" class="nav-item">
+            <a href="/statistics" class="nav-link "><span class="pcoded-micon"><i class="feather icon-users"></i></span><span class="pcoded-mtext">Statistics</span></a>
+          </li>
 
             <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: 'log-out-btn'%>
         </ul>
