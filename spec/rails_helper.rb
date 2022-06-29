@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-
+require 'faker'
 require 'simplecov'
 SimpleCov.start
 require 'spec_helper'

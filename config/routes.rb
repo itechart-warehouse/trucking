@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
@@ -22,6 +21,12 @@ Rails.application.routes.draw do
   # Companies
   resources :companies, except: :show
 
+
+  namespace :settings do
+    resources :countries do
+      resources :cities
+    end
+  end
 
   # Consignment
   resources :consignments, only: %i[create index]

@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include Concerns::Paginatable
+  include Concerns::Answers
   rescue_from CanCan::AccessDenied, with: :access_denied
   rescue_from ActiveRecord::DeleteRestrictionError, with: :record_delete_error
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid

@@ -1,7 +1,15 @@
 import axios from 'axios';
 
 import {
-  ConsignmentUrl, UsersUrl, WarehouseUrl, writeOffActUrl, CompaniesUrl, WaybillUrl, StatisticsUrl,
+  ConsignmentUrl,
+  UsersUrl,
+  WarehouseUrl,
+  writeOffActUrl,
+  CompaniesUrl,
+  WaybillUrl,
+  CountryUrl,
+  CityUrl,
+  StatisticsUrl,
 } from './clientAPI';
 
 function httpClient() {
@@ -59,6 +67,19 @@ function httpClient() {
       ) => axios.get(
         `${StatisticsUrl}.json?name=${filters.name}&actions=${filters.action}&start_date=${startDate}&end_date=${endDate}`,
       ),
+    },
+    countries: {
+      getByPage: (page, rowsPerPage) => axios.get(`${CountryUrl}?page=${page}$perPage=${rowsPerPage}`),
+      delete: (id) => axios.delete(`${CountryUrl}/${id}`),
+      create: (data) => axios.post(`${CountryUrl}`, data),
+      update: (data, id) => axios.patch(`${CountryUrl}/${id}`, data),
+      search: (search, page, rowsPerPage) => axios.get(`${CountryUrl}?page=${page}$perPage=${rowsPerPage}&search=${search}`),
+    },
+    cities: {
+      getByPage: (countryId, page, rowsPerPage) => axios.get(`${CountryUrl}/${countryId}${CityUrl}?page=${page}$perPage=${rowsPerPage}`),
+      delete: (countryId, id) => axios.delete(`${CountryUrl}/${countryId}${CityUrl}/${id}`),
+      create: (countryId, data) => axios.post(`${CountryUrl}/${countryId}${CityUrl}`, data),
+      update: (countryId, data, id) => axios.patch(`${CountryUrl}/${countryId}${CityUrl}/${id}`, data),
     },
   };
 }

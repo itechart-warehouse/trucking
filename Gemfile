@@ -20,6 +20,7 @@ gem 'pg', '~> 1.2', '>= 1.2.3'
 gem 'puma', '~> 3.11'
 gem 'rack-cors'
 gem 'rails', '~> 5.2.6'
+gem 'faker'
 gem 'react-rails'
 gem 'sass-rails', '~> 5.0'
 gem 'simplecov', require: false, group: :test

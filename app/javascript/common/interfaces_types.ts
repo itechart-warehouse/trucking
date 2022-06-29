@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AlertColor } from '@mui/material';
+import { FormikValues } from 'formik';
 import { Order, UserData } from '../mixins/initialValues/userList';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import { userFormValues } from '../initialValues/userInitialValues';
@@ -43,6 +44,11 @@ export type Company = {
     id: number;
     name: string;
     is_suspended: boolean;
+}
+
+export type City = {
+    id: number;
+    name: string;
 }
 
 export type Role = {
@@ -101,6 +107,11 @@ export type Consignment = {
     truck: string;
     waybill: string;
     goods: Item[];
+}
+
+export type Country = {
+    id: number;
+    name: string;
 }
 
 export type WriteOffAct = {
@@ -360,6 +371,16 @@ export interface WaybillTableProps {
     setWaybillID: (wayID: number) => void;
 }
 
+export interface CityTableProps {
+    countryId :number;
+    isActiveModal: boolean
+    handleClose:(isActive: boolean) => void;
+    cities:City[];
+    citiesCount:number;
+    setCities: (cities: City[]) => void;
+    setCitiesCount: (count: number) => void;
+}
+
 export interface WaybillProps {
     waybillCount:number;
     currentUserRole: string;
@@ -369,6 +390,42 @@ export interface WaybillProps {
 export interface SiteAlertProps {
     alertData: Alert;
     setAlertData: (alert: Alert) => void;
+}
+
+export interface CountryTableProps {
+    handleEdit: (editRecord: Country) => void;
+    countries: Country[],
+    setCountries: (countries: Country[]) => void;
+    countriesCount: number;
+    setCountriesCount: (count: number) => void;
+    page:number;
+    rowsPerPage:number
+    setPage: (page: number) => void;
+    setRowsPerPage: (perPage: number) => void;
+}
+export interface CreateCountryFormProps {
+    country: Country[];
+    setEditRecord: (country: Country) => void;
+    setCountry: (countries: FormikValues) => void;
+    setCountriesCount: (count: number) => void;
+    rowsPerPage:number;
+    isActiveModal: boolean;
+    handleClose: () => void;
+    countriesCount: number;
+    editRecord: Country;
+}
+
+export interface createCityFormProps {
+    countryId: number;
+    cities: City[];
+    setCities: (cities: FormikValues) =>void;
+    citiesCount: number;
+    setCitiesCount:(count: number) => void;
+    rowsPerPage: number;
+    isActiveModal: boolean;
+    handleClose: () => void;
+    editRecord: City;
+    setEditRecord: (city: City) => void;
 }
 
 export interface SearchProps {
@@ -411,6 +468,10 @@ export interface UsersProps {
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;
+}
+export interface CountryFormProps{
+    countries: Country[];
+    totalCount: number;
 }
 
 export interface BasicDateRangePickerProps {
