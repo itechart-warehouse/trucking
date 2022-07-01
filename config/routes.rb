@@ -19,11 +19,6 @@ Rails.application.routes.draw do
   # Companies
   resources :companies, except: :show
 
-  scope :error do
-    get 'error_404' , to: 'errors#error_404'
-    get 'error_405' , to: 'errors#error_405'
-  end
-
   namespace :settings do
     resources :countries do
       resources :cities
