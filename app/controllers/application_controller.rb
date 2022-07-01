@@ -18,4 +18,7 @@ class ApplicationController < ActionController::Base
     render json: exception.message, status: :method_not_allowed
   end
 
+  def access_denied(exception)
+    render json: exception.message, status: :method_not_allowed
+  end
 end
