@@ -47,8 +47,9 @@ Rails.application.routes.draw do
   resources :statistics, only: :index
 
   # Mail templates
-  resources :mail_templates
-
+  namespace :settings do
+    resources :mail_templates
+  end
   # API
   namespace :api do
     # V1 API DEPRECATED

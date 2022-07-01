@@ -21,7 +21,7 @@
           <%= link_to "Write-off acts", write_off_acts_path, class:"share-links #{'active' if current_page?('/write_off_acts')}" %>
         <% end %>
         <% if can? :read, MailTemplate %>
-          <%= link_to "Mail templates", mail_templates_path, class:"share-links #{'active' if current_page?('/mail_templates')}" %>
+          <%= link_to "Mail templates", settings_mail_templates_path, class:"share-links #{'active' if current_page?('settings/mail_templates')}" %>
         <% end %>
         <%= link_to "Statistics", statistics_path, class:"share-links #{'active' if current_page?('/statistics')}" %>
       </div>
