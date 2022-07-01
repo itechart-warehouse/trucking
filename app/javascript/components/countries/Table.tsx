@@ -70,49 +70,46 @@ const CountryTable: React.FC<CountryTableProps> = (props: CountryTableProps) => 
           cities={cities}
           citiesCount={citiesCount}
         />
-        <TableContainer component={Paper}>
-          <Table
-            sx={{ width: '100%' }}
-            aria-label="customized table"
+          <table
+            className="table table-hover"
           >
-            <TableHead>
-              <TableRow>
+            <thead>
+              <tr>
                 {CountriesField.map((cell) => (
-                  <StyledTableCell key={cell.id} align="center">{cell.title}</StyledTableCell>
+                  <th key={cell.id} align="center">{cell.title}</th>
                 ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
+              </tr>
+            </thead>
+            <tbody>
               {!countries || countries.length === 0
                 ? (
-                  <StyledTableRow>
+                  <tr>
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
-                  </StyledTableRow>
+                  </tr>
                 )
                 : countries
                   .map((country) => (
-                    <StyledTableRow key={country.id}>
-                      <StyledTableCell align="center" scope="company">{country.name}</StyledTableCell>
-                      <StyledTableCell align="center" scope="company">
+                    <tr key={country.id}>
+                      <th align="center" scope="company">{country.name}</th>
+                      <th align="center" scope="company">
                         <Button variant="outlined" color="info" onClick={() => handleEdit(country)}>
                           edit
                         </Button>
-                      </StyledTableCell>
-                      <StyledTableCell align="center" scope="company">
+                      </th>
+                      <th align="center" scope="company">
                         <Button variant="outlined" color="error" onClick={() => handleDelete(country.id)}>
                           Delete
                         </Button>
-                      </StyledTableCell>
-                      <StyledTableCell align="center" scope="company">
+                      </th>
+                      <th align="center" scope="company">
                         <Button variant="outlined" color="info" onClick={() => handleOpen(country.id)}>
                           cities
                         </Button>
-                      </StyledTableCell>
-                    </StyledTableRow>
+                      </th>
+                    </tr>
                   ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+            </tbody>
+          </table>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
