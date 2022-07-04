@@ -94,6 +94,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                               required={column.required}
                               type={column.type}
                               variant="standard"
+                              InputProps={{ inputProps: { min: 1, max: 1000000 } }}
                             />
                           ))}
                         </Box>
@@ -114,6 +115,7 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                               required={column.required}
                               type={column.type}
                               variant="standard"
+                              InputProps={{ inputProps: { min: 1, max: 1000000 } }}
                             />
                           ))}
                         </Box>
@@ -149,15 +151,16 @@ const CreateForm: React.FC<UserCreateFormProps> = (props: UserCreateFormProps) =
                             onSelect={handleChange}
                             margin="normal"
                             label="Role"
-                            fullWidth
                             value={values?.role}
+
+                            fullWidth
+
                             required
+
                           />
                         )}
                       />
-
                     </Container>
-
                     <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
                       <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
                       <Button type="submit" disabled={!dirty || !isValid} color="success" variant="outlined">{btnTitle}</Button>
