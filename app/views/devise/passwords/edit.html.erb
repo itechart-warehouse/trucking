@@ -1,30 +1,79 @@
-<div class="container">
-  <h2>Change your password</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-    <%= render "devise/shared/error_messages", resource: resource %>
-    <%= f.hidden_field :reset_password_token %>
+<head>
+  <title>Reset Password</title>
+  <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 10]>
+  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <!-- Meta -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="description" content="Datta Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+  <meta name="keywords" content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template">
+  <meta name="author" content="Codedthemes" />
 
-    <div class="input-field">
-      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: "New password", class: "input-box_field", id: "myInput" %>
-      <span class="eye" onclick="myFunction()">
-          <i id="hide1" class="fas fa-eye"></i>
-          <i id="hide2" class="fas fa-eye-slash"></i>
-      </span>
+</head>
+
+<body>
+  <div class="auth-wrapper">
+    <div class="auth-content">
+      <div class="auth-bg">
+        <span class="r"></span>
+        <span class="r s"></span>
+        <span class="r s"></span>
+        <span class="r"></span>
+      </div>
+      <div class="card">
+        <div class="card-body text-center">
+            <div class="mb-4">
+          <i class="feather icon-mail auth-icon"></i>
+        </div>
+        <h3 class="mb-4">Change your password</h3>
+
+        <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+          <%= render "devise/shared/error_messages", resource: resource %>
+          <%= f.hidden_field :reset_password_token %>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="feather icon-lock"></i></span>
+            </div>
+            <%= f.password_field :password, autofocus: true, autocomplete: "new-password", placeholder: "New password", class: "form-control input-box_field", id: "myInput"%>
+
+            <div class="input-group-append">
+              <span class="input-group-text" onclick="myFunction()">
+                <i class="feather icon-eye" id="hide1"></i>
+                <i class="feather icon-eye-off" id="hide2"></i>
+              </span>
+            </div>
+          </div>
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="basic-addon1"><i class="feather icon-lock"></i></span>
+            </div>
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm new password", class: "form-control input-box_field", id: "myInput2" %>
+
+            <div class="input-group-append">
+              <span class="input-group-text" onclick="myFunction2()">
+                <i class="feather icon-eye" id="hide3"></i>
+                <i class="feather icon-eye-off" id="hide4"></i>
+              </span>
+            </div>
+          </div>
+
+          <%= f.submit "Change my password", class: 'btn btn-primary shadow-2 mb-4'%>
+        <% end %>
+      </div>
     </div>
-
-    <div class="input-field">
-      <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Confirm new password", class: "input-box_field", id: "myInput2" %>
-      <span class="eye" onclick="myFunction2()">
-          <i id="hide3" class="fas fa-eye"></i>
-          <i id="hide4" class="fas fa-eye-slash"></i>
-      </span>
-    </div>
-
-    <div class="actions">
-      <%= f.submit "Change my password", class: 'btn' %>
-    </div>
-  <% end %>
+  </div>
+</div>
+</body>
 
   <%= render "devise/shared/links" %>
-</div>
+</html>
