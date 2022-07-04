@@ -1,88 +1,128 @@
-<center>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Profile Card</title>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+  <!-- MDB -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css" rel="stylesheet"/>
+</head>
+<body>
+<section class="vh-100" style="background-color: #f4f5f7;">
   <div class="container">
-    <h2>Edit <%= resource_name.to_s.humanize %></h2>
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-md-10 mt-5 pt-5">
+        <div class="card mb-3" style="border-radius: .5rem;">
 
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-      <%= render "devise/shared/error_messages", resource: resource %>
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="field">
-        <%= f.label :email %>
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: 'input-field' %>
-      </div>
+          <div class="row g-0">
+            <div class="col-md-4 bg-info text-center text-white"
+                 style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+              <i class="fas fa-user-tie fa-7x mt-5 img-fluid my-5"></i>
+              <h5 class="text-white"><%= resource_name.to_s.humanize %></h5>
+              <%= f.text_field :role.to_s, autocomplete: "role", placeholder: "Role", disabled: true, type: 'text', class:" text-center text-white" %>
+              <button class="btn btn-info btn-lg fa-7x mt-5 img-fluid my-5" onclick="editProfile()">edit</button>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body p-4">
+                <h6>General Information</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1">
+                  <div class="col-6 mb-3">
+                    <h6>First name</h6>
+                    <%= f.text_field :first_name, disabled: true, autocomplete: "first-name", placeholder: "First name", class: 'text-muted'%>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Middle name</h6>
+                    <%= f.text_field :middle_name, disabled: true, autocomplete: "middle-name", placeholder: "Middle name", class: 'text-muted'%>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Second name</h6>
+                    <%= f.text_field :second_name, disabled: true, autocomplete: "second-name", placeholder: "Second name", class: 'text-muted'%>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Birthday date</h6>
+                    <%= f.date_select  :birthday, disabled: true, autocomplete: "birthday", placeholder: "Birthday", class: 'form-control' %>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Passport</h6>
+                    <%= f.text_area :passport, disabled: true, autocomplete: "passport", placeholder: "Passport", class: 'form-control', rows:'3'%>
+                  </div>
+                </div>
+                <h6>Contacts</h6>
+                <hr class="mt-0 mb-4">
+                <div class="row pt-1" >
+                  <div class="col-6 mb-3">
+                    <h6>Login</h6>
+                    <%= f.text_field :login, autofocus: false , disabled: true, autocomplete: "login", placeholder: "Login", class:"text-muted", id:"myText"%>
+                  </div>
+                  <div class="col-6 mb-3">
+                    <h6>Email</h6>
+                    <%= f.email_field :email, disabled: true, autocomplete: "email", placeholder: "Email", class:"text-muted"%>
+                  </div>
 
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-      <% end %>
+                  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+                  <% end %>
 
-      <div class="field">
-        <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-        <div class="input-field">
-          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password", class: "input-box_field", id: "myInput" %>
-          <span class="eye" onclick="myFunction()">
-          <i id="hide1" class="fas fa-eye"></i>
-          <i id="hide2" class="fas fa-eye-slash"></i>
-          </span>
+                  <div class="visually-hidden" id="changePass">
+                    <div class="col-6 mb-3">
+                      <%= f.label :password2, disabled: true%> <i>(leave blank if you don't want to change it)</i><br />
+                      <div class="input-field">
+                        <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password", disabled: true%>
+                        <span class="eye" onclick="myFunction()">
+                          <i id="hide1" class="fas fa-eye"></i>
+                          <i id="hide2" class="fas fa-eye-slash"></i>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="input-field">
+                      <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Password confirmation", class: "input-box_field", id: "myInput2", disabled: true %>
+                      <span class="eye" onclick="myFunction2()">
+                          <i id="hide3" class="fas fa-eye"></i>
+                          <i id="hide4" class="fas fa-eye-slash"></i>
+                      </span>
+                    </div>
+
+                    <div class="field">
+                      <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
+                      <div class="input-field">
+                        <%= f.password_field :current_password, autocomplete: "current-password", placeholder: "Current password", class: "input-box_field", id: "myInput3", disabled: true %>
+                        <span class="eye" onclick="myFunction3()">
+                          <i id="hide5" class="fas fa-eye"></i>
+                          <i id="hide6" class="fas fa-eye-slash"></i>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="actions">
+                      <%= f.submit "Update", class: 'btn', disabled: true%>
+                    </div>
+          <% end %>
+
+          <h3>Cancel my account</h3>
+
+          <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'cancel-btn' %></p>
+
+          </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      <div class="input-field">
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "Password confirmation", class: "input-box_field", id: "myInput2" %>
-        <span class="eye" onclick="myFunction2()">
-            <i id="hide3" class="fas fa-eye"></i>
-            <i id="hide4" class="fas fa-eye-slash"></i>
-        </span>
-      </div>
-
-      <div class="field">
-        <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-        <div class="input-field">
-          <%= f.password_field :current_password, autocomplete: "current-password", placeholder: "Current password", class: "input-box_field", id: "myInput3" %>
-          <span class="eye" onclick="myFunction3()">
-            <i id="hide5" class="fas fa-eye"></i>
-            <i id="hide6" class="fas fa-eye-slash"></i>
-          </span>
-        </div>
-      </div>
-
-      <div class="field">
-        <%= f.label :login %>
-        <%= f.text_field :login, autocomplete: "login", placeholder: "Login", class: 'input-field' %>
-      </div>
-
-      <div class="field">
-        <%= f.label :first_name %>
-        <%= f.text_field :first_name, autocomplete: "first-name", placeholder: "First name", class: 'input-field' %>
-      </div>
-
-      <div class="field">
-        <%= f.label :second_name %>
-        <%= f.text_field :second_name, autocomplete: "second-name", placeholder: "Second name", class: 'input-field' %>
-      </div>
-
-      <div class="field">
-        <%= f.label :middle_name %>
-        <%= f.text_field :middle_name, autocomplete: "middle-name", placeholder: "Middle name", class: 'input-field' %>
-      </div>
-
-      <div class="field">
-        <%= f.label :birthday %>
-        <%= f.date_select  :birthday, autocomplete: "birthday", placeholder: "Birthday", class: 'input-field' %>
-      </div>
-
-      <div class="field">
-        <%= f.label :passport %>
-        <%= f.text_area :passport, autocomplete: "passport", placeholder: "Passport", class: 'input-field' %>
-      </div>
-
-      <div class="actions">
-        <%= f.submit "Update", class: 'btn' %>
-      </div>
-    <% end %>
-
-    <h3>Cancel my account</h3>
-
-    <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete, class: 'cancel-btn' %></p>
-
-    <%= link_to "Back", :back, class: 'share-links' %>
+    </div>
   </div>
-</center>
+</section>
+
+</body>
+          </html>
