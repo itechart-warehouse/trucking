@@ -10,18 +10,21 @@ import { CompanyTableProps } from '../../common/interfaces_types';
 
 const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => {
   const {
-    companies, setCompany, setAlertData, searchData, changeCompanyStatus, companyCount,
-    setCompanyCount, setRowsPerPage, rowsPerPage,
+    companies, setCompany, setAlertData, changeCompanyStatus, companyCount,
+    setCompanyCount, setRowsPerPage, rowsPerPage, setPage, page,
   } = props;
 
-  const [page, setPage] = React.useState<number>(0);
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.companies.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setCompany(response.data)).then(() => setPage(newPage));
+      .then((response) => {
+        setCompany(JSON.parse(response.data.companies));
+        setPage(newPage);
+      });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    httpClient.companies.getAll(0, event.target.value).then((response) => setCompany(response.data))
+    httpClient.companies.getAll(0, event.target.value)
+      .then((response) => setCompany(JSON.parse(response.data.companies)))
       .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
@@ -34,12 +37,11 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
       httpClient.companies.getAll(page, rowsPerPage.toString())
         .then((response) => setCompany(response.data))
         .then(() => setCompanyCount(companyCount - 1));
-      httpClient.companies.getAll(page).then((response) => setCompany(response.data));
+      httpClient.companies.getAll(page)
+        .then((response) => setCompany(JSON.parse(response.data.companies)));
     });
     setAlertData({ alertType: 'success', alertText: 'Company successfully deleted!', open: true });
   };
-
-  const companiesData = searchData || companies;
 
   return (
     <div>
@@ -59,7 +61,7 @@ const CompanyTable: React.FC<CompanyTableProps> = (props: CompanyTableProps) => 
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : companiesData.map((company) => (
+                : companies.map((company) => (
                   <StyledTableRow key={company.id}>
                     <StyledTableCell scope="company">{company.name}</StyledTableCell>
                     <StyledTableCell align="center">

@@ -11,22 +11,39 @@ import { User, UsersProps } from '../common/interfaces_types';
 
 const Users: React.FC<UsersProps> = (props: UsersProps) => {
   const {
-    rolesJSON, companiesJSON, usersJSON, user_count,
+    rolesJSON, companiesJSON, usersJSON, usersCount,
   } = props;
-  const [userCount, setUserCount] = React.useState<number>(user_count);
+  const [userCount, setUserCount] = React.useState<number>(usersCount);
   const [createModal, setCreateModalActive] = React.useState<boolean>(false);
   const [updateModal, setUpdateModalActive] = React.useState<boolean>(false);
   const [editUserModal, setEditUserModal] = React.useState<number>(null);
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [users, setUser] = React.useState<User[]>(JSON.parse(usersJSON));
-  const [searchData, setSearchData] = React.useState<string[]>();
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
+  const [page, setPage] = React.useState<number>(0);
 
   const handleClose = () => {
     setCreateModalActive(false);
     setUpdateModalActive(false);
     setEditUserModal(null);
     setFormErrors(null);
+  };
+
+  const handleSearch = (text:string) => {
+    if (text) {
+      httpClient.users.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setUserCount(response.data.total_count);
+          setUser(JSON.parse(response.data.users));
+        });
+    } else {
+      httpClient.users.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setUserCount(response.data.total_count);
+          setUser(JSON.parse(response.data.users));
+        })
+        .then(() => setPage(0));
+    }
   };
 
   const handleSubmit = (user: userFormValues) => {
@@ -71,7 +88,7 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={users} keyField="role" />
+            <Search handleSubmit={handleSearch} label="second name + first name + middle name..." />
           </Grid>
           <Grid item xs={1.75} style={{ textAlign: 'right' }}>
             <Button variant="contained" color="success" size="large" style={{ height: '51px' }} onClick={() => setCreateModalActive(true)}>
@@ -80,6 +97,8 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
           </Grid>
           <Grid item xs={12}>
             <UsersTable
+              page={page}
+              setPage={setPage}
               setRowsPerPage={setRowsPerPage}
               rowsPerPage={rowsPerPage}
               setUserCount={setUserCount}
@@ -88,7 +107,6 @@ const Users: React.FC<UsersProps> = (props: UsersProps) => {
               setUser={setUser}
               setEditUserModal={setEditUserModal}
               setUpdateModalActive={setUpdateModalActive}
-              searchData={searchData}
             />
           </Grid>
         </Grid>

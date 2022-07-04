@@ -21,11 +21,28 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
   const [warehouses, setWarehouses] = React.useState<Warehouse[]>(JSON.parse(warehousesJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
-  const [searchData, setSearchData] = React.useState<string[]>();
+  const [page, setPage] = React.useState<number>(0);
 
   const handleClose = () => {
     setModalActive(false);
     setFormErrors(null);
+  };
+
+  const handleSearch = (text:string) => {
+    if (text) {
+      httpClient.warehouses.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setWarehousesCount(response.data.total_count);
+          setWarehouses(JSON.parse(response.data.warehouses));
+        });
+    } else {
+      httpClient.warehouses.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setWarehousesCount(response.data.total_count);
+          setWarehouses(JSON.parse(response.data.warehouses));
+        })
+        .then(() => setPage(0));
+    }
   };
 
   const handleSubmit = (warehouse: warehouseFormValues) => {
@@ -64,7 +81,7 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={warehouses} keyField="" />
+            <Search handleSubmit={handleSearch} label="warehouse name..." />
           </Grid>
           {currentUserRole === 'admin'
             ? (
@@ -78,6 +95,8 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
 
           <Grid item xs={12}>
             <WarehouseTable
+              page={page}
+              setPage={setPage}
               rowsPerPage={rowsPerPage}
               setRowsPerPage={setRowsPerPage}
               warehousesCount={warehousesCount}
@@ -85,9 +104,7 @@ const Warehouses: React.FC<WarehouseProps> = (props: WarehouseProps) => {
               warehouses={warehouses}
               setWarehouses={setWarehouses}
               setAlertData={setAlertData}
-              setSearchData={setSearchData}
               currentUserRole={currentUserRole}
-              searchData={searchData}
             />
           </Grid>
         </Grid>

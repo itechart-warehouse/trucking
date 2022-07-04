@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { AlertColor } from '@mui/material';
+import { FormikValues } from 'formik';
 import { Order, UserData } from '../mixins/initialValues/userList';
 import { consignmentFormValues } from '../initialValues/consignmentInitialValues';
 import { userFormValues } from '../initialValues/userInitialValues';
@@ -43,6 +44,11 @@ export type Company = {
     id: number;
     name: string;
     is_suspended: boolean;
+}
+
+export type City = {
+    id: number;
+    name: string;
 }
 
 export type Role = {
@@ -103,6 +109,11 @@ export type Consignment = {
     goods: Item[];
 }
 
+export type Country = {
+    id: number;
+    name: string;
+}
+
 export type WriteOffAct = {
     id: number;
     good_name: string;
@@ -118,15 +129,33 @@ export type Warehouse = {
     warehouseman: User;
 }
 
+export type Unit = {
+    id: number;
+    name: string;
+    short_name: string;
+}
+
 export declare type AlignType = 'left' | 'center' | 'right';
 
-export type SearchData = {
-    search: string;
-    consignment: Consignment[];
-    users: User[];
-    waybills: Waybill[];
-    company: Company[];
+export type UserLogs = {
+    id: string;
+    username: string;
+    company: string;
+    date: string;
+    action: string;
+    changes: {};
+    type: string;
 }
+
+export type StatisticsTableType = {
+    userLogs: UserLogs[];
+    statisticsCount: number;
+    setUserLogs: (userLog) => void;
+};
+
+export type StatAccordion = {
+    item: UserLogs;
+};
 
 // INTERFACES
 export interface CreateConsignmentFormProps {
@@ -143,13 +172,14 @@ export interface CreateConsignmentFormProps {
 }
 
 export interface WriteOffActTableProps {
-    rowsPerPage:number;
-    setRowsPerPage:(actCount:number)=>void;
-    setWriteOffActs:(acts: WriteOffAct[])=>void;
-    writeOffActsCount:number;
-    setWriteOffActsCount:(actsCount: number)=>void;
+    page: number;
+    setPage: (page: number) => void;
+    rowsPerPage: number;
+    setRowsPerPage: (actCount: number) => void;
+    setWriteOffActs: (acts: WriteOffAct[]) => void;
+    writeOffActsCount: number;
+    setWriteOffActsCount: (actsCount: number) => void;
     writeOffActs: WriteOffAct[];
-    searchData: string[] | number[];
 }
 
 export interface CreateWriteOffActFormProps {
@@ -169,8 +199,6 @@ export interface CreateWaybillsFormProps {
     consignments: Consignment[];
     warehouses: Warehouse[];
     goodsOwners: GoodsOwners[];
-    searchData: string[];
-    setSearchData: (searchData: string[]) => void;
     setWayBillActive: (waybillActive: boolean) => void;
     handleClose: () => void;
     setAlertData: (alert: Alert) => void;
@@ -178,16 +206,16 @@ export interface CreateWaybillsFormProps {
 }
 
 export interface WarehouseTableProps {
-    rowsPerPage:number;
-    setRowsPerPage: (rowCount: number)=>void;
-    setWarehousesCount:(warhCount:number)=>void;
-    warehousesCount:number;
+    page: number;
+    setPage: (page: number) => void;
+    rowsPerPage: number;
+    setRowsPerPage: (rowCount: number) => void;
+    setWarehousesCount: (warhCount: number) => void;
+    warehousesCount: number;
     warehouses: Warehouse[];
     currentUserRole: string;
-    searchData: string[];
     setWarehouses: (warehouses: Warehouse[]) => void;
     setAlertData: (alert: Alert) => void;
-    setSearchData: (searchData: string[]) => void;
 }
 
 export interface CreateWarehouseFormProps {
@@ -199,12 +227,13 @@ export interface CreateWarehouseFormProps {
 }
 
 export interface EnhancedTableProps {
+    page: number;
+    setPage: (page: number) => void;
     rowsPerPage: number;
-    setRowsPerPage:(rowCount: number)=>void;
-    setUserCount:(userCount:number)=>void;
-    userCount:number
+    setRowsPerPage: (rowCount: number) => void;
+    setUserCount: (userCount: number) => void;
+    userCount: number
     users: User[];
-    searchData: string[];
     setUser: (user: User[]) => void;
     setEditUserModal: (id: number) => void;
     setUpdateModalActive: (updateModalActive: boolean) => void;
@@ -220,10 +249,10 @@ export interface EnhancedHeadTableProps {
 }
 
 export interface EnhancedTableToolbarProps {
-    rowPerPage:number;
-    userCount:number;
-    page:number
-    setUserCount:(userCount:number)=>void;
+    rowPerPage: number;
+    userCount: number;
+    page: number
+    setUserCount: (userCount: number) => void;
     numSelected: number;
     // NOTE: unknown type
     users: any;
@@ -291,15 +320,16 @@ export interface ConsignmentGoodsProps {
 }
 
 export interface ConsignmentTableProps {
-    rowsPerPage:number;
-    setRowsPerPage:(rowCount:number)=>void;
-    setConsignment:(cons: Consignment[])=>void;
-    setConsignmentCount:(consCount: number) => void;
-    consignmentCount:number;
+    setPage: (page: number) => void;
+    page: number;
+    rowsPerPage: number;
+    setRowsPerPage: (rowCount: number) => void;
+    setConsignment: (cons: Consignment[]) => void;
+    setConsignmentCount: (consCount: number) => void;
+    consignmentCount: number;
     formErrors: string[];
     consignments: Consignment[];
     currentUserRole: string;
-    searchData: string[];
     setModalGoodsActive: (modalGoodsActive: boolean) => void;
     setWayBillActive: (waybillActive: boolean) => void;
     setGoods: (goods: Item[]) => void;
@@ -308,11 +338,23 @@ export interface ConsignmentTableProps {
     setWaybillStatus: (status: string) => void
 }
 
-export interface CreateCompanyFormProps {
-    companies:Company[];
+export interface UnitsTableProps {
     rowsPerPage: number;
-    companyCount:number;
-    setCompanyCount:(setCompanyCount:number)=>void;
+    setRowsPerPage: (rowCount: number) => void;
+    Units: Unit[];
+    updateModal: boolean;
+    setUpdateModal: (updateModal: boolean) => void;
+    setMeasureUnitId: (id: number) => void;
+    setUnits: (unit: Unit[]) => void;
+    UnitsCount: number;
+    setUnitsCount: (unitCount: number) => void;
+}
+
+export interface CreateCompanyFormProps {
+    companies: Company[];
+    rowsPerPage: number;
+    companyCount: number;
+    setCompanyCount: (setCompanyCount: number) => void;
     isActiveModal: boolean;
     formErrors: string[];
     handleClose: () => void;
@@ -321,33 +363,61 @@ export interface CreateCompanyFormProps {
     setAlertData: (alert: Alert) => void;
 }
 
+export interface CreateUnitFormProps {
+    createModal: boolean;
+    updateModal: boolean;
+    measureUnitId: number;
+    handleSubmit: (values: Unit) => void;
+    handleClose: () => void;
+    formErrors: string[];
+}
+
 export interface CompanyTableProps {
-    rowsPerPage:number;
-    setRowsPerPage:(rowCount: number)=>void
-    companyCount:number;
-    setCompanyCount:(setCompanyCount:number)=>void;
+    setPage: (page: number) => void;
+    page: number;
+    rowsPerPage: number;
+    setRowsPerPage: (rowCount: number) => void
+    companyCount: number;
+    setCompanyCount: (setCompanyCount: number) => void;
     companies: Company[];
-    searchData: string[];
     setCompany: (company: Company[]) => void;
     setAlertData: (alert: Alert) => void;
     changeCompanyStatus: (id: number, alertText: string) => void;
 }
 
 export interface WaybillTableProps {
-    setWaybill:(waybill: Waybill[])=>void;
-    setWaybillsCount:(wayCount:number)=>void;
-    waybillsCount:number;
+    setRowsPerPage: (rows: number) => void;
+    rowsPerPage: number;
+    setPage: (page: number) => void;
+    page: number;
+    setWaybill: (waybill: Waybill[]) => void;
+    setWaybillsCount: (wayCount: number) => void;
+    waybillsCount: number;
     waybills: Waybill[];
-    searchData: string[];
     setCheckpoints: (checkpoints: Checkpoint[]) => void;
     setWaybillModalActive: (activeWaybillModal: boolean) => void;
     setWaybillID: (wayID: number) => void;
 }
 
+export interface CityTableProps {
+    countryId: number;
+    isActiveModal: boolean
+    handleClose: (isActive: boolean) => void;
+    cities: City[];
+    citiesCount: number;
+    setCities: (cities: City[]) => void;
+    setCitiesCount: (count: number) => void;
+}
+
 export interface WaybillProps {
-    waybillCount:number;
+    waybillCount: number;
     currentUserRole: string;
     waybillsJSON: string;
+}
+
+export interface UnitProps {
+    UnitCount: number;
+    UnitsJSON: string;
 }
 
 export interface SiteAlertProps {
@@ -355,14 +425,49 @@ export interface SiteAlertProps {
     setAlertData: (alert: Alert) => void;
 }
 
+export interface CountryTableProps {
+    handleEdit: (editRecord: Country) => void;
+    countries: Country[],
+    setCountries: (countries: Country[]) => void;
+    countriesCount: number;
+    setCountriesCount: (count: number) => void;
+    page: number;
+    rowsPerPage: number
+    setPage: (page: number) => void;
+    setRowsPerPage: (perPage: number) => void;
+}
+export interface CreateCountryFormProps {
+    country: Country[];
+    setEditRecord: (country: Country) => void;
+    setCountry: (countries: FormikValues) => void;
+    setCountriesCount: (count: number) => void;
+    rowsPerPage: number;
+    isActiveModal: boolean;
+    handleClose: () => void;
+    countriesCount: number;
+    editRecord: Country;
+}
+
+export interface createCityFormProps {
+    countryId: number;
+    cities: City[];
+    setCities: (cities: FormikValues) => void;
+    citiesCount: number;
+    setCitiesCount: (count: number) => void;
+    rowsPerPage: number;
+    isActiveModal: boolean;
+    handleClose: () => void;
+    editRecord: City;
+    setEditRecord: (city: City) => void;
+}
+
 export interface SearchProps {
-    setData: (search: string[]) => void;
-    Data: any;
-    keyField: string;
+    handleSubmit: (text: string) => void;
+    label: string;
 }
 
 export interface ConsignmentProps {
-    consignmentsCount:number
+    consignmentsCount: number
     currentUserRole: string;
     consignmentsJSON: string;
     trucksJSON: string;
@@ -372,28 +477,41 @@ export interface ConsignmentProps {
 }
 
 export interface WriteOffActsProps {
-    writeOffActCount:number,
+    writeOffActCount: number,
     currentUserRole: string;
     writeOffActsJSON: string;
     consignmentsJSON: string;
 }
 
 export interface WarehouseProps {
-    warehouseCount:number;
+    warehouseCount: number;
     currentUserRole: string;
     warehousesJSON: string;
     warehousemansJSON: string;
 }
 
 export interface CompanyProps {
-    companiesCount:number;
+    companiesCount: number;
     currentUserRole: string;
     companiesJSON: string;
 }
 
 export interface UsersProps {
-    user_count: number;
+    usersCount: number;
     usersJSON: string;
     rolesJSON: string;
     companiesJSON: string;
+}
+export interface CountryFormProps {
+    countries: Country[];
+    totalCount: number;
+}
+
+export interface BasicDateRangePickerProps {
+    setUserLogs: (userLog) => void;
+}
+
+export interface StatisticsProps {
+    statisticsCount: number;
+    statisticsJSON: string;
 }

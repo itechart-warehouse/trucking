@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_26_160917) do
+ActiveRecord::Schema.define(version: 2022_06_20_101256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,12 @@ ActiveRecord::Schema.define(version: 2022_05_26_160917) do
     t.integer "waybill_id"
   end
 
+  create_table "cities", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "country_id", null: false
+    t.index ["name"], name: "index_cities_on_name", unique: true
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -109,6 +115,11 @@ ActiveRecord::Schema.define(version: 2022_05_26_160917) do
     t.bigint "manager_id"
     t.index ["bundle_seria", "bundle_number"], name: "index_consignments_on_bundle_seria_and_bundle_number", unique: true
     t.index ["consignment_seria", "consignment_number"], name: "index_consignments_on_consignment_seria_and_consignment_number", unique: true
+  end
+
+  create_table "countries", force: :cascade do |t|
+    t.string "name", null: false
+    t.index ["name"], name: "index_countries_on_name", unique: true
   end
 
   create_table "goods", force: :cascade do |t|
@@ -148,6 +159,12 @@ ActiveRecord::Schema.define(version: 2022_05_26_160917) do
     t.bigint "truck_type_id"
     t.bigint "company_id"
     t.index ["truck_number"], name: "index_trucks_on_truck_number", unique: true
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "short_name"
+    t.index ["name"], name: "index_units_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|

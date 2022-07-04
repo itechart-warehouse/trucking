@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Company, type: :model do
-
   let(:subject) { build(:company) }
 
   it 'should create Company' do

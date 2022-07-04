@@ -92,7 +92,8 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                   <ListItemButton
                                     role={undefined}
                                     onClick={handleToggle(item)}
-                                    disabled={!['driver', 'manager'].includes(currentUserRole) || ['delivered', 'lost'].includes(item.status) || accessRestricted(item.status)}
+                                    disabled={!['driver', 'manager'].includes(currentUserRole) || ['delivered', 'lost'].includes(item.status)
+                                      || accessRestricted(item.status)}
                                     dense
                                   >
                                     <Checkbox
@@ -105,12 +106,13 @@ const ConsignmentGoods: React.FC<ConsignmentGoodsProps> = (props: ConsignmentGoo
                                 </StyledTableCell>
                                 <StyledTableCell align="center"><ListItemText id={labelId} primary={`${item?.good_name}`} /></StyledTableCell>
                                 <StyledTableCell align="center"><ListItemText id={labelId} primary={`${item?.quantity}`} /></StyledTableCell>
-                                <StyledTableCell align="center"><ListItemText id={labelId} primary={`${item?.unit_of_measurement}`} /></StyledTableCell>
+                                <StyledTableCell align="center">
+                                  <ListItemText id={labelId} primary={`${item?.unit_of_measurement}`} />
+                                </StyledTableCell>
                                 <StyledTableCell align="center">{item?.status}</StyledTableCell>
                                 <StyledTableCell align="right" style={{ width: '30%' }}>
                                   <IconButton edge="end" aria-label="comments"><CommentIcon /></IconButton>
                                 </StyledTableCell>
-
                               </StyledTableRow>
                             );
                           })}

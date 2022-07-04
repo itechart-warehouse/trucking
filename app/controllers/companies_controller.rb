@@ -4,14 +4,14 @@ class CompaniesController < ApplicationController
   load_and_authorize_resource
 
   def index
-    companies,meta = if current_user.company
-                       paginate_collection(Company.accessible_by(current_ability))
-                     else
-                       paginate_collection(Company.all)
-                     end
+    query = current_user.company ? Company.accessible_by(current_ability) : Company.all
+    query = query.by_name(params[:search].squish) if params[:search].present?
+    companies, meta = paginate_collection(query)
     @companies_count = meta[:total_count]
     @serialized_companies = ActiveModelSerializers::SerializableResource.new(companies).to_json
-    render json: companies if params[:page]
+    if params[:page]
+      render json: { companies: @serialized_companies, total_count: @companies_count }
+    end
   end
 
   def update

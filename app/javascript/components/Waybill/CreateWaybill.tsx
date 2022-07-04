@@ -20,7 +20,7 @@ import {
 const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsFormProps) => {
   const {
     id, formWaybillErrors, isActiveWayBill, setWayBillActive, handleClose, createWaybillData,
-    setAlertData, setConsignment, consignments, warehouses, goodsOwners, searchData, setSearchData,
+    setAlertData, setConsignment, consignments, warehouses, goodsOwners,
   } = props;
 
   const [isCreateCheckpoints, setCreateCheckpoints] = React.useState<boolean>(false);
@@ -34,7 +34,6 @@ const CreateWaybill: React.FC<CreateWaybillsFormProps> = (props: CreateWaybillsF
         const objIndex = consignments.findIndex((consignment) => consignment.id === id);
         consignments[objIndex] = response.data.consignment;
         setConsignment(consignments);
-        if (searchData) setSearchData([response.data.consignment]);
         setWayBillActive(false);
         setAlertData({ alertType: 'success', alertText: 'Successfully created waybill!', open: true });
       })

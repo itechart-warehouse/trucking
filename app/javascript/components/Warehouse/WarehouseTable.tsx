@@ -19,22 +19,21 @@ import { StyledTableCell, StyledTableRow } from '../../utils/style';
 
 const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProps) => {
   const {
-    warehouses, setWarehouses, setAlertData, currentUserRole, searchData, setSearchData,
-    setWarehousesCount, warehousesCount, rowsPerPage, setRowsPerPage,
+    warehouses, setWarehouses, setAlertData, currentUserRole, setWarehousesCount,
+    warehousesCount, rowsPerPage, setRowsPerPage, page, setPage,
   } = props;
-
-  const [page, setPage] = React.useState<number>(0);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.warehouses.getAll(newPage, rowsPerPage.toString())
       .then((response) => {
         setWarehouses(response.data);
-      })
-      .then(() => setPage(newPage));
+        setPage(newPage);
+      });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    httpClient.warehouses.getAll(0, event.target.value).then((response) => setWarehouses(response.data))
+    httpClient.warehouses.getAll(0, event.target.value)
+      .then((response) => setWarehouses(JSON.parse(response.data.warehouses)))
       .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
@@ -45,9 +44,8 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     warehouse.trusted = !warehouse.trusted;
     httpClient.warehouses.update(warehouse.id, warehouse).then((response) => {
       const objIndex = warehouses.findIndex((element) => element.id === warehouse.id);
-      warehouses[objIndex] = response.data;
+      warehouses[objIndex] = JSON.parse(response.data.warehouses);
       setWarehouses(warehouses);
-      if (searchData) setSearchData([response.data]);
       setAlertData({ alertType: 'info', alertText: 'Warehouse successfully set trusted/untrusted', open: true });
     });
   };
@@ -56,13 +54,13 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
     await httpClient.warehouses.delete(id);
     setWarehouses(warehouses.filter((data: Warehouse) => data.id !== id));
     setAlertData({ alertType: 'warning', alertText: 'Warehouse successfully deleted', open: true });
-    httpClient.warehouses.getAll(page, rowsPerPage.toString()).then((response) => setWarehouses(response.data))
+    httpClient.warehouses.getAll(page, rowsPerPage.toString())
+      .then((response) => setWarehouses(JSON.parse(response.data.warehouses)))
       .then(() => setWarehousesCount(warehousesCount - 1));
   };
 
   const handleToggle = (value: Warehouse) => () => setWarehouseTrusted(value);
 
-  const warehousesData = searchData || warehouses;
   return (
     <div>
       <Paper sx={{ width: '100%', mb: 2 }}>
@@ -71,7 +69,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
             <TableHead>
               <TableRow>
                 {warehouseTable.map((cell) => (
-                  <StyledTableCell>
+                  <StyledTableCell key={cell.id}>
                     {cell.title}
                   </StyledTableCell>
                 ))}
@@ -84,7 +82,7 @@ const WarehouseTable: React.FC<WarehouseTableProps> = (props: WarehouseTableProp
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : warehousesData.map((warehouse) => (
+                : warehouses.map((warehouse) => (
                   <StyledTableRow key={warehouse.id}>
                     <StyledTableCell scope="warehouse">
                       <Button onClick={handleToggle(warehouse)} disabled={!(currentUserRole === 'admin')}>

@@ -10,6 +10,14 @@ class WriteOffAct < ApplicationRecord
   validate :good_name_and_quantity
   before_create :update_lost_goods_status
 
+  scope :by_seria_number, ->(search) {
+                            seria, number = search.split
+                            query = "consignments.bundle_seria ILIKE '#{seria}%'"
+                            query += "and consignments.bundle_number ILIKE '#{number}%'" if
+                              number.present?
+                            where(query)
+                          }
+
   private
 
   def update_lost_goods_status

@@ -9,7 +9,8 @@ FactoryBot.define do
     middle_name { 'Ivanovich' }
     birthday { '01/01/1970' }
     passport { '43243451, issued by the police department of the Leninsky district of Minsk' }
-    role_id {5}
+    role_id { 5 }
+    confirmed_at { DateTime.now }
     sequence(:login) { |i| "login_#{i}" }
     association(:company)
     association(:address)

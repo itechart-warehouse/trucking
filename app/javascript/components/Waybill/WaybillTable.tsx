@@ -1,10 +1,8 @@
 import * as React from 'react';
-
 import {
   TableContainer, Paper, Table, TableHead, TableRow, TableBody, Button, TablePagination,
   FormControlLabel, Switch, Box, CircularProgress, TableSortLabel,
 } from '@mui/material';
-
 import { visuallyHidden } from '@mui/utils';
 import { waybillSortTableCell, waybillTableCell } from '../../constants/waybillFields';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
@@ -15,24 +13,25 @@ import httpClient from '../../api/httpClient';
 
 const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => {
   const {
-    waybills, setWaybillModalActive, setWaybillID, searchData, setCheckpoints, setWaybillsCount, waybillsCount, setWaybill,
+    waybills, setWaybillModalActive, setWaybillID, setCheckpoints, waybillsCount, setWaybill,
+    page, setPage, setRowsPerPage, rowsPerPage,
   } = props;
 
   const [dense, setDense] = React.useState<boolean>(false);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Waybill>('waybill_seria');
-  const [page, setPage] = React.useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.waybill.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setWaybill(response.data))
-      .then(() => setPage(newPage));
+      .then((response) => {
+        setWaybill(JSON.parse(response.data.waybills));
+        setPage(newPage);
+      });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     httpClient.waybill.getAll(0, event.target.value)
-      .then((response) => setWaybill(response.data))
+      .then((response) => setWaybill(JSON.parse(response.data.waybills)))
       .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
@@ -58,13 +57,6 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
   const createSortHandler = (property) => (event: React.MouseEvent<unknown>) => {
     handleRequestSort(event, property);
   };
-
-  let waybillsData = [];
-
-  if (searchData) waybillsData = searchData;
-  else waybillsData = waybills;
-
-  // const waybillsData = searchData || waybills;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -109,7 +101,7 @@ const WaybillTable: React.FC<WaybillTableProps> = (props: WaybillTableProps) => 
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : stableSort(waybillsData, getComparator(order, orderBy))
+                : stableSort(waybills, getComparator(order, orderBy))
                   .map((waybill) => {
                     const startpointAddress = `${waybill.startpoint.town} ${waybill.startpoint.street} ${waybill.startpoint.building}`;
                     const endpointAddress = `${waybill.endpoint.town} ${waybill.endpoint.street} ${waybill.endpoint.building}`;

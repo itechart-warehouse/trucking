@@ -13,6 +13,9 @@ gem 'cancancan', '~> 3.3'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'duktape'
+gem 'faker'
+gem 'globalize'
+gem 'faker'
 gem 'hirb'
 gem 'jbuilder', '~> 2.7'
 gem 'msgpack', '1.4.3'
@@ -28,6 +31,13 @@ gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 # Rich text gem
 gem 'actiontext', github: 'rails/actiontext', branch: 'archive', require: 'action_text'
+gem 'bootstrap', '~> 4.0.0'
+gem 'dip', '~> 7.3', '>= 7.3.1'
+gem 'jquery-rails', '~> 4.4'
+gem 'lefthook', '~> 0.5.5'
+gem 'redis-namespace', '~> 1.5', '>= 1.5.2'
+gem 'sidekiq', '~> 4.1', '>= 4.1.2'
+gem 'sidekiq-scheduler', '~> 2.0', '>= 2.0.8'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

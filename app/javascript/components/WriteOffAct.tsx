@@ -20,7 +20,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
   const [writeOffActs, setWriteOffActs] = React.useState<WriteOffAct[]>(JSON.parse(writeOffActsJSON));
   const [formErrors, setFormErrors] = React.useState<string[]>([]);
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
-  const [searchData, setSearchData] = React.useState<string[]>();
+  const [page, setPage] = React.useState<number>(0);
 
   const handleClose = () => {
     setModalActive(false);
@@ -43,6 +43,23 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
       });
   };
 
+  const handleSearch = (text:string) => {
+    if (text) {
+      httpClient.writeOffActs.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setWriteOffActsCount(response.data.total_count);
+          setWriteOffActs(JSON.parse(response.data.write_off_acts));
+        });
+    } else {
+      httpClient.writeOffActs.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setWriteOffActsCount(response.data.total_count);
+          setWriteOffActs(JSON.parse(response.data.write_off_acts));
+        })
+        .then(() => setPage(0));
+    }
+  };
+
   return (
     <div className="wrapper">
 
@@ -57,7 +74,7 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
           justifyContent="flex-end"
         >
           <Grid item md={3} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={writeOffActs} keyField="consignment" />
+            <Search handleSubmit={handleSearch} label="bundle seria and bundle number..." />
           </Grid>
           {['driver', 'manager'].includes(currentUserRole)
             ? (
@@ -70,11 +87,12 @@ const WriteOffActs: React.FC<WriteOffActsProps> = (props: WriteOffActsProps) => 
             : null}
           <Grid item xs={12}>
             <WriteOffActTable
+              page={page}
+              setPage={setPage}
               rowsPerPage={rowsPerPage}
               setRowsPerPage={setRowsPerPage}
               setWriteOffActs={setWriteOffActs}
               writeOffActs={writeOffActs}
-              searchData={searchData}
               writeOffActsCount={writeOffActsCount}
               setWriteOffActsCount={setWriteOffActsCount}
             />

@@ -16,11 +16,10 @@ import httpClient from '../../api/httpClient';
 const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTableProps) => {
   const {
     consignments, setModalGoodsActive, setGoods, setConsID, setWayBillActive,
-    currentUserRole, setCreateWaybillData, searchData, setWaybillStatus, consignmentCount,
-    setConsignment, rowsPerPage, setRowsPerPage,
+    currentUserRole, setCreateWaybillData, setWaybillStatus, consignmentCount,
+    setConsignment, rowsPerPage, setRowsPerPage, setPage, page,
   } = props;
 
-  const [page, setPage] = React.useState<number>(0);
   const [dense, setDense] = React.useState<boolean>(false);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof Consignment>('consignment_seria');
@@ -43,14 +42,16 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.consignments.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setConsignment(response.data))
-      .then(() => setPage(newPage));
-    setPage(newPage);
+      .then((response) => {
+        setConsignment(JSON.parse(response.data.consignments));
+        setPage(newPage);
+      });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     httpClient.consignments.getAll(0, event.target.value)
-      .then((response) => setConsignment(response.data)).then(() => {
+      .then((response) => setConsignment(JSON.parse(response.data.consignments)))
+      .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
       });
@@ -69,13 +70,6 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
   const createSortHandler = (property) => (event: React.MouseEvent<unknown>) => {
     handleRequestSort(event, property);
   };
-
-  let consignmentsData: any[];
-
-  if (searchData) consignmentsData = searchData;
-  else consignmentsData = consignments;
-
-  // const consignmentsData = searchData || consignments;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -117,13 +111,13 @@ const ConsignmentTable: React.FC<ConsignmentTableProps> = (props: ConsignmentTab
               </TableRow>
             </TableHead>
             <TableBody>
-              {!consignmentsData
+              {!consignments
                 ? (
                   <TableRow>
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : stableSort(consignmentsData, getComparator(order, orderBy))
+                : stableSort(consignments, getComparator(order, orderBy))
                   .map((consignment: Consignment) => (
                     <StyledTableRow key={consignment.id} tabIndex={-1}>
                       <StyledTableCell align="center">{consignment.consignment_seria}</StyledTableCell>

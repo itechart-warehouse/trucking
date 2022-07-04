@@ -1,0 +1,10 @@
+pre-commit:
+  parallel: true
+  commands:
+    frontend-linter:
+      glob: "*.{js,ts,jsx,tsx}"
+      run: eslint {staged_files}
+    rubocop:
+      files: git diff --name-only --staged
+      glob: "*.rb"
+      run: dip rubocop --force-exclusion -a {files} && git add {files}

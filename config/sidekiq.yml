@@ -1,0 +1,16 @@
+development:
+  :concurrency: 1
+
+production:
+  :concurrency: 1
+
+:max_retries: 1
+
+:queues:
+  - mailers
+  - default
+
+:schedule:
+  user_birthday:
+    cron: '0 9 * * *'   # Runs every day at 9 a.m.
+    class: BirthdayMailerJob

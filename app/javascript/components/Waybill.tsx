@@ -14,13 +14,14 @@ import {
 const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
   const { currentUserRole, waybillsJSON, waybillCount } = props;
 
+  const [page, setPage] = React.useState<number>(0);
   const [waybillsCount, setWaybillsCount] = React.useState<number>(waybillCount);
   const [isWaybillModal, setWaybillModalActive] = React.useState<boolean>(false);
   const [waybillID, setWaybillID] = React.useState<number>(null);
   const [checkpoints, setCheckpoints] = React.useState<Checkpoint[]>([]);
   const [formErrorsCheckpoints, setFormErrorsCheckpoints] = React.useState<string[]>([]);
   const [alertData, setAlertData] = React.useState<Alert>({ alertType: null, alertText: '', open: false });
-  const [searchData, setSearchData] = React.useState<string[]>();
+  const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const waybillsOrder = ['transportation started', 'delivered to the recipient'];
   const [waybills, setWaybill] = React.useState<Waybill[]>(JSON.parse(waybillsJSON)
     .sort((a, b) => waybillsOrder.indexOf(a.status) - waybillsOrder.indexOf(b.status)));
@@ -37,6 +38,24 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
         setAlertData({ alertType: 'error', alertText: "Couldn't complete the trip!", open: true });
       });
   };
+
+  const handleSearch = (text:string) => {
+    if (text) {
+      httpClient.waybill.search(0, rowsPerPage.toString(), text)
+        .then((response) => {
+          setWaybillsCount(response.data.total_count);
+          setWaybill(JSON.parse(response.data.waybills));
+        });
+    } else {
+      httpClient.waybill.getAll(0, rowsPerPage.toString())
+        .then((response) => {
+          setWaybillsCount(response.data.total_count);
+          setWaybill(JSON.parse(response.data.waybills));
+        })
+        .then(() => setPage(0));
+    }
+  };
+
   return (
     <div className="wrapper">
       <Box sx={{
@@ -50,10 +69,12 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
           justifyContent="flex-end"
         >
           <Grid item md={2} style={{ textAlign: 'left' }}>
-            <Search setData={setSearchData} Data={waybills} keyField="" />
+            <Search handleSubmit={handleSearch} label="waybill seria and waybill number..." />
           </Grid>
           <Grid item xs={12}>
             <WaybillTable
+              page={page}
+              setPage={setPage}
               setWaybill={setWaybill}
               waybillsCount={waybillsCount}
               setWaybillsCount={setWaybillsCount}
@@ -61,7 +82,8 @@ const Waybills: React.FC<WaybillProps> = (props: WaybillProps) => {
               setWaybillID={setWaybillID}
               setWaybillModalActive={setWaybillModalActive}
               setCheckpoints={setCheckpoints}
-              searchData={searchData}
+              rowsPerPage={rowsPerPage}
+              setRowsPerPage={setRowsPerPage}
             />
           </Grid>
         </Grid>

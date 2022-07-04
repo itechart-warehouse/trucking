@@ -2,14 +2,21 @@
 
 class ApplicationController < ActionController::Base
   include Concerns::Paginatable
+  include Concerns::Answers
   rescue_from CanCan::AccessDenied, with: :access_denied
   rescue_from ActiveRecord::DeleteRestrictionError, with: :record_delete_error
   rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   before_action :authenticate_user!
+  before_action :switch_locale
 
   private
+
+  def switch_locale
+    locale = params[:locale] || I18n.default_locale
+    I18n.locale = locale
+  end
 
   def record_not_found(error)
     render json: error, status: :not_found

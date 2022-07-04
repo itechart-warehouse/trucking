@@ -1,10 +1,7 @@
 import * as Yup from 'yup';
 
 const REGX_ONLY_LETTER = /^[A-Za-z]*$/;
-const REGX_LOWER_UPPER_CASE = /^(?=.*?[A-Z])(?=.*?[a-z])/;
-const REGEX_MIX_LETTERS_NUMBERS = /^(?=.*?[0-9])/;
-const REGEX_SPECIAL_SYMBOL = /^(?=.*?[#?!@$%^&*-])/;
-const REGX_ONLY_NUMBER = /^[\d]+$/;
+const REGX_ONLY_NUMBER = /^\d+$/;
 
 const userValidation = Yup.object().shape({
   first_name: Yup.string()

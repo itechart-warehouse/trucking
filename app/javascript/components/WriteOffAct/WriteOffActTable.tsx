@@ -15,11 +15,9 @@ import httpClient from '../../api/httpClient';
 
 const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTableProps) => {
   const {
-    writeOffActs, searchData, writeOffActsCount,
-    rowsPerPage, setRowsPerPage, setWriteOffActs,
+    writeOffActs, writeOffActsCount, rowsPerPage, setRowsPerPage,
+    setWriteOffActs, page, setPage,
   } = props;
-
-  const [page, setPage] = React.useState<number>(0);
 
   const [dense, setDense] = React.useState<boolean>(false);
   const [order, setOrder] = React.useState<Order>('asc');
@@ -27,13 +25,15 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
 
   const handleChangePage = (event: unknown, newPage: number) => {
     httpClient.writeOffActs.getAll(newPage, rowsPerPage.toString())
-      .then((response) => setWriteOffActs(response.data))
-      .then(() => setPage(newPage));
+      .then((response) => {
+        setWriteOffActs(JSON.parse(response.data.write_off_acts));
+        setPage(newPage);
+      });
   };
 
   const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
     httpClient.writeOffActs.getAll(0, event.target.value)
-      .then((response) => setWriteOffActs(response.data))
+      .then((response) => setWriteOffActs(JSON.parse(response.data.write_off_acts)))
       .then(() => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
@@ -53,13 +53,6 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
   const createSortHandler = (property) => (event: React.MouseEvent<unknown>) => {
     handleRequestSort(event, property);
   };
-
-  let writeOffActData = [];
-
-  if (searchData) writeOffActData = searchData;
-  else writeOffActData = writeOffActs;
-
-  // const writeOffActData = searchData || writeOffActs;
 
   return (
     <Box sx={{ width: '100%' }}>
@@ -104,7 +97,7 @@ const WriteOffActTable: React.FC<WriteOffActTableProps> = (props: WriteOffActTab
                     <StyledTableCell><CircularProgress color="primary" /></StyledTableCell>
                   </TableRow>
                 )
-                : stableSort(writeOffActData, getComparator(order, orderBy))
+                : stableSort(writeOffActs, getComparator(order, orderBy))
                   .map((writeOffAct) => (
                     <StyledTableRow key={writeOffAct.id}>
                       <StyledTableCell align="center" scope="company">{writeOffAct.good_name}</StyledTableCell>

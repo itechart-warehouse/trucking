@@ -34,10 +34,10 @@ const CreateConsignmentForm:
               <Grid item xs={12}>
                 <Formik
                   initialValues={consignmentInitialValues}
-                  onSubmit={(values, {resetForm}) => {
-                      handleSubmit(values);
-                      resetForm({});
-                      window.scrollTo(0, 0);
+                  onSubmit={(values, { resetForm }) => {
+                    handleSubmit(values);
+                    resetForm({});
+                    window.scrollTo(0, 0);
                   }}
                 >
                   {({
@@ -69,12 +69,27 @@ const CreateConsignmentForm:
                               <div
                                 key={index}
                                 style={{
-                                  width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexDirection: 'column', marginTop: '15px', rowGap: '15px',
+                                  width: '100%',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'space-between',
+                                  flexDirection: 'column',
+                                  marginTop: '15px',
+                                  rowGap: '15px',
                                 }}
                               >
                                 <div>
                                   {newGoods.length - 1 === index && newGoods.length < 5
-                                    && <Button variant="outlined" onClick={handleFieldAdd} fullWidth style={{ marginLeft: '20px' }}>Add product</Button>}
+                                    && (
+                                    <Button
+                                      variant="outlined"
+                                      onClick={handleFieldAdd}
+                                      fullWidth
+                                      style={{ marginLeft: '20px' }}
+                                    >
+                                      Add product
+                                    </Button>
+                                    )}
                                 </div>
                                 <div style={{
                                   display: 'flex', flexFlow: 'row nowrap', justifyContent: 'space-between',

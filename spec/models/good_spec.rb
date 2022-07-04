@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Good, type: :model do
@@ -10,7 +12,7 @@ RSpec.describe Good, type: :model do
     expect(subject.save).to eq(false)
   end
   it 'shouldn\'t create Good with unit_of_measurement more than 15 chars' do
-    subject.unit_of_measurement = 't'*20
+    subject.unit_of_measurement = 't' * 20
     expect(subject.save).to eq(false)
   end
   it 'shouldn\'t create Good with quantity less than 0' do
