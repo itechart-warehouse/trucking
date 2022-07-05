@@ -6,13 +6,13 @@ import {
 } from '@mui/material';
 
 import FormikField from '../../UI/FormikField';
-import { CreateUnitFormProps, Unit, } from '../../common/interfaces_types';
+import { CreateUnitFormProps, Unit } from '../../common/interfaces_types';
 import httpClient from '../../api/httpClient';
 
 const CreateUnitForm: React.FC<CreateUnitFormProps> = (props: CreateUnitFormProps) => {
   const {
     createModal, handleClose, formErrors, updateModal,
-    measureUnitId, handleSubmit
+    measureUnitId, handleSubmit,
   } = props;
 
   const UnitInitialValues: Unit = { id: undefined, name: '', short_name: '' };

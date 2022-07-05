@@ -19,4 +19,4 @@ export const CityUrl = '/cities';
 // STATISTICS
 export const StatisticsUrl = '/statistics';
 // MEASUREMENT UNITS
-export const UnitUrl = '/settings/units'
+export const UnitUrl = '/settings/units';

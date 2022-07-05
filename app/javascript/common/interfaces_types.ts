@@ -400,13 +400,13 @@ export interface WaybillTableProps {
 }
 
 export interface CityTableProps {
-    countryId: number;
-    isActiveModal: boolean
-    handleClose: (isActive: boolean) => void;
+    isActiveModalCreate: boolean;
+    setActiveModalCreate: (isActive: boolean) => void;
     cities: City[];
-    citiesCount: number;
     setCities: (cities: City[]) => void;
-    setCitiesCount: (count: number) => void;
+    citiesCount: number;
+    setCitiesCount: (totalCount: number) => void;
+    countryId: number;
 }
 
 export interface WaybillProps {
@@ -426,6 +426,7 @@ export interface SiteAlertProps {
 }
 
 export interface CountryTableProps {
+    handleChooseCountry: (id: number) => void;
     handleEdit: (editRecord: Country) => void;
     countries: Country[],
     setCountries: (countries: Country[]) => void;

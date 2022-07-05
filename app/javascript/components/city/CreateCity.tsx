@@ -69,8 +69,8 @@ const createCityForm: React.FC<createCityFormProps> = (props: createCityFormProp
                     />
                   </Container>
                   <DialogActions sx={{ justifyContent: 'space-between', padding: '8px 24px' }}>
-                    <Button onClick={handleClose} color="error" variant="outlined">Cancel</Button>
-                    <Button type="submit" color="success" variant="outlined">{editRecord ? 'Edit' : 'Create'}</Button>
+                    <button onClick={handleClose} className="btn btn-outline-danger">Cancel</button>
+                    <button type="submit" className="btn btn-outline-success">{editRecord ? 'Edit' : 'Create'}</button>
                   </DialogActions>
                 </Form>
               </Formik>
