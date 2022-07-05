@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Paper, TableContainer, Table, TableHead, TableRow, TableBody, CircularProgress, Button, Checkbox, IconButton, TablePagination } from '@mui/material';
+import {
+  Paper, TableContainer, Table, TableHead, TableRow, TableBody, CircularProgress, Button, Checkbox, IconButton, TablePagination,
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Unit, UnitsTableProps } from '../../common/interfaces_types';
 import { StyledTableCell, StyledTableRow } from '../../utils/style';
@@ -7,7 +9,7 @@ import httpClient from '../../api/httpClient';
 
 const UnitsTable: React.FC<UnitsTableProps> = (props: UnitsTableProps) => {
   const {
-    rowsPerPage, setRowsPerPage, Units, setUnits, UnitsCount, setUnitsCount, setUpdateModal, setMeasureUnitId
+    rowsPerPage, setRowsPerPage, Units, setUnits, UnitsCount, setUnitsCount, setUpdateModal, setMeasureUnitId,
   } = props;
 
   const [page, setPage] = React.useState<number>(0);
@@ -90,7 +92,7 @@ const UnitsTable: React.FC<UnitsTableProps> = (props: UnitsTableProps) => {
                         </IconButton>
                       </StyledTableCell>
                     </StyledTableRow>
-                  )
+                  );
                 })}
             </TableBody>
           </Table>

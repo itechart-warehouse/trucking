@@ -2,8 +2,8 @@ import * as React from 'react';
 
 import { Box, Grid, Button } from '@mui/material';
 import httpClient from '../api/httpClient';
-import { UnitProps } from '../common/interfaces_types';
-import { Unit } from '../common/interfaces_types';
+import { UnitProps, Unit } from '../common/interfaces_types';
+
 import UnitsTable from './Units/UntisTable';
 import CreateUnitForm from './Units/CreateUnitForm';
 import Search from './Search';
